@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>images/icon_pcloud.png</file>
+    </qresource>
+    <qresource prefix="/menus"/>
+</RCC>
