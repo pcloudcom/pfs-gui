@@ -12,11 +12,17 @@ LoginWindow::LoginWindow(PCloudApp *a, QWidget *parent) :
     ui->setupUi(this);
     connect(ui->loginButton, SIGNAL(clicked()), this, SLOT(logIn()));
     connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(hide()));
+    connect(ui->password, SIGNAL(returnPressed()), this, SLOT(logIn()));
+    connect(ui->email, SIGNAL(returnPressed()), this, SLOT(focusPass()));
 }
 
 LoginWindow::~LoginWindow()
 {
     delete ui;
+}
+
+void LoginWindow::focusPass(){
+    ui->password->setFocus();
 }
 
 void LoginWindow::setError(const char *err){
@@ -26,10 +32,10 @@ void LoginWindow::setError(const char *err){
 void LoginWindow::logIn(){
     QByteArray email=ui->email->text().toUtf8();
     QByteArray password=ui->password->text().toUtf8();
-    apisock *conn=api_connect();
+    apisock *conn;
     binresult *res, *result;
     QByteArray err;
-    if (!conn){
+    if (!(conn=app->getAPISock())){
         setError("Connection to server failed.");
         return;
     }
@@ -49,9 +55,12 @@ void LoginWindow::logIn(){
         free(res);
         return;
     }
-    if (!app->UserLogged(res, err))
+    if (!app->userLogged(res, err))
         setError(err);
-    else
+    else{
+        setError("");
+        ui->password->clear();
         hide();
+    }
     free(res);
 }

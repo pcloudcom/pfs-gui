@@ -16,13 +16,13 @@ class LoginWindow : public QMainWindow
 public:
     explicit LoginWindow(PCloudApp *a, QWidget *parent = 0);
     ~LoginWindow();
-    
 private:
     PCloudApp *app;
     Ui::LoginWindow *ui;
     void setError(const char *err);
 public slots:
     void logIn();
+    void focusPass();
 };
 
 #endif // LOGINWINDOW_H

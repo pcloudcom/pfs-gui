@@ -17,14 +17,16 @@ SOURCES += main.cpp\
     pcloudapp.cpp \
     registerwindow.cpp \
     loginwindow.cpp \
-    binapi.c
+    binapi.c \
+    psettings.cpp
 
 HEADERS  += reglogwindow.h \
     pcloudapp.h \
     registerwindow.h \
     loginwindow.h \
     binapi.h \
-    sockets.h
+    sockets.h \
+    psettings.h
 
 FORMS    += reglogwindow.ui \
     registerwindow.ui \
