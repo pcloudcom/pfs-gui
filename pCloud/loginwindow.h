@@ -2,6 +2,7 @@
 #define LOGINWINDOW_H
 
 #include <QMainWindow>
+#include <QCloseEvent>
 
 namespace Ui {
 class LoginWindow;
@@ -20,6 +21,7 @@ private:
     PCloudApp *app;
     Ui::LoginWindow *ui;
     void setError(const char *err);
+    void closeEvent(QCloseEvent *event);
 public slots:
     void logIn();
     void focusPass();

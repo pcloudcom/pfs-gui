@@ -15,3 +15,9 @@ RegLogWindow::~RegLogWindow()
 {
     delete ui;
 }
+
+void RegLogWindow::closeEvent(QCloseEvent *event)
+{
+    hide();
+    event->ignore();
+}
