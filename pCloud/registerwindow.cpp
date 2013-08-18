@@ -27,6 +27,11 @@ void RegisterWindow::setError(const char *err){
     ui->error->setText(err);
 }
 
+void RegisterWindow::closeEvent(QCloseEvent *event){
+    hide();
+    event->ignore();
+}
+
 void RegisterWindow::focusPass(){
     ui->password->setFocus();
 }

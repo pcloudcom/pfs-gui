@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QApplication>
+#include <QCloseEvent>
 
 namespace Ui {
 class RegLogWindow;
@@ -18,6 +19,7 @@ public:
     
 private:
     Ui::RegLogWindow *ui;
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // REGLOGWINDOW_H

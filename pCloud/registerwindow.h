@@ -2,6 +2,7 @@
 #define REGISTERWINDOW_H
 
 #include <QMainWindow>
+#include <QCloseEvent>
 
 namespace Ui {
 class RegisterWindow;
@@ -20,6 +21,7 @@ private:
     PCloudApp *app;
     Ui::RegisterWindow *ui;
     void setError(const char *err);
+    void closeEvent(QCloseEvent *event);
 public slots:
     void focusPass();
     void focusConfirm();

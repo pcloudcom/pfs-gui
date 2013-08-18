@@ -29,6 +29,12 @@ void LoginWindow::setError(const char *err){
     ui->error->setText(err);
 }
 
+void LoginWindow::closeEvent(QCloseEvent *event)
+{
+    hide();
+    event->ignore();
+}
+
 void LoginWindow::logIn(){
     QByteArray email=ui->email->text().toUtf8();
     QByteArray password=ui->password->text().toUtf8();
