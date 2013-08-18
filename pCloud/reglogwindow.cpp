@@ -8,6 +8,7 @@ RegLogWindow::RegLogWindow(QApplication *app, QWidget *parent) :
     setWindowIcon(QIcon(":/images/images/icon_pcloud.png"));
     ui->setupUi(this);
     connect(ui->registerButton, SIGNAL(clicked()), app, SLOT(showRegister()));
+    connect(ui->loginButton, SIGNAL(clicked()), app, SLOT(showLogin()));
 }
 
 RegLogWindow::~RegLogWindow()

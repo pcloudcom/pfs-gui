@@ -15,14 +15,22 @@ TEMPLATE = app
 SOURCES += main.cpp\
         reglogwindow.cpp \
     pcloudapp.cpp \
-    registerwindow.cpp
+    registerwindow.cpp \
+    loginwindow.cpp \
+    binapi.c
 
 HEADERS  += reglogwindow.h \
     pcloudapp.h \
-    registerwindow.h
+    registerwindow.h \
+    loginwindow.h \
+    binapi.h \
+    sockets.h
 
 FORMS    += reglogwindow.ui \
-    registerwindow.ui
+    registerwindow.ui \
+    loginwindow.ui
 
 RESOURCES += \
     Resources.qrc
+
+LIBS += -lssl -lcrypto
