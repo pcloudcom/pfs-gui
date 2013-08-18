@@ -30,6 +30,7 @@ void PCloudApp::setUser(binresult *userinfo){
         delete loggedmenu;
     loggedmenu=new QMenu();
     loggedmenu->addAction(username);
+    loggedmenu->addAction(openAction);
     loggedmenu->addSeparator();
     loggedmenu->addAction(logoutAction);
     loggedmenu->addAction(exitAction);
@@ -39,7 +40,7 @@ void PCloudApp::setUser(binresult *userinfo){
 void PCloudApp::showRegister(){
     hideAllWindows();
     if (!regwin)
-        regwin=new RegisterWindow();
+        regwin=new RegisterWindow(this);
     regwin->showNormal();
 }
 
@@ -92,6 +93,8 @@ void PCloudApp::createMenus(){
     connect(exitAction, SIGNAL(triggered()), this, SLOT(doExit()));
     notloggedmenu->addAction(exitAction);
 
+    openAction=new QAction("Open pCloud folder", this);
+    connect(openAction, SIGNAL(triggered()), this, SLOT(openCloudDir()));
     logoutAction=new QAction("Logout", this);
     connect(logoutAction, SIGNAL(triggered()), this, SLOT(logOut()));
 }
@@ -140,11 +143,14 @@ PCloudApp::PCloudApp(int &argc, char **argv) :
 PCloudApp::~PCloudApp(){
     delete settings;
     delete tray;
+    if (loggedmenu)
+        delete loggedmenu;
     delete notloggedmenu;
     delete registerAction;
     delete loginAction;
     delete exitAction;
     delete logoutAction;
+    delete openAction;
     if (regwin)
         delete regwin;
     if (reglog)
@@ -183,7 +189,13 @@ bool PCloudApp::userLogged(binresult *userinfo, QByteArray &err){
     }
     else{
         QProcess process;
-        process.start("mount.pfs", QStringList() << "--auth" << find_res(userinfo, "auth")->str << settings->get("path"));
+        QStringList params;
+        params.append("--auth");
+        params.append(find_res(userinfo, "auth")->str);
+        if (settings->geti("usessl"))
+            params.append("--ssl");
+        params.append(settings->get("path"));
+        process.start("mount.pfs", params);
         if (!process.waitForFinished()){
             err="Error mounting filesystem.";
             return false;

@@ -20,6 +20,7 @@ private:
     QAction *loginAction;
     QAction *exitAction;
     QAction *logoutAction;
+    QAction *openAction;
     QMenu *notloggedmenu;
     QMenu *loggedmenu;
     QSystemTrayIcon *tray;
