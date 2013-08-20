@@ -196,7 +196,7 @@ void PCloudApp::mount()
 void PCloudApp::unMount(){
     QProcess process;
     QString path=settings->get("path");
-    process.start("umount", QStringList() << "-l" << path);
+    process.start("umount", QStringList() << "-f" << path);
     if (process.waitForFinished() && process.exitCode()==0)
         return;
     process.start("fusermount", QStringList() << "-z" << "-u" << path);
