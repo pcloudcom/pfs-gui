@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     registerwindow.cpp \
     loginwindow.cpp \
     binapi.c \
-    psettings.cpp
+    psettings.cpp \
+    settingswindow.cpp
 
 HEADERS  += reglogwindow.h \
     pcloudapp.h \
@@ -26,11 +27,14 @@ HEADERS  += reglogwindow.h \
     loginwindow.h \
     binapi.h \
     sockets.h \
-    psettings.h
+    psettings.h \
+    settingswindow.h \
+    common.h
 
 FORMS    += reglogwindow.ui \
     registerwindow.ui \
-    loginwindow.ui
+    loginwindow.ui \
+    settingswindow.ui
 
 RESOURCES += \
     Resources.qrc

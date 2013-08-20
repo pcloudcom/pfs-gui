@@ -12,6 +12,8 @@ void PCloudApp::hideAllWindows(){
         regwin->hide();
     if (logwin)
         logwin->hide();
+    if (settingswin)
+        settingswin->hide();
 }
 
 void PCloudApp::showRegLog(){
@@ -31,6 +33,7 @@ void PCloudApp::setUser(binresult *userinfo){
     loggedmenu=new QMenu();
     loggedmenu->addAction(username);
     loggedmenu->addAction(openAction);
+    loggedmenu->addAction(settingsAction);
     loggedmenu->addSeparator();
     loggedmenu->addAction(logoutAction);
     loggedmenu->addAction(exitAction);
@@ -49,6 +52,13 @@ void PCloudApp::showLogin(){
     if (!logwin)
         logwin=new LoginWindow(this);
     logwin->showNormal();
+}
+
+void PCloudApp::showSettings(){
+    hideAllWindows();
+    if (!settingswin)
+        settingswin=new SettingsWindow(this);
+    settingswin->showNormal();
 }
 
 void PCloudApp::openCloudDir(){
@@ -88,6 +98,9 @@ void PCloudApp::createMenus(){
     loginAction=new QAction("Login", this);
     connect(loginAction, SIGNAL(triggered()), this, SLOT(showLogin()));
     notloggedmenu->addAction(loginAction);
+    settingsAction=new QAction("Settings", this);
+    connect(settingsAction, SIGNAL(triggered()), this, SLOT(showSettings()));
+    notloggedmenu->addAction(settingsAction);
     notloggedmenu->addSeparator();
     exitAction=new QAction("Exit", this);
     connect(exitAction, SIGNAL(triggered()), this, SLOT(doExit()));
@@ -106,6 +119,7 @@ PCloudApp::PCloudApp(int &argc, char **argv) :
     regwin=NULL;
     logwin=NULL;
     loggedmenu=NULL;
+    settingswin=NULL;
     loggedin=false;
     createMenus();
     settings=new PSettings(this);
@@ -115,6 +129,45 @@ PCloudApp::PCloudApp(int &argc, char **argv) :
     tray->setToolTip("pCloud");
     connect(tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayClicked(QSystemTrayIcon::ActivationReason)));
     tray->show();
+    mount();
+}
+
+PCloudApp::~PCloudApp(){
+    delete settings;
+    delete tray;
+    if (loggedmenu)
+        delete loggedmenu;
+    delete notloggedmenu;
+    delete registerAction;
+    delete loginAction;
+    delete exitAction;
+    delete logoutAction;
+    delete openAction;
+    delete settingsAction;
+    if (regwin)
+        delete regwin;
+    if (reglog)
+        delete reglog;
+    if (logwin)
+        delete logwin;
+    if (settingswin)
+        delete settingswin;
+}
+
+apisock *PCloudApp::getAPISock(){
+    if (settings->geti("usessl"))
+        return api_connect_ssl();
+    else
+        return api_connect();
+}
+
+bool PCloudApp::isMounted(){
+    QDir dir(settings->get("path")+"/.pfs_settings");
+    return dir.exists();
+}
+
+void PCloudApp::mount()
+{
     if (settings->isSet("auth")){
         QByteArray auth=settings->get("auth").toUtf8();
         apisock *conn=getAPISock();
@@ -140,37 +193,6 @@ PCloudApp::PCloudApp(int &argc, char **argv) :
     }
 }
 
-PCloudApp::~PCloudApp(){
-    delete settings;
-    delete tray;
-    if (loggedmenu)
-        delete loggedmenu;
-    delete notloggedmenu;
-    delete registerAction;
-    delete loginAction;
-    delete exitAction;
-    delete logoutAction;
-    delete openAction;
-    if (regwin)
-        delete regwin;
-    if (reglog)
-        delete reglog;
-    if (logwin)
-        delete logwin;
-}
-
-apisock *PCloudApp::getAPISock(){
-    if (settings->geti("usessl"))
-        return api_connect_ssl();
-    else
-        return api_connect();
-}
-
-bool PCloudApp::isMounted(){
-    QDir dir(settings->get("path")+"/.pfs_settings");
-    return dir.exists();
-}
-
 void PCloudApp::unMount(){
     QProcess process;
     QString path=settings->get("path");
@@ -194,6 +216,8 @@ bool PCloudApp::userLogged(binresult *userinfo, QByteArray &err){
         params.append(find_res(userinfo, "auth")->str);
         if (settings->geti("usessl"))
             params.append("--ssl");
+        params.append("--cache");
+        params.append(settings->get("cachesize"));
         params.append(settings->get("path"));
         process.start("mount.pfs", params);
         if (!process.waitForFinished()){

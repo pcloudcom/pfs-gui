@@ -21,18 +21,18 @@ LoginWindow::~LoginWindow()
     delete ui;
 }
 
+void LoginWindow::closeEvent(QCloseEvent *event)
+{
+    hide();
+    event->ignore();
+}
+
 void LoginWindow::focusPass(){
     ui->password->setFocus();
 }
 
 void LoginWindow::setError(const char *err){
     ui->error->setText(err);
-}
-
-void LoginWindow::closeEvent(QCloseEvent *event)
-{
-    hide();
-    event->ignore();
 }
 
 void LoginWindow::logIn(){

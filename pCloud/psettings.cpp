@@ -1,20 +1,22 @@
+#include "common.h"
 #include "psettings.h"
 #include "pcloudapp.h"
 #include <QDir>
-
 
 PSettings::PSettings(PCloudApp *a){
     app=a;
     settings=new QSettings("PCloud", "pCloud");
     if (!settings->contains("path")){
-        QString path(QDir::homePath()+"/pCloud");
+        QString path(QDir::homePath()+"/" DEFAULT_PCLOUD_DIR);
         QDir dir(path);
         if (!dir.exists())
             dir.mkpath(path);
         settings->setValue("path", path);
     }
     if (!settings->contains("usessl"))
-        settings->setValue("usessl", 1);
+        settings->setValue("usessl", DEFAULT_USE_SSL);
+    if (!settings->contains("cachesize"))
+        settings->setValue("cachesize", DEFAULT_CACHE_SIZEMB);
 }
 
 PSettings::~PSettings(){
