@@ -3,14 +3,31 @@
 #include "pcloudapp.h"
 #include <QDir>
 
+#ifdef Q_OS_WIN
+static char getFirstFreeDevice()
+{
+    DWORD devices = GetLogicalDrives();
+    for (int i = 4; i < 32; ++i)
+        if ((devices & (1<<i))==0)
+            return i + 'A';
+    return 0;
+}
+#endif
+
+
 PSettings::PSettings(PCloudApp *a){
     app=a;
     settings=new QSettings("PCloud", "pCloud");
     if (!settings->contains("path")){
+#ifdef Q_OS_WIN
+        QString path("a:");
+        path[0] = getFirstFreeDevice();
+#else
         QString path(QDir::homePath()+"/" DEFAULT_PCLOUD_DIR);
         QDir dir(path);
         if (!dir.exists())
             dir.mkpath(path);
+#endif
         settings->setValue("path", path);
     }
     if (!settings->contains("usessl"))

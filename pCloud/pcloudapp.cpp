@@ -166,6 +166,101 @@ bool PCloudApp::isMounted(){
     return dir.exists();
 }
 
+#ifdef Q_OS_WIN
+
+#define REGISTRY_KEY_PCLOUD    "SOFTWARE\\PCloud\\pCloud"
+#define SZSERVICENAME          L"pfs"
+
+static void storeKey(LPCSTR key, const char * val)
+{
+    HRESULT hr;
+    HKEY hKey;
+    hr = RegCreateKeyExA(HKEY_CURRENT_USER, REGISTRY_KEY_PCLOUD, 0, NULL, 0,
+                        KEY_ALL_ACCESS, NULL, &hKey, NULL);
+    if (!hr)
+    {
+        hr = RegSetValueExA(hKey, key, 0, REG_SZ, (LPBYTE)val, strlen(val)+1);
+        RegCloseKey(hKey);
+    }
+}
+
+static void stopService()
+{
+    SC_HANDLE       schService;
+    SERVICE_STATUS  ssStatus;
+    SC_HANDLE       schSCManager = OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
+
+    if (!schSCManager) return;
+    schService = OpenService(schSCManager, SZSERVICENAME, SERVICE_ALL_ACCESS);
+    if (schService)
+    {
+        ControlService(schService, SERVICE_CONTROL_STOP, &ssStatus);
+        int retry = 5;
+        while(QueryServiceStatus(schService, &ssStatus) && retry)
+        {
+            if (ssStatus.dwCurrentState == SERVICE_STOPPED)
+                break;
+            Sleep(1000);
+            --retry;
+        }
+        CloseServiceHandle(schService);
+    }
+    CloseServiceHandle(schSCManager);
+
+}
+
+static bool restartService(QByteArray &err)
+{
+    SC_HANDLE       schService;
+    SERVICE_STATUS  ssStatus;
+    SC_HANDLE       schSCManager = OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
+
+    if (!schSCManager) return false;
+    schService = OpenService(schSCManager, SZSERVICENAME, SERVICE_ALL_ACCESS);
+    if (schService)
+    {
+        ControlService(schService, SERVICE_CONTROL_STOP, &ssStatus);
+        int retry = 5;
+        while(QueryServiceStatus(schService, &ssStatus) && retry)
+        {
+            if (ssStatus.dwCurrentState == SERVICE_STOPPED)
+                break;
+            Sleep(1000);
+            --retry;
+        }
+        if (!retry){
+            err = "Failed to stop PCloud fs.";
+        }
+
+        if (StartService(schService, 0, NULL))
+        {
+            Sleep(1000);
+            int retry = 5;
+            while(QueryServiceStatus(schService, &ssStatus) && retry)
+            {
+                --retry;
+                if (ssStatus.dwCurrentState == SERVICE_START_PENDING)
+                    Sleep(1000);
+                else break;
+            }
+            if (!retry){
+                err = "Failed to start PCloud fs.";
+                return false;
+            }
+            else{
+                err = "";
+                return true;
+            }
+        }
+        CloseServiceHandle(schService);
+    }
+    CloseServiceHandle(schSCManager);
+    return false;
+}
+#endif
+
+
+
 void PCloudApp::mount()
 {
     if (settings->isSet("auth")){
@@ -194,6 +289,9 @@ void PCloudApp::mount()
 }
 
 void PCloudApp::unMount(){
+#ifdef Q_OS_WIN
+    stopService();
+#else
     QProcess process;
     QString path=settings->get("path");
     process.start("umount", QStringList() << "-f" << path);
@@ -202,6 +300,7 @@ void PCloudApp::unMount(){
     process.start("fusermount", QStringList() << "-z" << "-u" << path);
     if (process.waitForFinished() && process.exitCode()==0)
         return;
+#endif
 }
 
 bool PCloudApp::userLogged(binresult *userinfo, QByteArray &err){
@@ -210,6 +309,16 @@ bool PCloudApp::userLogged(binresult *userinfo, QByteArray &err){
         return true;
     }
     else{
+#ifdef Q_OS_WIN
+        if (find_res(userinfo, "auth")){
+            storeKey("auth", find_res(userinfo, "auth")->str);
+            return restartService(err);
+        }
+        else {
+            err = "User not logged in.";
+            return false;
+        }
+#else
         QProcess process;
         QStringList params;
         params.append("--auth");
@@ -232,5 +341,6 @@ bool PCloudApp::userLogged(binresult *userinfo, QByteArray &err){
             err=process.readAllStandardError();
             return false;
         }
+#endif
     }
 }
