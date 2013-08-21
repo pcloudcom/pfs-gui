@@ -85,7 +85,7 @@ int writeall(apisock *sock, const void *ptr, size_t len){
 static ssize_t readallfd(int sock, void *ptr, size_t len){
   ssize_t ret, rd;
   rd=0;
-  while (rd<len){
+  while ((size_t)rd<len){
     ret=recv(sock, ptr+rd, len-rd, 0);
     if (ret==0){
       debug("   ---  read - socket closed properly... \n");
@@ -110,7 +110,7 @@ static ssize_t readallssl(SSL *ssl, void *ptr, size_t len){
   ssize_t rd;
   int ret;
   rd=0;
-  while (rd<len){
+  while ((size_t)rd<len){
     ret=SSL_read(ssl, ptr+rd, len-rd);
     if (ret<=0)
       return -1;
@@ -137,7 +137,7 @@ ssize_t calc_ret_len(unsigned char **data, size_t *datalen, size_t *strcnt){
   type=**data;
   (*data)++;
   (*datalen)--;
-  if ((cond=(type>=RPARAM_SHORT_STR_BASE && type<RPARAM_SHORT_STR_BASE+VSHORT_STR_LEN)) || (type>=RPARAM_STR1 && type<=RPARAM_STR4)){
+  if ((cond=(type>=RPARAM_SHORT_STR_BASE && type<RPARAM_SHORT_STR_BASE+VSHORT_STR_LEN)) || ((int)type>=RPARAM_STR1 && type<=RPARAM_STR4)){
     if (cond)
       len=type-RPARAM_SHORT_STR_BASE;
     else{
@@ -238,7 +238,7 @@ static binresult *do_parse_result(unsigned char **indata, unsigned char **odata,
   uint32_t type, len;
   type=**indata;
   (*indata)++;
-  if ((cond=(type>=RPARAM_SHORT_STR_BASE && type<RPARAM_SHORT_STR_BASE+VSHORT_STR_LEN)) || (type>=RPARAM_STR1 && type<=RPARAM_STR4)){
+  if ((cond=(type>=RPARAM_SHORT_STR_BASE && type<RPARAM_SHORT_STR_BASE+VSHORT_STR_LEN)) || ((int)type>=RPARAM_STR1 && type<=RPARAM_STR4)){
     if (cond)
       len=type-RPARAM_SHORT_STR_BASE;
     else{
@@ -384,7 +384,7 @@ binresult *get_result(apisock *sock){
   if (readall(sock, &ressize, sizeof(uint32_t))!=sizeof(uint32_t))
     return NULL;
   data=(unsigned char *)malloc(ressize);
-  if (readall(sock, data, ressize)!=ressize){
+  if (readall(sock, data, ressize)!=(int64_t)ressize){
     free(data);
     return NULL;
   }

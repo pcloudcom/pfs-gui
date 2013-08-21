@@ -40,3 +40,8 @@ RESOURCES += \
     Resources.qrc
 
 LIBS += -lssl -lcrypto
+
+#ifdef Q_WS_WIN
+LIBS +=  -lWs2_32
+#endif
+
