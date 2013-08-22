@@ -41,7 +41,9 @@ RESOURCES += \
 
 LIBS += -lssl -lcrypto
 
-#ifdef Q_OS_WIN
+win32 {
 LIBS +=  -lWs2_32
-#endif
+QMAKE_LFLAGS += -static-libgcc
+CONFIG += static
+}
 
