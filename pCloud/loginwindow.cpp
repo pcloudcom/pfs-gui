@@ -2,13 +2,14 @@
 #include "ui_loginwindow.h"
 #include "binapi.h"
 #include "pcloudapp.h"
+#include "common.h"
 
 LoginWindow::LoginWindow(PCloudApp *a, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::LoginWindow)
 {
     app=a;
-    setWindowIcon(QIcon(":/images/images/icon_pcloud.png"));
+    setWindowIcon(QIcon(REGULAR_ICON));
     ui->setupUi(this);
     connect(ui->loginButton, SIGNAL(clicked()), this, SLOT(logIn()));
     connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(hide()));

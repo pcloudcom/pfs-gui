@@ -1,4 +1,5 @@
 #include "pcloudapp.h"
+#include "common.h"
 #include <QMenu>
 #include <QProcess>
 #include <QUrl>
@@ -37,6 +38,7 @@ void PCloudApp::setUser(binresult *userinfo){
     loggedmenu->addSeparator();
     loggedmenu->addAction(logoutAction);
     loggedmenu->addAction(exitAction);
+    tray->setIcon(QIcon(REGULAR_ICON));
     tray->setContextMenu(loggedmenu);
 }
 
@@ -70,6 +72,7 @@ void PCloudApp::logOut(){
     username="";
     tray->setContextMenu(notloggedmenu);
     tray->setToolTip("pCloud");
+    tray->setIcon(QIcon(OFFLINE_ICON));
     settings->unset("auth");
     if (isMounted())
         unMount();
@@ -124,7 +127,7 @@ PCloudApp::PCloudApp(int &argc, char **argv) :
     createMenus();
     settings=new PSettings(this);
     tray=new QSystemTrayIcon(this);
-    tray->setIcon(QIcon(":/images/images/icon_pcloud.png"));
+    tray->setIcon(QIcon(OFFLINE_ICON));
     tray->setContextMenu(notloggedmenu);
     tray->setToolTip("pCloud");
     connect(tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayClicked(QSystemTrayIcon::ActivationReason)));

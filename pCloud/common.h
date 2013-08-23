@@ -5,5 +5,8 @@
 #define DEFAULT_PCLOUD_DIR   "pCloud"
 #define DEFAULT_CACHE_SIZEMB 1024
 
+#define REGULAR_ICON ":/images/images/online.png"
+#define OFFLINE_ICON ":/images/images/offline.png"
+
 
 #endif

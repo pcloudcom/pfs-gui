@@ -1,6 +1,7 @@
 #include "settingswindow.h"
 #include "ui_settingswindow.h"
 #include "pcloudapp.h"
+#include "common.h"
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QDir>
@@ -12,7 +13,7 @@ SettingsWindow::SettingsWindow(PCloudApp *a, QWidget *parent) :
     ui(new Ui::SettingsWindow)
 {
     app=a;
-    setWindowIcon(QIcon(":/images/images/icon_pcloud.png"));
+    setWindowIcon(QIcon(REGULAR_ICON));
     ui->setupUi(this);
     connect(ui->dirchangebutton , SIGNAL(clicked()), this, SLOT(dirChange()));
     connect(ui->cancelbutton, SIGNAL(clicked()), this, SLOT(hide()));
