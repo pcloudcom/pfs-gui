@@ -43,6 +43,10 @@ void SettingsWindow::closeEvent(QCloseEvent *event)
 void SettingsWindow::dirChange()
 {
     QString odir=app->settings->get("path");
+ #ifdef Q_OS_WIN
+    dir = "А:";
+    dir[0] = getFirstFreeDevice();
+ #else
     QString ndir=QFileDialog::getExistingDirectory(this, "Select pCloud folder", dir, QFileDialog::ShowDirsOnly);
     if (ndir!="")
         dir=ndir;
@@ -63,6 +67,7 @@ void SettingsWindow::dirChange()
             dir=odir;
         }
     }
+#endif
     ui->dir->setText("pCloud folder: "+dir);
 }
 

@@ -4,7 +4,7 @@
 #include <QDir>
 
 #ifdef Q_OS_WIN
-static char getFirstFreeDevice()
+char getFirstFreeDevice()
 {
     DWORD devices = GetLogicalDrives();
     for (int i = 4; i < 32; ++i)
