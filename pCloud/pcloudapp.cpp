@@ -34,6 +34,9 @@ void PCloudApp::setUser(binresult *userinfo){
     loggedmenu=new QMenu();
     loggedmenu->addAction(username);
     loggedmenu->addAction(openAction);
+    loggedmenu->addSeparator();
+    loggedmenu->addAction(shareFolderAction);
+    loggedmenu->addSeparator();
     loggedmenu->addAction(settingsAction);
     loggedmenu->addSeparator();
     loggedmenu->addAction(logoutAction);
@@ -42,29 +45,41 @@ void PCloudApp::setUser(binresult *userinfo){
     tray->setContextMenu(loggedmenu);
 }
 
+void PCloudApp::showWindow(QMainWindow *win)
+{
+    win->showNormal();
+}
+
 void PCloudApp::showRegister(){
     hideAllWindows();
     if (!regwin)
         regwin=new RegisterWindow(this);
-    regwin->showNormal();
+    showWindow(regwin);
 }
 
 void PCloudApp::showLogin(){
     hideAllWindows();
     if (!logwin)
         logwin=new LoginWindow(this);
-    logwin->showNormal();
+    showWindow(logwin);
 }
 
 void PCloudApp::showSettings(){
     hideAllWindows();
     if (!settingswin)
         settingswin=new SettingsWindow(this);
-    settingswin->showNormal();
+    showWindow(settingswin);
 }
 
 void PCloudApp::openCloudDir(){
     QDesktopServices::openUrl(QUrl::fromLocalFile(settings->get("path")));
+}
+
+void PCloudApp::shareFolder(){
+    hideAllWindows();
+    if (!sharefolderwin)
+        sharefolderwin=new ShareFolderWindow(this);
+    showWindow(sharefolderwin);
 }
 
 void PCloudApp::logOut(){
@@ -111,6 +126,9 @@ void PCloudApp::createMenus(){
 
     openAction=new QAction("Open pCloud folder", this);
     connect(openAction, SIGNAL(triggered()), this, SLOT(openCloudDir()));
+    shareFolderAction=new QAction("Share folder", this);
+    connect(shareFolderAction, SIGNAL(triggered()), this, SLOT(shareFolder()));
+
     logoutAction=new QAction("Logout", this);
     connect(logoutAction, SIGNAL(triggered()), this, SLOT(logOut()));
 }
@@ -123,6 +141,7 @@ PCloudApp::PCloudApp(int &argc, char **argv) :
     logwin=NULL;
     loggedmenu=NULL;
     settingswin=NULL;
+    sharefolderwin=NULL;
     loggedin=false;
     createMenus();
     settings=new PSettings(this);
@@ -147,6 +166,7 @@ PCloudApp::~PCloudApp(){
     delete logoutAction;
     delete openAction;
     delete settingsAction;
+    delete shareFolderAction;
     if (regwin)
         delete regwin;
     if (reglog)
@@ -155,6 +175,8 @@ PCloudApp::~PCloudApp(){
         delete logwin;
     if (settingswin)
         delete settingswin;
+    if (sharefolderwin)
+        delete sharefolderwin;
 }
 
 apisock *PCloudApp::getAPISock(){
@@ -304,6 +326,10 @@ void PCloudApp::unMount(){
     if (process.waitForFinished() && process.exitCode()==0)
         return;
 #endif
+}
+
+void PCloudApp::showError(QString err){
+    tray->showMessage("Error", err, QSystemTrayIcon::Warning);
 }
 
 bool PCloudApp::userLogged(binresult *userinfo, QByteArray &err){

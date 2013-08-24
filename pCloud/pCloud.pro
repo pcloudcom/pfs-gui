@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     loginwindow.cpp \
     binapi.c \
     psettings.cpp \
-    settingswindow.cpp
+    settingswindow.cpp \
+    sharefolderwindow.cpp
 
 HEADERS  += reglogwindow.h \
     pcloudapp.h \
@@ -29,12 +30,14 @@ HEADERS  += reglogwindow.h \
     sockets.h \
     psettings.h \
     settingswindow.h \
-    common.h
+    common.h \
+    sharefolderwindow.h
 
 FORMS    += reglogwindow.ui \
     registerwindow.ui \
     loginwindow.ui \
-    settingswindow.ui
+    settingswindow.ui \
+    sharefolderwindow.ui
 
 RESOURCES += \
     Resources.qrc
