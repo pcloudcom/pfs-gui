@@ -5,6 +5,7 @@
 #include "registerwindow.h"
 #include "loginwindow.h"
 #include "settingswindow.h"
+#include "sharefolderwindow.h"
 #include "binapi.h"
 #include "psettings.h"
 
@@ -22,6 +23,7 @@ private:
     QAction *logoutAction;
     QAction *openAction;
     QAction *settingsAction;
+    QAction *shareFolderAction;
     QMenu *notloggedmenu;
     QMenu *loggedmenu;
     QSystemTrayIcon *tray;
@@ -29,12 +31,14 @@ private:
     RegisterWindow *regwin;
     LoginWindow *logwin;
     SettingsWindow *settingswin;
+    ShareFolderWindow *sharefolderwin;
     QString username;
     bool loggedin;
     void createMenus();
     void hideAllWindows();
     void showRegLog();
     void setUser(binresult *userinfo);
+    void showWindow(QMainWindow *win);
 public:
     PSettings *settings;
     explicit PCloudApp(int &argc, char **argv);
@@ -44,6 +48,7 @@ public:
     bool isMounted();
     void mount();
     void unMount();
+    void showError(QString err);
 signals:
     
 public slots:
@@ -52,6 +57,7 @@ public slots:
     void showLogin();
     void showSettings();
     void openCloudDir();
+    void shareFolder();
     void logOut();
     void doExit();
 };

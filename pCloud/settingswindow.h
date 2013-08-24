@@ -16,13 +16,12 @@ class SettingsWindow : public QMainWindow
 public:
     explicit SettingsWindow(PCloudApp *a, QWidget *parent = 0);
     ~SettingsWindow();
-protected:
-    void showEvent(QShowEvent * event);
 private:
     PCloudApp *app;
     QString dir;
     Ui::SettingsWindow *ui;
     void closeEvent(QCloseEvent *event);
+    void showEvent(QShowEvent * event);
     void writeToFile(const QString &path, const QString &data);
 public slots:
     void dirChange();
