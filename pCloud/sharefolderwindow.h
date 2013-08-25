@@ -2,6 +2,7 @@
 #define SHAREFOLDERWINDOW_H
 
 #include <QMainWindow>
+#include <QTreeWidgetItem>
 
 namespace Ui {
 class ShareFolderWindow;
@@ -21,6 +22,10 @@ private:
     PCloudApp *app;
     void closeEvent(QCloseEvent *event);
     void showEvent(QShowEvent * event);
+    void showError(const QString &err);
+public slots:
+    void shareFolder();
+    void dirSelected(QTreeWidgetItem *dir);
 };
 
 #endif // SHAREFOLDERWINDOW_H
