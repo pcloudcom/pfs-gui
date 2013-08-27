@@ -15,6 +15,10 @@ void PCloudApp::hideAllWindows(){
         logwin->hide();
     if (settingswin)
         settingswin->hide();
+    if (incomingshareswin)
+        incomingshareswin->hide();
+    if (outgoingshareswin)
+        outgoingshareswin->hide();
 }
 
 void PCloudApp::showRegLog(){
@@ -36,6 +40,8 @@ void PCloudApp::setUser(binresult *userinfo){
     loggedmenu->addAction(openAction);
     loggedmenu->addSeparator();
     loggedmenu->addAction(shareFolderAction);
+    loggedmenu->addAction(outgoingSharesAction);
+    loggedmenu->addAction(incomingSharesAction);
     loggedmenu->addSeparator();
     loggedmenu->addAction(settingsAction);
     loggedmenu->addSeparator();
@@ -80,6 +86,21 @@ void PCloudApp::shareFolder(){
     if (!sharefolderwin)
         sharefolderwin=new ShareFolderWindow(this);
     showWindow(sharefolderwin);
+}
+
+void PCloudApp::outgoingShares(){
+    hideAllWindows();
+    if (!outgoingshareswin)
+        outgoingshareswin=new SharesWindow(this, 0);
+    showWindow(outgoingshareswin);
+}
+
+void PCloudApp::incomingShares()
+{
+    hideAllWindows();
+    if (!incomingshareswin)
+        incomingshareswin=new SharesWindow(this, 1);
+    showWindow(incomingshareswin);
 }
 
 void PCloudApp::logOut(){
@@ -128,6 +149,10 @@ void PCloudApp::createMenus(){
     connect(openAction, SIGNAL(triggered()), this, SLOT(openCloudDir()));
     shareFolderAction=new QAction("Share folder", this);
     connect(shareFolderAction, SIGNAL(triggered()), this, SLOT(shareFolder()));
+    outgoingSharesAction=new QAction("My Shares", this);
+    connect(outgoingSharesAction, SIGNAL(triggered()), this, SLOT(outgoingShares()));
+    incomingSharesAction=new QAction("Shared with Me", this);
+    connect(incomingSharesAction, SIGNAL(triggered()), this, SLOT(incomingShares()));
 
     logoutAction=new QAction("Logout", this);
     connect(logoutAction, SIGNAL(triggered()), this, SLOT(logOut()));
@@ -142,6 +167,8 @@ PCloudApp::PCloudApp(int &argc, char **argv) :
     loggedmenu=NULL;
     settingswin=NULL;
     sharefolderwin=NULL;
+    incomingshareswin=NULL;
+    outgoingshareswin=NULL;
     loggedin=false;
     createMenus();
     settings=new PSettings(this);
@@ -177,6 +204,10 @@ PCloudApp::~PCloudApp(){
         delete settingswin;
     if (sharefolderwin)
         delete sharefolderwin;
+    if (incomingshareswin)
+        delete incomingshareswin;
+    if (outgoingshareswin)
+        delete outgoingshareswin;
 }
 
 apisock *PCloudApp::getAPISock(){
