@@ -6,6 +6,7 @@
 #include "loginwindow.h"
 #include "settingswindow.h"
 #include "sharefolderwindow.h"
+#include "shareswindow.h"
 #include "binapi.h"
 #include "psettings.h"
 
@@ -24,6 +25,8 @@ private:
     QAction *openAction;
     QAction *settingsAction;
     QAction *shareFolderAction;
+    QAction *outgoingSharesAction;
+    QAction *incomingSharesAction;
     QMenu *notloggedmenu;
     QMenu *loggedmenu;
     QSystemTrayIcon *tray;
@@ -32,6 +35,8 @@ private:
     LoginWindow *logwin;
     SettingsWindow *settingswin;
     ShareFolderWindow *sharefolderwin;
+    SharesWindow *incomingshareswin;
+    SharesWindow *outgoingshareswin;
     QString username;
     bool loggedin;
     void createMenus();
@@ -58,6 +63,8 @@ public slots:
     void showSettings();
     void openCloudDir();
     void shareFolder();
+    void outgoingShares();
+    void incomingShares();
     void logOut();
     void doExit();
 };

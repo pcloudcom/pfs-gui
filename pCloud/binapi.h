@@ -60,10 +60,10 @@ typedef struct {
   SSL *ssl;
 } apisock;
 
-#define P_STR(name, val) {PARAM_STR, strlen(name), strlen(val), (name), {(uint64_t)(val)}}
-#define P_LSTR(name, val, len) {PARAM_STR, strlen(name), (uint32_t)(len), (name), {(uint64_t)(val)}}
-#define P_NUM(name, val) {PARAM_NUM, strlen(name), 0, (name), {(val)}}
-#define P_BOOL(name, val) {PARAM_BOOL, strlen(name), 0, (name), {(val)?1:0}}
+#define P_STR(name, val) {PARAM_STR, (uint16_t)strlen(name), strlen(val), (name), {(uint64_t)(val)}}
+#define P_LSTR(name, val, len) {PARAM_STR, (uint16_t)strlen(name), (uint32_t)(len), (name), {(uint64_t)(val)}}
+#define P_NUM(name, val) {PARAM_NUM, (uint16_t)strlen(name), 0, (name), {(val)}}
+#define P_BOOL(name, val) {PARAM_BOOL, (uint16_t)strlen(name), 0, (name), {(val)?1:0}}
 
 #define send_command(sock, cmd, ...) \
   ({\

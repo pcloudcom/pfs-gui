@@ -52,7 +52,7 @@ void ShareFolderWindow::showEvent(QShowEvent *event)
         showError("Could not connect to server. Check your Internet connection.");
         return;
     }
-
+    ui->dirtree->clear();
     ui->dirtree->setColumnCount(1);
     ui->dirtree->setHeaderLabels(QStringList("Name"));
     res=send_command(conn, "listfolder",
@@ -117,6 +117,8 @@ void ShareFolderWindow::shareFolder()
         return;
     }
     free(res);
+    ui->error->setText("");
+    ui->email->setText("");
     hide();
 }
 
