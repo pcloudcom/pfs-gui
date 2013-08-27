@@ -23,6 +23,9 @@ private:
     int type;
     void showEvent(QShowEvent *event);
     void showError(const QString &err);
+    void load();
+public slots:
+    void cancelRequest();
 };
 
 #endif // SHARESWINDOW_H
