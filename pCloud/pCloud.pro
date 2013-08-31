@@ -23,7 +23,9 @@ SOURCES += main.cpp\
     sharefolderwindow.cpp \
     shareswindow.cpp \
     directorypickerdialog.cpp \
-    changepermissionsdialog.cpp
+    changepermissionsdialog.cpp \
+    monitoringthread.cpp \
+    onlinethread.cpp
 
 HEADERS  += reglogwindow.h \
     pcloudapp.h \
@@ -37,7 +39,9 @@ HEADERS  += reglogwindow.h \
     sharefolderwindow.h \
     shareswindow.h \
     directorypickerdialog.h \
-    changepermissionsdialog.h
+    changepermissionsdialog.h \
+    monitoringthread.h \
+    onlinethread.h
 
 FORMS    += reglogwindow.ui \
     registerwindow.ui \
