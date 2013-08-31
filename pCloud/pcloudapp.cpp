@@ -353,6 +353,9 @@ void PCloudApp::unMount(){
     process.start("umount", QStringList() << "-f" << path);
     if (process.waitForFinished() && process.exitCode()==0)
         return;
+    process.start("fusermount", QStringList() << "-u" << path);
+    if (process.waitForFinished() && process.exitCode()==0)
+        return;
     process.start("fusermount", QStringList() << "-z" << "-u" << path);
     if (process.waitForFinished() && process.exitCode()==0)
         return;

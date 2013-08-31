@@ -26,6 +26,9 @@ private:
     void load();
 public slots:
     void cancelRequest();
+    void acceptRequest();
+    void stopShare();
+    void modifyShare();
 };
 
 #endif // SHARESWINDOW_H

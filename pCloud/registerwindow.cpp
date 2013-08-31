@@ -47,7 +47,7 @@ void RegisterWindow::focusTOS(){
 
 void RegisterWindow::doRegister(){
     if (!ui->accepttos->checkState()){
-        setError("Registration only possible upon acceptanse of terms.");
+        setError("Registration only possible upon acceptance of terms.");
         return;
     }
     if (ui->password->text().length()<6){
@@ -63,6 +63,14 @@ void RegisterWindow::doRegister(){
     apisock *conn;
     binresult *res, *result;
     QByteArray err;
+    uint64_t type=0;
+#if defined(Q_OS_WIN)
+    type=5;
+#elif defined(Q_OS_LINUX)
+    type=7;
+#elif defined(Q_OS_MAC)
+    type=6;
+#endif
     if (!(conn=app->getAPISock())){
         setError("Connection to server failed.");
         return;
@@ -70,7 +78,8 @@ void RegisterWindow::doRegister(){
     res=send_command(conn, "register",
                      P_STR("termsaccepted", "yes"),
                      P_LSTR("mail", email.constData(), email.size()),
-                     P_LSTR("password", password.constData(), password.size()));
+                     P_LSTR("password", password.constData(), password.size()),
+                     P_NUM("os", type));
     result=find_res(res, "result");
     if (!result){
         setError("Connection to server failed.");
