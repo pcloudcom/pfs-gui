@@ -21,7 +21,11 @@ SOURCES += main.cpp\
     psettings.cpp \
     settingswindow.cpp \
     sharefolderwindow.cpp \
-    shareswindow.cpp
+    shareswindow.cpp \
+    directorypickerdialog.cpp \
+    changepermissionsdialog.cpp \
+    monitoringthread.cpp \
+    onlinethread.cpp
 
 HEADERS  += reglogwindow.h \
     pcloudapp.h \
@@ -33,14 +37,20 @@ HEADERS  += reglogwindow.h \
     settingswindow.h \
     common.h \
     sharefolderwindow.h \
-    shareswindow.h
+    shareswindow.h \
+    directorypickerdialog.h \
+    changepermissionsdialog.h \
+    monitoringthread.h \
+    onlinethread.h
 
 FORMS    += reglogwindow.ui \
     registerwindow.ui \
     loginwindow.ui \
     settingswindow.ui \
     sharefolderwindow.ui \
-    shareswindow.ui
+    shareswindow.ui \
+    directorypickerdialog.ui \
+    changepermissionsdialog.ui
 
 RESOURCES += \
     Resources.qrc

@@ -21,11 +21,14 @@ private:
     PCloudApp *app;
     Ui::SharesWindow *ui;
     int type;
-    void showEvent(QShowEvent *event);
+    void showEvent(QShowEvent *);
     void showError(const QString &err);
     void load();
 public slots:
     void cancelRequest();
+    void acceptRequest();
+    void stopShare();
+    void modifyShare();
 };
 
 #endif // SHARESWINDOW_H

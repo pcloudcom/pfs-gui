@@ -9,6 +9,8 @@
 #include "shareswindow.h"
 #include "binapi.h"
 #include "psettings.h"
+#include "monitoringthread.h"
+#include "onlinethread.h"
 
 #include <QApplication>
 #include <QAction>
@@ -37,6 +39,8 @@ private:
     ShareFolderWindow *sharefolderwin;
     SharesWindow *incomingshareswin;
     SharesWindow *outgoingshareswin;
+    MonitoringThread *mthread;
+    OnlineThread *othread;
     QString username;
     bool loggedin;
     void createMenus();
@@ -46,6 +50,7 @@ private:
     void showWindow(QMainWindow *win);
 public:
     PSettings *settings;
+    uint32_t lastMessageType;
     explicit PCloudApp(int &argc, char **argv);
     ~PCloudApp();
     bool userLogged(binresult *userinfo, QByteArray &err);
@@ -55,8 +60,9 @@ public:
     void unMount();
     void showError(QString err);
 signals:
-    
+    void logInSignal(QString, QString);
 public slots:
+    void showTrayMessage(QString title, QString msg);
     void trayClicked(QSystemTrayIcon::ActivationReason reason);
     void showRegister();
     void showLogin();
@@ -67,6 +73,9 @@ public slots:
     void incomingShares();
     void logOut();
     void doExit();
+    void logIn(QString auth, QString uname);
+    void trayMsgClicked();
+    void setOnlineStatus(bool online);
 };
 
 #endif // PCLOUDAPP_H

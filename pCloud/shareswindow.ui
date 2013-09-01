@@ -6,150 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>757</width>
+    <height>540</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTabWidget" name="tabWidget">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>20</y>
-      <width>751</width>
-      <height>521</height>
-     </rect>
-    </property>
-    <property name="currentIndex">
-     <number>0</number>
-    </property>
-    <widget class="QWidget" name="folders">
-     <attribute name="title">
-      <string>Folders</string>
-     </attribute>
-     <widget class="QLabel" name="label">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>10</y>
-        <width>151</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Pending shares:</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_2">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>240</y>
-        <width>151</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Shares:</string>
-      </property>
-     </widget>
-     <widget class="QTreeWidget" name="pending">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>30</y>
-        <width>711</width>
-        <height>151</height>
-       </rect>
-      </property>
-      <column>
-       <property name="text">
-        <string notr="true">1</string>
-       </property>
-      </column>
-     </widget>
-     <widget class="QTreeWidget" name="current">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>270</y>
-        <width>711</width>
-        <height>151</height>
-       </rect>
-      </property>
-      <column>
-       <property name="text">
-        <string notr="true">1</string>
-       </property>
-      </column>
-     </widget>
-     <widget class="QPushButton" name="rejectbutton">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>200</y>
-        <width>80</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Reject</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="acceptbutton">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>200</y>
-        <width>80</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Accept</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="stopbutton">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>440</y>
-        <width>80</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Stop</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="modifybutton">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>440</y>
-        <width>80</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Modify</string>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="users">
-     <attribute name="title">
-      <string>Users</string>
-     </attribute>
-    </widget>
-   </widget>
    <widget class="QPushButton" name="closebutton">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>560</y>
+      <y>490</y>
       <width>80</width>
       <height>23</height>
      </rect>
@@ -162,14 +31,122 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>560</y>
-      <width>651</width>
+      <y>490</y>
+      <width>611</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string/>
     </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pending shares:</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="acceptbutton">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>210</y>
+      <width>80</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Accept</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>250</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Shares:</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="rejectbutton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>210</y>
+      <width>80</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Reject</string>
+    </property>
+   </widget>
+   <widget class="QTreeWidget" name="current">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>280</y>
+      <width>711</width>
+      <height>151</height>
+     </rect>
+    </property>
+    <column>
+     <property name="text">
+      <string notr="true">1</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QPushButton" name="stopbutton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>450</y>
+      <width>80</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Stop</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="modifybutton">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>450</y>
+      <width>80</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Modify</string>
+    </property>
+   </widget>
+   <widget class="QTreeWidget" name="pending">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>40</y>
+      <width>711</width>
+      <height>151</height>
+     </rect>
+    </property>
+    <column>
+     <property name="text">
+      <string notr="true">1</string>
+     </property>
+    </column>
    </widget>
   </widget>
  </widget>
