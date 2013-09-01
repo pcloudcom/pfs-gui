@@ -50,6 +50,7 @@ private:
     void showWindow(QMainWindow *win);
 public:
     PSettings *settings;
+    uint32_t lastMessageType;
     explicit PCloudApp(int &argc, char **argv);
     ~PCloudApp();
     bool userLogged(binresult *userinfo, QByteArray &err);
@@ -73,6 +74,8 @@ public slots:
     void logOut();
     void doExit();
     void logIn(QString auth, QString uname);
+    void trayMsgClicked();
+    void setOnlineStatus(bool online);
 };
 
 #endif // PCLOUDAPP_H

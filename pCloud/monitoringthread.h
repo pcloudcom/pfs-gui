@@ -11,12 +11,12 @@ class MonitoringThread : public QThread
 private:
     PCloudApp *app;
 public:
-    bool doRun;
     MonitoringThread(PCloudApp *a);
 protected:
-     void run();
+    void run();
 signals:
     void sendMessageSignal(QString, QString);
+    void setOnlineStatus(bool);
 };
 
 #endif // MONITORINGTHREAD_H

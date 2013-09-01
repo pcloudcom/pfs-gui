@@ -150,6 +150,7 @@ PCloudApp::PCloudApp(int &argc, char **argv) :
     outgoingshareswin=NULL;
     mthread=NULL;
     loggedin=false;
+    lastMessageType=0;
     createMenus();
     settings=new PSettings(this);
     tray=new QSystemTrayIcon(this);
@@ -157,6 +158,7 @@ PCloudApp::PCloudApp(int &argc, char **argv) :
     tray->setContextMenu(notloggedmenu);
     tray->setToolTip("pCloud");
     connect(tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayClicked(QSystemTrayIcon::ActivationReason)));
+    connect(tray, SIGNAL(messageClicked()), this, SLOT(trayMsgClicked()));
     connect(this, SIGNAL(logInSignal(QString, QString)), this, SLOT(logIn(QString, QString)));
     tray->show();
     if (settings->isSet("auth")){
@@ -175,9 +177,8 @@ PCloudApp::~PCloudApp(){
         delete othread;
     }
     if (mthread){
-        if (mthread->isRunning()){
-            mthread->doRun=false;
-        }
+        if (mthread->isRunning())
+            mthread->terminate();
         mthread->wait();
         delete mthread;
     }
@@ -344,11 +345,6 @@ void PCloudApp::mount()
 }
 
 void PCloudApp::unMount(){
-    if (mthread){
-        mthread->terminate();
-        delete mthread;
-        mthread=NULL;
-    }
 #ifdef Q_OS_WIN
     stopService();
 #else
@@ -401,6 +397,24 @@ void PCloudApp::logIn(QString auth, QString uname)
         mthread=new MonitoringThread(this);
         mthread->start();
     }
+}
+
+void PCloudApp::trayMsgClicked()
+{
+    if (lastMessageType&2)
+        outgoingShares();
+    else
+        incomingShares();
+}
+
+void PCloudApp::setOnlineStatus(bool online)
+{
+    if (!loggedin)
+        return;
+    if (online)
+        tray->setIcon(QIcon(REGULAR_ICON));
+    else
+        tray->setIcon(QIcon(OFFLINE_ICON));
 }
 
 bool PCloudApp::userLogged(binresult *userinfo, QByteArray &err){

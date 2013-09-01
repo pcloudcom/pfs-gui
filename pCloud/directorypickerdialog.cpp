@@ -32,7 +32,7 @@ static QList<QTreeWidgetItem *> binresToQList(binresult *res){
     return items;
 }
 
-void DirectoryPickerDialog::showEvent(QShowEvent *event)
+void DirectoryPickerDialog::showEvent(QShowEvent *)
 {
     apisock *conn;
     binresult *res, *result, *rn;
@@ -79,4 +79,5 @@ void DirectoryPickerDialog::showEvent(QShowEvent *event)
 
 void DirectoryPickerDialog::showError(const QString &err)
 {
+    ui->error->setText(err);
 }

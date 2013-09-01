@@ -43,7 +43,7 @@ static QList<QTreeWidgetItem *> binresToQList(binresult *res){
     return items;
 }
 
-void ShareFolderWindow::showEvent(QShowEvent *event)
+void ShareFolderWindow::showEvent(QShowEvent *)
 {
     apisock *conn;
     binresult *res, *result;

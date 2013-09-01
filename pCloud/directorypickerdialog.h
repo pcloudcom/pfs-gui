@@ -22,7 +22,7 @@ public:
     
 private:
     PCloudApp *app;
-    void showEvent(QShowEvent *event);
+    void showEvent(QShowEvent *);
     void showError(const QString &err);
 };
 

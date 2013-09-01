@@ -91,7 +91,7 @@ static void fillList(QTreeWidget *table, binresult *arr, const char *fieldname, 
     table->sortByColumn(0, Qt::AscendingOrder);
 }
 
-void SharesWindow::showEvent(QShowEvent *event)
+void SharesWindow::showEvent(QShowEvent *)
 {
     load();
 }

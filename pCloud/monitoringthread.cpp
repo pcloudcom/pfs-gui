@@ -4,8 +4,8 @@
 MonitoringThread::MonitoringThread(PCloudApp *a)
 {
     app=a;
-    doRun=true;
     connect(this, SIGNAL(sendMessageSignal(QString, QString)), app, SLOT(showTrayMessage(QString, QString)));
+    connect(this, SIGNAL(setOnlineStatus(bool)), app, SLOT(setOnlineStatus(bool)));
 }
 
 typedef struct {
@@ -20,12 +20,15 @@ void MonitoringThread::run()
     msg m;
     sleep(2);
     cnt=0;
-    while (doRun){
+    while (1){
         QFile file(app->settings->get("path")+"/.pfs_settings/events");
         if (file.open(QFile::ReadOnly)){
             if (file.read((char *)&m, sizeof(m))>=8){
-                if (m.type==1 || (m.type==2 && cnt>2)){
+                if (m.type&8)
+                    emit setOnlineStatus((m.type&4)>0);
+                else if (m.type&1 || cnt>2){
                     m.buff[m.length]=0;
+                    app->lastMessageType=m.type;
                     emit sendMessageSignal(m.buff, "");
                 }
                 file.close();
