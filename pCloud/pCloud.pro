@@ -62,4 +62,3 @@ LIBS +=  -lWs2_32
 QMAKE_LFLAGS += -static-libgcc
 CONFIG += static
 }
-
