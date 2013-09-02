@@ -231,7 +231,7 @@ static void storeKey(LPCSTR key, const char * val)
 {
     HRESULT hr;
     HKEY hKey;
-    hr = RegCreateKeyExA(HKEY_CURRENT_USER, REGISTRY_KEY_PCLOUD, 0, NULL, 0,
+    hr = RegCreateKeyExA(HKEY_LOCAL_MACHINE, REGISTRY_KEY_PCLOUD, 0, NULL, 0,
                         KEY_ALL_ACCESS, NULL, &hKey, NULL);
     if (!hr)
     {
@@ -409,12 +409,16 @@ void PCloudApp::trayMsgClicked()
 
 void PCloudApp::setOnlineStatus(bool online)
 {
-    if (!loggedin)
-        return;
-    if (online)
+    static bool lastStatus = isMounted();
+    if (online){
         tray->setIcon(QIcon(REGULAR_ICON));
-    else
+        if (online != lastStatus) tray->showMessage("PCloud connected", "", QSystemTrayIcon::Information);
+    }
+    else{
         tray->setIcon(QIcon(OFFLINE_ICON));
+        if (online != lastStatus) tray->showMessage("PCloud disconnected", "", QSystemTrayIcon::Information);
+    }
+    lastStatus = online;
 }
 
 bool PCloudApp::userLogged(binresult *userinfo, QByteArray &err){
@@ -425,8 +429,22 @@ bool PCloudApp::userLogged(binresult *userinfo, QByteArray &err){
     else{
 #ifdef Q_OS_WIN
         if (find_res(userinfo, "auth")){
+            if (!settings->isSet("path") || !settings->get("path").toUtf8()[0]){
+                QString path("a:");
+                path[0] = getFirstFreeDevice();
+                settings->set("path", path);
+            }
+            storeKey("path", settings->get("path").toUtf8());
+            storeKey("cachesize", settings->get("cachesize").toUtf8());
+            storeKey("ssl", settings->geti("usessl")?"SSL":"");
             storeKey("auth", find_res(userinfo, "auth")->str);
-            return restartService(err);
+            QString auth(find_res(userinfo, "auth")->str);
+            settings->set("auth", auth);
+            if (restartService(err)){
+                setUser(userinfo);
+                return true;
+            }
+            return false;
         }
         else {
             err = "User not logged in.";

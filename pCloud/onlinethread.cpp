@@ -13,4 +13,5 @@ void OnlineThread::run()
       app->mount();
       sleep(10);
     } while(!app->isMounted());
+    app->setOnlineStatus(true);
 }

@@ -22,9 +22,10 @@ void MonitoringThread::run()
     cnt=0;
     while (1){
         QFile file(app->settings->get("path")+"/.pfs_settings/events");
+        app->setOnlineStatus(file.exists());
+
         if (file.open(QFile::ReadOnly)){
             if (file.read((char *)&m, sizeof(m))>=8){
-                emit setOnlineStatus(true);
                 if (m.type&1 || cnt>2){
                     m.buff[m.length]=0;
                     app->lastMessageType=m.type;
@@ -34,9 +35,6 @@ void MonitoringThread::run()
                 continue;
             }
             file.close();
-        }
-        else{
-            emit setOnlineStatus(false);
         }
         sleep(1);
         cnt++;
