@@ -22,4 +22,8 @@ public:
     void unset(const QString &key);
 };
 
+#ifdef Q_OS_WIN
+char getFirstFreeDevice();
+#endif
+
 #endif // PSETTINGS_H
