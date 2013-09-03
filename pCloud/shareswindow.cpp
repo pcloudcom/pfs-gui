@@ -42,6 +42,12 @@ SharesWindow::~SharesWindow()
     delete ui;
 }
 
+void SharesWindow::closeEvent(QCloseEvent *event)
+{
+    hide();
+    event->ignore();
+}
+
 static QString getPermissions(binresult *req){
     QStringList list;
     if (find_res(req, "canread")->num)
