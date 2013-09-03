@@ -21,6 +21,7 @@ private:
     PCloudApp *app;
     Ui::SharesWindow *ui;
     int type;
+    void closeEvent(QCloseEvent *event);
     void showEvent(QShowEvent *);
     void showError(const QString &err);
     void load();

@@ -374,6 +374,13 @@ void PCloudApp::showTrayMessage(QString title, QString msg)
 void PCloudApp::logIn(QString auth, QString uname)
 {
     settings->set("auth", auth);
+#ifdef Q_OS_WIN
+    if (!settings->isSet("path") || !settings->get("path").toUtf8()[0]){
+        QString path("a:");
+        path[0] = getFirstFreeDevice();
+        settings->set("path", path);
+    }
+#endif
     loggedin=true;
     username=uname;
     tray->setToolTip(username);
@@ -403,7 +410,7 @@ void PCloudApp::trayMsgClicked()
 {
     if (lastMessageType&2)
         outgoingShares();
-    else
+    else if (lastMessageType)
         incomingShares();
 }
 
@@ -412,13 +419,20 @@ void PCloudApp::setOnlineStatus(bool online)
     static bool lastStatus = isMounted();
     if (online){
         tray->setIcon(QIcon(REGULAR_ICON));
-        if (online != lastStatus) tray->showMessage("PCloud connected", "", QSystemTrayIcon::Information);
+        if (online != lastStatus) {
+            lastMessageType = 0;
+            tray->showMessage("PCloud connected", "", QSystemTrayIcon::Information);
+            lastStatus = online;
+        }
     }
     else{
         tray->setIcon(QIcon(OFFLINE_ICON));
-        if (online != lastStatus) tray->showMessage("PCloud disconnected", "", QSystemTrayIcon::Information);
+        if (online != lastStatus){
+            lastMessageType = 0;
+            tray->showMessage("PCloud disconnected", "", QSystemTrayIcon::Information);
+            lastStatus = online;
+        }
     }
-    lastStatus = online;
 }
 
 bool PCloudApp::userLogged(binresult *userinfo, QByteArray &err){
