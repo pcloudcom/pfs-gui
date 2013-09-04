@@ -1,0 +1,4 @@
+pCloud.app
+Makefile
+*.o
+moc_*.cpp
