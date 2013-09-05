@@ -110,7 +110,7 @@
      <string>Welcome, to pCloud!</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_4">
+   <widget class="QLabel" name="registerLabel">
     <property name="geometry">
      <rect>
       <x>60</x>
