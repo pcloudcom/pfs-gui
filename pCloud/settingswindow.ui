@@ -155,7 +155,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Secure connection</string>
+     <string>Secure connection:</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_5">

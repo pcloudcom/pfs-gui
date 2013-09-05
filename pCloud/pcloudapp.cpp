@@ -104,7 +104,7 @@ void PCloudApp::trayClicked(QSystemTrayIcon::ActivationReason reason){
         if (loggedin)
             openCloudDir();
         else
-            showRegLog();
+            showLogin();
     }
 }
 
