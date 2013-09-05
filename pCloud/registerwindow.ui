@@ -6,34 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>325</height>
+    <width>300</width>
+    <height>420</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Register</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="cancelButton">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>280</y>
-      <width>78</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Cancel</string>
-    </property>
-   </widget>
    <widget class="QLineEdit" name="password">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>80</y>
-      <width>241</width>
-      <height>31</height>
+      <x>30</x>
+      <y>150</y>
+      <width>240</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="echoMode">
@@ -43,20 +30,20 @@
    <widget class="QLineEdit" name="email">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>20</y>
-      <width>241</width>
-      <height>31</height>
+      <x>30</x>
+      <y>80</y>
+      <width>240</width>
+      <height>30</height>
      </rect>
     </property>
    </widget>
    <widget class="QLabel" name="error">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>230</y>
-      <width>371</width>
-      <height>41</height>
+      <x>20</x>
+      <y>340</y>
+      <width>260</width>
+      <height>40</height>
      </rect>
     </property>
     <property name="text">
@@ -66,8 +53,8 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>80</y>
+      <x>30</x>
+      <y>120</y>
       <width>111</width>
       <height>31</height>
      </rect>
@@ -79,8 +66,8 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>20</y>
+      <x>30</x>
+      <y>50</y>
       <width>111</width>
       <height>31</height>
      </rect>
@@ -92,9 +79,9 @@
    <widget class="QPushButton" name="registerButton">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>280</y>
-      <width>78</width>
+      <x>100</x>
+      <y>300</y>
+      <width>100</width>
       <height>23</height>
      </rect>
     </property>
@@ -108,10 +95,10 @@
    <widget class="QLineEdit" name="confirmpassword">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>140</y>
-      <width>241</width>
-      <height>31</height>
+      <x>30</x>
+      <y>220</y>
+      <width>240</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="text">
@@ -124,8 +111,8 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>140</y>
+      <x>30</x>
+      <y>190</y>
       <width>111</width>
       <height>31</height>
      </rect>
@@ -137,10 +124,10 @@
    <widget class="QCheckBox" name="accepttos">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>190</y>
-      <width>21</width>
-      <height>21</height>
+      <x>30</x>
+      <y>260</y>
+      <width>20</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="text">
@@ -150,9 +137,9 @@
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>190</y>
-      <width>260</width>
+      <x>60</x>
+      <y>260</y>
+      <width>211</width>
       <height>21</height>
      </rect>
     </property>
@@ -163,6 +150,42 @@
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>10</y>
+      <width>101</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>New Account</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="loginLabel">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>390</y>
+      <width>67</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <underline>true</underline>
+     </font>
+    </property>
+    <property name="text">
+     <string>Back to Login</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <tabstops>
@@ -171,7 +194,6 @@
   <tabstop>confirmpassword</tabstop>
   <tabstop>accepttos</tabstop>
   <tabstop>registerButton</tabstop>
-  <tabstop>cancelButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>
