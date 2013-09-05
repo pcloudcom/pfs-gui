@@ -17,7 +17,7 @@ RegisterWindow::RegisterWindow(PCloudApp *a, QWidget *parent) :
     connect(ui->password, SIGNAL(returnPressed()), this, SLOT(focusConfirm()));
     connect(ui->confirmpassword, SIGNAL(returnPressed()), this, SLOT(focusTOS()));
     connect(ui->accepttos, SIGNAL(returnPressed()), this, SLOT(doRegister()));
-    connect(ui->loginLabel, SIGNAL(clicked()), this, SLOT(showLogin()));
+    connect(ui->loginButton, SIGNAL(clicked()), app, SLOT(showLogin()));
 }
 
 RegisterWindow::~RegisterWindow()

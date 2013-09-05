@@ -114,18 +114,34 @@
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>360</y>
-      <width>181</width>
+      <y>340</y>
+      <width>191</width>
       <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <underline>true</underline>
+      <underline>false</underline>
      </font>
     </property>
     <property name="text">
      <string>Don't have an account? Register now!</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="registerButton">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>370</y>
+      <width>100</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Register</string>
+    </property>
+    <property name="default">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
