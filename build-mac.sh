@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -e
 if ! [ -f /usr/local/bin/packagesbuild ]; then
 	echo Please install the "packages" tool from http://s.sudre.free.fr/Software/Packages/about.html
 	exit 2
