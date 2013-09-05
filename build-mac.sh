@@ -32,7 +32,7 @@ cd "$d"
 		make distclean
 	fi
 	$QTDIR/bin/qmake
-	make
+	make -j4
 	$QTDIR/bin/macdeployqt pCloud.app
 	cd ..
 )
