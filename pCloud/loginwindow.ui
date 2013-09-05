@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>449</width>
-    <height>225</height>
+    <width>300</width>
+    <height>410</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,10 +17,10 @@
    <widget class="QLineEdit" name="password">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>90</y>
-      <width>241</width>
-      <height>31</height>
+      <x>30</x>
+      <y>190</y>
+      <width>240</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="echoMode">
@@ -30,18 +30,18 @@
    <widget class="QLineEdit" name="email">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>30</y>
-      <width>241</width>
-      <height>31</height>
+      <x>30</x>
+      <y>120</y>
+      <width>240</width>
+      <height>30</height>
      </rect>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>90</y>
+      <x>30</x>
+      <y>160</y>
       <width>111</width>
       <height>31</height>
      </rect>
@@ -53,8 +53,8 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>30</y>
+      <x>30</x>
+      <y>90</y>
       <width>111</width>
       <height>31</height>
      </rect>
@@ -66,9 +66,9 @@
    <widget class="QLabel" name="error">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>130</y>
-      <width>371</width>
+      <x>20</x>
+      <y>290</y>
+      <width>260</width>
       <height>41</height>
      </rect>
     </property>
@@ -76,25 +76,12 @@
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="cancelButton">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>180</y>
-      <width>78</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Cancel</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="loginButton">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>180</y>
-      <width>78</width>
+      <x>100</x>
+      <y>230</y>
+      <width>100</width>
       <height>23</height>
      </rect>
     </property>
@@ -105,13 +92,48 @@
      <bool>false</bool>
     </property>
    </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>74</x>
+      <y>20</y>
+      <width>151</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>13</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Welcome, to pCloud!</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>360</y>
+      <width>181</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <underline>true</underline>
+     </font>
+    </property>
+    <property name="text">
+     <string>Don't have an account? Register now!</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <tabstops>
   <tabstop>email</tabstop>
   <tabstop>password</tabstop>
   <tabstop>loginButton</tabstop>
-  <tabstop>cancelButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>
