@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>757</width>
+    <width>600</width>
     <height>540</height>
    </rect>
   </property>
@@ -17,9 +17,9 @@
    <widget class="QPushButton" name="closebutton">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>490</y>
-      <width>80</width>
+      <x>470</x>
+      <y>500</y>
+      <width>100</width>
       <height>23</height>
      </rect>
     </property>
@@ -30,10 +30,10 @@
    <widget class="QLabel" name="error">
     <property name="geometry">
      <rect>
-      <x>120</x>
+      <x>30</x>
       <y>490</y>
-      <width>611</width>
-      <height>21</height>
+      <width>421</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
@@ -43,22 +43,22 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>30</x>
       <y>20</y>
       <width>151</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Pending shares:</string>
+     <string>Shares:</string>
     </property>
    </widget>
    <widget class="QPushButton" name="acceptbutton">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>210</y>
-      <width>80</width>
+      <x>150</x>
+      <y>450</y>
+      <width>100</width>
       <height>23</height>
      </rect>
     </property>
@@ -69,22 +69,22 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>30</x>
       <y>250</y>
       <width>151</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Shares:</string>
+     <string>Pending Shares</string>
     </property>
    </widget>
    <widget class="QPushButton" name="rejectbutton">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>210</y>
-      <width>80</width>
+      <x>30</x>
+      <y>450</y>
+      <width>100</width>
       <height>23</height>
      </rect>
     </property>
@@ -92,12 +92,12 @@
      <string>Reject</string>
     </property>
    </widget>
-   <widget class="QTreeWidget" name="current">
+   <widget class="QTreeWidget" name="pending">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>30</x>
       <y>280</y>
-      <width>711</width>
+      <width>540</width>
       <height>151</height>
      </rect>
     </property>
@@ -110,9 +110,9 @@
    <widget class="QPushButton" name="stopbutton">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>450</y>
-      <width>80</width>
+      <x>30</x>
+      <y>210</y>
+      <width>100</width>
       <height>23</height>
      </rect>
     </property>
@@ -123,9 +123,9 @@
    <widget class="QPushButton" name="modifybutton">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>450</y>
-      <width>80</width>
+      <x>150</x>
+      <y>210</y>
+      <width>100</width>
       <height>23</height>
      </rect>
     </property>
@@ -133,12 +133,12 @@
      <string>Modify</string>
     </property>
    </widget>
-   <widget class="QTreeWidget" name="pending">
+   <widget class="QTreeWidget" name="current">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>30</x>
       <y>40</y>
-      <width>711</width>
+      <width>540</width>
       <height>151</height>
      </rect>
     </property>
