@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>311</width>
+    <height>320</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QCheckBox" name="usessl">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>40</y>
+      <x>30</x>
+      <y>80</y>
       <width>81</width>
       <height>21</height>
      </rect>
@@ -30,10 +30,10 @@
    <widget class="QPushButton" name="dirchangebutton">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>110</y>
+      <x>200</x>
+      <y>150</y>
       <width>81</width>
-      <height>31</height>
+      <height>23</height>
      </rect>
     </property>
     <property name="text">
@@ -43,9 +43,9 @@
    <widget class="QLabel" name="dir">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>115</y>
-      <width>251</width>
+      <x>30</x>
+      <y>150</y>
+      <width>151</width>
       <height>21</height>
      </rect>
     </property>
@@ -56,9 +56,9 @@
    <widget class="QPushButton" name="savebutton">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>460</y>
-      <width>80</width>
+      <x>40</x>
+      <y>270</y>
+      <width>100</width>
       <height>23</height>
      </rect>
     </property>
@@ -69,9 +69,9 @@
    <widget class="QPushButton" name="cancelbutton">
     <property name="geometry">
      <rect>
-      <x>440</x>
-      <y>460</y>
-      <width>80</width>
+      <x>160</x>
+      <y>270</y>
+      <width>100</width>
       <height>23</height>
      </rect>
     </property>
@@ -82,9 +82,9 @@
    <widget class="QLineEdit" name="cachesize">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>160</y>
-      <width>113</width>
+      <x>100</x>
+      <y>200</y>
+      <width>81</width>
       <height>23</height>
      </rect>
     </property>
@@ -104,14 +104,71 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>160</y>
-      <width>211</width>
+      <x>30</x>
+      <y>200</y>
+      <width>61</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Cache size (in megabytes):</string>
+     <string>Cache size:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>10</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>13</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Settings</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>185</x>
+      <y>200</y>
+      <width>46</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>MB</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>60</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Secure connection</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>130</y>
+      <width>101</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Destination Folder:</string>
     </property>
    </widget>
   </widget>
