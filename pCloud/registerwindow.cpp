@@ -12,11 +12,12 @@ RegisterWindow::RegisterWindow(PCloudApp *a, QWidget *parent) :
     setWindowIcon(QIcon(REGULAR_ICON));
     ui->setupUi(this);
     connect(ui->registerButton, SIGNAL(clicked()), this, SLOT(doRegister()));
-    connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(hide()));
+//    connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(hide()));
     connect(ui->email, SIGNAL(returnPressed()), this, SLOT(focusPass()));
     connect(ui->password, SIGNAL(returnPressed()), this, SLOT(focusConfirm()));
     connect(ui->confirmpassword, SIGNAL(returnPressed()), this, SLOT(focusTOS()));
     connect(ui->accepttos, SIGNAL(returnPressed()), this, SLOT(doRegister()));
+    connect(ui->loginLabel, SIGNAL(clicked()), this, SLOT(showLogin()));
 }
 
 RegisterWindow::~RegisterWindow()
