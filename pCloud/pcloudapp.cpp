@@ -21,20 +21,22 @@ void PCloudApp::hideAllWindows(){
         outgoingshareswin->hide();
 }
 
-void PCloudApp::showRegLog(){
-    hideAllWindows();
-    if (!reglog)
-        reglog=new RegLogWindow(this);
-    reglog->showNormal();
-}
-
 void PCloudApp::setUser(binresult *userinfo){
     emit logInSignal(find_res(userinfo, "auth")->str, find_res(userinfo, "email")->str);
 }
 
 void PCloudApp::showWindow(QMainWindow *win)
 {
+    win->show();
     win->showNormal();
+    win->activateWindow();
+}
+
+void PCloudApp::showRegLog(){
+    hideAllWindows();
+    if (!reglog)
+        reglog=new RegLogWindow(this);
+    showWindow(reglog);
 }
 
 void PCloudApp::showRegister(){
