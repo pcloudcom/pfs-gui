@@ -498,150 +498,6 @@
 													<key>GID</key>
 													<integer>0</integer>
 													<key>PATH</key>
-													<string>/usr/local/lib/libfuse.0.dylib</string>
-													<key>PATH_TYPE</key>
-													<integer>0</integer>
-													<key>PERMISSIONS</key>
-													<integer>493</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>0</integer>
-													<key>PATH</key>
-													<string>/usr/local/lib/libfuse.2.dylib</string>
-													<key>PATH_TYPE</key>
-													<integer>0</integer>
-													<key>PERMISSIONS</key>
-													<integer>493</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>0</integer>
-													<key>PATH</key>
-													<string>/usr/local/lib/libfuse.dylib</string>
-													<key>PATH_TYPE</key>
-													<integer>0</integer>
-													<key>PERMISSIONS</key>
-													<integer>493</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>0</integer>
-													<key>PATH</key>
-													<string>/usr/local/lib/libfuse_ino64.2.dylib</string>
-													<key>PATH_TYPE</key>
-													<integer>0</integer>
-													<key>PERMISSIONS</key>
-													<integer>493</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>0</integer>
-													<key>PATH</key>
-													<string>/usr/local/lib/libfuse_ino64.dylib</string>
-													<key>PATH_TYPE</key>
-													<integer>0</integer>
-													<key>PERMISSIONS</key>
-													<integer>493</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>0</integer>
-													<key>PATH</key>
-													<string>/usr/local/lib/libmacfuse_i32.2.dylib</string>
-													<key>PATH_TYPE</key>
-													<integer>0</integer>
-													<key>PERMISSIONS</key>
-													<integer>493</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>0</integer>
-													<key>PATH</key>
-													<string>/usr/local/lib/libmacfuse_i32.dylib</string>
-													<key>PATH_TYPE</key>
-													<integer>0</integer>
-													<key>PERMISSIONS</key>
-													<integer>493</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>0</integer>
-													<key>PATH</key>
-													<string>/usr/local/lib/libmacfuse_i64.2.dylib</string>
-													<key>PATH_TYPE</key>
-													<integer>0</integer>
-													<key>PERMISSIONS</key>
-													<integer>493</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>0</integer>
-													<key>PATH</key>
-													<string>/usr/local/lib/libmacfuse_i64.dylib</string>
-													<key>PATH_TYPE</key>
-													<integer>0</integer>
-													<key>PERMISSIONS</key>
-													<integer>493</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>0</integer>
-													<key>PATH</key>
 													<string>/usr/local/lib/libosxfuse.2.dylib</string>
 													<key>PATH_TYPE</key>
 													<integer>0</integer>
@@ -659,22 +515,6 @@
 													<integer>0</integer>
 													<key>PATH</key>
 													<string>/usr/local/lib/libosxfuse.dylib</string>
-													<key>PATH_TYPE</key>
-													<integer>0</integer>
-													<key>PERMISSIONS</key>
-													<integer>493</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>0</integer>
-													<key>PATH</key>
-													<string>/usr/local/lib/libosxfuse.la</string>
 													<key>PATH_TYPE</key>
 													<integer>0</integer>
 													<key>PERMISSIONS</key>
@@ -722,22 +562,6 @@
 													<key>GID</key>
 													<integer>0</integer>
 													<key>PATH</key>
-													<string>/usr/local/lib/libosxfuse_i32.la</string>
-													<key>PATH_TYPE</key>
-													<integer>0</integer>
-													<key>PERMISSIONS</key>
-													<integer>493</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>0</integer>
-													<key>PATH</key>
 													<string>/usr/local/lib/libosxfuse_i64.2.dylib</string>
 													<key>PATH_TYPE</key>
 													<integer>0</integer>
@@ -755,22 +579,6 @@
 													<integer>0</integer>
 													<key>PATH</key>
 													<string>/usr/local/lib/libosxfuse_i64.dylib</string>
-													<key>PATH_TYPE</key>
-													<integer>0</integer>
-													<key>PERMISSIONS</key>
-													<integer>493</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>0</integer>
-													<key>PATH</key>
-													<string>/usr/local/lib/libosxfuse_i64.la</string>
 													<key>PATH_TYPE</key>
 													<integer>0</integer>
 													<key>PERMISSIONS</key>
