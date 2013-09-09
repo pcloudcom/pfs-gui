@@ -476,7 +476,7 @@ bool PCloudApp::userLogged(binresult *userinfo, QByteArray &err){
         params.append("--cache");
         params.append(settings->get("cachesize"));
         params.append(settings->get("path"));
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
         process.start("/usr/local/bin/mount.pfs", params);
 #else
         process.start("mount.pfs", params);
