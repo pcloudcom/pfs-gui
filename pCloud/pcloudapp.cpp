@@ -27,9 +27,11 @@ void PCloudApp::setUser(binresult *userinfo){
 
 void PCloudApp::showWindow(QMainWindow *win)
 {
-    win->show();
-    win->showNormal();
+    win->raise();
     win->activateWindow();
+    win->showNormal();
+    win->setWindowState(Qt::WindowActive);
+    this->setActiveWindow(win);
 }
 
 void PCloudApp::showRegLog(){
@@ -167,8 +169,10 @@ PCloudApp::PCloudApp(int &argc, char **argv) :
         othread=new OnlineThread(this);
         othread->start();
     }
-    else
+    else{
         othread=NULL;
+        showLogin();
+    }
 }
 
 PCloudApp::~PCloudApp(){
