@@ -9,7 +9,7 @@ LoginWindow::LoginWindow(PCloudApp *a, QWidget *parent) :
     ui(new Ui::LoginWindow)
 {
     app=a;
-    setWindowIcon(QIcon(REGULAR_ICON));
+    setWindowIcon(QIcon(WINDOW_ICON));
     ui->setupUi(this);
     connect(ui->loginButton, SIGNAL(clicked()), this, SLOT(logIn()));
 //    connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(hide()));

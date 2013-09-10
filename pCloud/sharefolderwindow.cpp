@@ -9,7 +9,7 @@ ShareFolderWindow::ShareFolderWindow(PCloudApp *a, QWidget *parent) :
     ui(new Ui::ShareFolderWindow)
 {
     app=a;
-    setWindowIcon(QIcon(REGULAR_ICON));
+    setWindowIcon(QIcon(WINDOW_ICON));
     ui->setupUi(this);
     connect(ui->cancelbutton, SIGNAL(clicked()), this, SLOT(hide()));
     connect(ui->sharebutton, SIGNAL(clicked()), this, SLOT(shareFolder()));

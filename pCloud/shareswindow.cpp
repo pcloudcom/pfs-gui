@@ -20,7 +20,7 @@ SharesWindow::SharesWindow(PCloudApp *a, int t, QWidget *parent) :
 {
     app=a;
     type=t;
-    setWindowIcon(QIcon(REGULAR_ICON));
+    setWindowIcon(QIcon(WINDOW_ICON));
     ui->setupUi(this);
     setWindowTitle(winnames[t]);
     if (type==0){

@@ -13,7 +13,7 @@ SettingsWindow::SettingsWindow(PCloudApp *a, QWidget *parent) :
     ui(new Ui::SettingsWindow)
 {
     app=a;
-    setWindowIcon(QIcon(REGULAR_ICON));
+    setWindowIcon(QIcon(WINDOW_ICON));
     ui->setupUi(this);
     connect(ui->dirchangebutton , SIGNAL(clicked()), this, SLOT(dirChange()));
     connect(ui->cancelbutton, SIGNAL(clicked()), this, SLOT(hide()));

@@ -400,7 +400,7 @@ void PCloudApp::logIn(QString auth, QString uname)
     loggedmenu->addSeparator();
     loggedmenu->addAction(logoutAction);
     loggedmenu->addAction(exitAction);
-    tray->setIcon(QIcon(REGULAR_ICON));
+    tray->setIcon(QIcon(ONLINE_ICON));
     tray->setContextMenu(loggedmenu);
     if (!mthread){
         mthread=new MonitoringThread(this);
@@ -420,7 +420,7 @@ void PCloudApp::setOnlineStatus(bool online)
 {
     static bool lastStatus = isMounted();
     if (online){
-        tray->setIcon(QIcon(REGULAR_ICON));
+        tray->setIcon(QIcon(ONLINE_ICON));
         if (online != lastStatus) {
             lastMessageType = 0;
             tray->showMessage("PCloud connected", "", QSystemTrayIcon::Information);
@@ -469,6 +469,15 @@ bool PCloudApp::userLogged(binresult *userinfo, QByteArray &err){
 #else
         QProcess process;
         QStringList params;
+#ifdef Q_OS_MAC
+        params.append("-o");
+        params.append("volname=pCloud");
+        // Adding -o local may or may not be a good idea
+        params.append("-o");
+        params.append("local");
+#endif
+        params.append("-o");
+        params.append("auto_unmount");
         params.append("--auth");
         params.append(find_res(userinfo, "auth")->str);
         if (settings->geti("usessl"))

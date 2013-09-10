@@ -9,7 +9,7 @@ RegisterWindow::RegisterWindow(PCloudApp *a, QWidget *parent) :
     ui(new Ui::RegisterWindow)
 {
     app=a;
-    setWindowIcon(QIcon(REGULAR_ICON));
+    setWindowIcon(QIcon(WINDOW_ICON));
     ui->setupUi(this);
     connect(ui->registerButton, SIGNAL(clicked()), this, SLOT(doRegister()));
 //    connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(hide()));
