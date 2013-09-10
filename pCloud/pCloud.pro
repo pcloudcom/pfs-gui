@@ -52,6 +52,7 @@ FORMS    += reglogwindow.ui \
     directorypickerdialog.ui \
     changepermissionsdialog.ui
 
+win32:RC_FILE= pCloud.rc
 RESOURCES += \
     Resources.qrc
 
