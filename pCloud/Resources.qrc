@@ -2,8 +2,8 @@
     <qresource prefix="/images">
         <file>images/offline.png</file>
         <file>images/online.png</file>
-        <file>images/mac-systray.png</file>
         <file>images/mac-desktop.png</file>
+        <file>images/mac-systray.png</file>
     </qresource>
     <qresource prefix="/menus"/>
 </RCC>
