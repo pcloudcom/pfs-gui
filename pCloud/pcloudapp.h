@@ -41,7 +41,6 @@ private:
     SharesWindow *outgoingshareswin;
     MonitoringThread *mthread;
     OnlineThread *othread;
-    QString username;
     bool loggedin;
     void createMenus();
     void hideAllWindows();
@@ -49,6 +48,7 @@ private:
     void setUser(binresult *userinfo);
     void showWindow(QMainWindow *win);
 public:
+    QString username;
     PSettings *settings;
     uint32_t lastMessageType;
     explicit PCloudApp(int &argc, char **argv);

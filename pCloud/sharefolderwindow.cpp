@@ -1,3 +1,4 @@
+#include <QMessageBox>
 #include "sharefolderwindow.h"
 #include "ui_sharefolderwindow.h"
 #include "binapi.h"
@@ -83,6 +84,27 @@ void ShareFolderWindow::showError(const QString &err){
     ui->error->setText(err);
 }
 
+void ShareFolderWindow::verifyEmail(){
+  QMessageBox::StandardButton reply;
+  reply=QMessageBox::question(this, "Please verify your e-mail address",
+                                    "E-mail address verification is required to share folders. Send verification email now?",
+                                    QMessageBox::Yes|QMessageBox::No);
+  if (reply==QMessageBox::Yes){
+      QByteArray auth=app->settings->get("auth").toUtf8();
+      apisock *conn=app->getAPISock();
+      binresult *res;
+      if (!conn){
+          showError("Could not connect to server. Check your Internet connection.");
+          return;
+      }
+      res=send_command(conn, "sendverificationemail",
+                       P_LSTR("auth", auth.constData(), auth.size()));
+      free(res);
+      api_close(conn);
+      QMessageBox::information(this, "Please check your e-mail", "E-mail verification sent to: "+app->username);
+  }
+}
+
 void ShareFolderWindow::shareFolder()
 {
     QByteArray auth=app->settings->get("auth").toUtf8();
@@ -109,6 +131,11 @@ void ShareFolderWindow::shareFolder()
     if (!result){
         showError("Could not connect to server. Check your Internet connection.");
         free(res);
+        return;
+    }
+    if (result->num==2014){
+        free(res);
+        verifyEmail();
         return;
     }
     if (result->num!=0){

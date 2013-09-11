@@ -23,6 +23,7 @@ private:
     void closeEvent(QCloseEvent *event);
     void showEvent(QShowEvent * event);
     void showError(const QString &err);
+    void verifyEmail();
 public slots:
     void shareFolder();
     void dirSelected(QTreeWidgetItem *dir);
