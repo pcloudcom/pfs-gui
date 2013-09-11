@@ -110,13 +110,13 @@ void ShareFolderWindow::shareFolder()
                    (ui->permDelete->isChecked()?4:0);
     apisock *conn=app->getAPISock();
     binresult *res, *result;
-    int i;
     if (!conn){
         showError("Could not connect to server. Check your Internet connection.");
         return;
     }
-    for (i=0; i<mails.count(); i++){
-        QByteArray mail=mails[i].trimmed().toUtf8();
+    while (!mails.empty()){
+        QByteArray mail=mails[0].trimmed().toUtf8();
+        ui->email->setText(mails.join(","));
         res=send_command(conn, "sharefolder",
                          P_LSTR("auth", auth.constData(), auth.size()),
                          P_LSTR("mail", mail.constData(), mail.size()),
@@ -143,6 +143,7 @@ void ShareFolderWindow::shareFolder()
             return;
         }
         free(res);
+        mails.removeFirst();
     }
     api_close(conn);
     ui->error->setText("");
