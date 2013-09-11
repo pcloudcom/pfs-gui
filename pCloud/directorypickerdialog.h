@@ -24,6 +24,8 @@ private:
     PCloudApp *app;
     void showEvent(QShowEvent *);
     void showError(const QString &err);
+public slots:
+    void newFolder();
 };
 
 #endif // DIRECTORYPICKERDIALOG_H
