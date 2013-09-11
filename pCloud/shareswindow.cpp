@@ -136,13 +136,17 @@ void SharesWindow::load()
     fillList(ui->pending, find_res(find_res(res, "requests"), lsfield[type]), "sharename", "sharerequestid", type);
 }
 
+void SharesWindow::selectErr(){
+    showError("Please select a share.");
+}
+
 void SharesWindow::cancelRequest()
 {
     apisock *conn;
     binresult *res, *result;
     QByteArray auth=app->settings->get("auth").toUtf8();
     if (!ui->pending->currentItem())
-        return;
+        return selectErr();
     uint64_t sharerequestid=ui->pending->currentItem()->data(0, Qt::UserRole).toULongLong();
     if (!(conn=app->getAPISock())){
         showError("Could not connect to server. Check your Internet connection.");
@@ -165,10 +169,6 @@ void SharesWindow::cancelRequest()
     }
     free(res);
     load();
-}
-
-void SharesWindow::selectErr(){
-    showError("Please select a share.");
 }
 
 void SharesWindow::acceptRequest()
