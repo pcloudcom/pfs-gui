@@ -26,6 +26,7 @@ private:
     QAction *logoutAction;
     QAction *openAction;
     QAction *settingsAction;
+    QAction *upgradeAction;
     QAction *shareFolderAction;
     QAction *outgoingSharesAction;
     QAction *incomingSharesAction;
@@ -72,6 +73,7 @@ public slots:
     void outgoingShares();
     void incomingShares();
     void logOut();
+    void upgradePlan();
     void doExit();
     void logIn(QString auth, QString uname);
     void trayMsgClicked();

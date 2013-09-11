@@ -98,6 +98,12 @@ void PCloudApp::logOut(){
     unMount();
 }
 
+void PCloudApp::upgradePlan()
+{
+    QUrl url("https://my.pcloud.com/#page=plans&authtoken="+settings->get("auth"));
+    QDesktopServices::openUrl(url);
+}
+
 void PCloudApp::doExit(){
     unMount();
     quit();
@@ -136,6 +142,8 @@ void PCloudApp::createMenus(){
     connect(outgoingSharesAction, SIGNAL(triggered()), this, SLOT(outgoingShares()));
     incomingSharesAction=new QAction("Shared with Me", this);
     connect(incomingSharesAction, SIGNAL(triggered()), this, SLOT(incomingShares()));
+    upgradeAction=new QAction("Upgrade", this);
+    connect(upgradeAction, SIGNAL(triggered()), this, SLOT(upgradePlan()));
 
     logoutAction=new QAction("Logout", this);
     connect(logoutAction, SIGNAL(triggered()), this, SLOT(logOut()));
@@ -199,6 +207,7 @@ PCloudApp::~PCloudApp(){
     delete logoutAction;
     delete openAction;
     delete settingsAction;
+    delete upgradeAction;
     delete shareFolderAction;
     if (regwin)
         delete regwin;
@@ -402,6 +411,7 @@ void PCloudApp::logIn(QString auth, QString uname)
     loggedmenu->addSeparator();
     loggedmenu->addAction(settingsAction);
     loggedmenu->addSeparator();
+    loggedmenu->addAction(upgradeAction);
     loggedmenu->addAction(logoutAction);
     loggedmenu->addAction(exitAction);
     tray->setIcon(QIcon(ONLINE_ICON));
