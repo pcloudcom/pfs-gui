@@ -490,8 +490,6 @@ bool PCloudApp::userLogged(binresult *userinfo, QByteArray &err){
         params.append("-o");
         params.append("local");
 #endif
-        params.append("-o");
-        params.append("auto_unmount");
         params.append("--auth");
         params.append(find_res(userinfo, "auth")->str);
         if (settings->geti("usessl"))
