@@ -84,23 +84,17 @@ void ShareFolderWindow::showError(const QString &err){
     ui->error->setText(err);
 }
 
-void ShareFolderWindow::verifyEmail(){
+void ShareFolderWindow::verifyEmail(apisock *conn){
   QMessageBox::StandardButton reply;
   reply=QMessageBox::question(this, "Please verify your e-mail address",
                                     "E-mail address verification is required to share folders. Send verification email now?",
                                     QMessageBox::Yes|QMessageBox::No);
   if (reply==QMessageBox::Yes){
       QByteArray auth=app->settings->get("auth").toUtf8();
-      apisock *conn=app->getAPISock();
       binresult *res;
-      if (!conn){
-          showError("Could not connect to server. Check your Internet connection.");
-          return;
-      }
       res=send_command(conn, "sendverificationemail",
                        P_LSTR("auth", auth.constData(), auth.size()));
       free(res);
-      api_close(conn);
       QMessageBox::information(this, "Please check your e-mail", "E-mail verification sent to: "+app->username);
   }
 }
@@ -108,7 +102,7 @@ void ShareFolderWindow::verifyEmail(){
 void ShareFolderWindow::shareFolder()
 {
     QByteArray auth=app->settings->get("auth").toUtf8();
-    QByteArray mail=ui->email->text().toUtf8();
+    QStringList mails=ui->email->text().split(",");
     QByteArray name=ui->sharename->text().toUtf8();
     uint64_t folderid=ui->dirtree->currentItem()->data(1, Qt::UserRole).toULongLong();
     uint32_t perms=(ui->permCreate->isChecked()?1:0)+
@@ -116,34 +110,41 @@ void ShareFolderWindow::shareFolder()
                    (ui->permDelete->isChecked()?4:0);
     apisock *conn=app->getAPISock();
     binresult *res, *result;
+    int i;
     if (!conn){
         showError("Could not connect to server. Check your Internet connection.");
         return;
     }
-    res=send_command(conn, "sharefolder",
-                     P_LSTR("auth", auth.constData(), auth.size()),
-                     P_LSTR("mail", mail.constData(), mail.size()),
-                     P_LSTR("name", name.constData(), name.size()),
-                     P_NUM("folderid", folderid),
-                     P_NUM("permissions", perms));
+    for (i=0; i<mails.count(); i++){
+        QByteArray mail=mails[i].trimmed().toUtf8();
+        res=send_command(conn, "sharefolder",
+                         P_LSTR("auth", auth.constData(), auth.size()),
+                         P_LSTR("mail", mail.constData(), mail.size()),
+                         P_LSTR("name", name.constData(), name.size()),
+                         P_NUM("folderid", folderid),
+                         P_NUM("permissions", perms));
+        result=find_res(res, "result");
+        if (!result){
+            showError("Could not connect to server. Check your Internet connection.");
+            free(res);
+            api_close(conn);
+            return;
+        }
+        if (result->num==2014){
+            free(res);
+            verifyEmail(conn);
+            api_close(conn);
+            return;
+        }
+        if (result->num!=0){
+            showError(find_res(res, "error")->str);
+            api_close(conn);
+            free(res);
+            return;
+        }
+        free(res);
+    }
     api_close(conn);
-    result=find_res(res, "result");
-    if (!result){
-        showError("Could not connect to server. Check your Internet connection.");
-        free(res);
-        return;
-    }
-    if (result->num==2014){
-        free(res);
-        verifyEmail();
-        return;
-    }
-    if (result->num!=0){
-        showError(find_res(res, "error")->str);
-        free(res);
-        return;
-    }
-    free(res);
     ui->error->setText("");
     ui->email->setText("");
     hide();

@@ -17,6 +17,7 @@ public:
     explicit SharesWindow(PCloudApp *a, int t, QWidget *parent = 0);
     ~SharesWindow();
     
+    void selectErr();
 private:
     PCloudApp *app;
     Ui::SharesWindow *ui;

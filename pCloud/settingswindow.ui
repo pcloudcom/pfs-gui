@@ -30,7 +30,7 @@
    <widget class="QPushButton" name="dirchangebutton">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>190</x>
       <y>90</y>
       <width>81</width>
       <height>23</height>
@@ -45,7 +45,7 @@
      <rect>
       <x>30</x>
       <y>120</y>
-      <width>251</width>
+      <width>261</width>
       <height>21</height>
      </rect>
     </property>

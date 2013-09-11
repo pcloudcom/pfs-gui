@@ -167,10 +167,14 @@ void SharesWindow::cancelRequest()
     load();
 }
 
+void SharesWindow::selectErr(){
+    showError("Please select a share.");
+}
+
 void SharesWindow::acceptRequest()
 {
     if (!ui->pending->currentItem())
-        return;
+        return selectErr();
     uint64_t sharerequestid=ui->pending->currentItem()->data(0, Qt::UserRole).toULongLong();
     DirectoryPickerDialog dir(app, this);
     dir.onlyMine=true;
@@ -209,7 +213,7 @@ void SharesWindow::acceptRequest()
 void SharesWindow::stopShare()
 {
     if (!ui->current->currentItem())
-        return;
+        return selectErr();
     apisock *conn;
     binresult *res, *result;
     QByteArray auth=app->settings->get("auth").toUtf8();
@@ -241,7 +245,7 @@ void SharesWindow::modifyShare()
 {
     QTreeWidgetItem *item=ui->current->currentItem();
     if (!item)
-        return;
+        return selectErr();
     ChangePermissionsDialog perms(item->data(1, Qt::UserRole).toUInt(), item->text(0), item->text(1), this);
     if (perms.exec()==QDialog::Rejected)
         return;

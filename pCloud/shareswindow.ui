@@ -76,7 +76,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Pending Shares</string>
+     <string>Pending Shares:</string>
     </property>
    </widget>
    <widget class="QPushButton" name="rejectbutton">

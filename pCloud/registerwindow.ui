@@ -171,14 +171,17 @@
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>10</x>
       <y>360</y>
-      <width>141</width>
-      <height>16</height>
+      <width>281</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="text">
      <string>Already have an account?</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QPushButton" name="loginButton">

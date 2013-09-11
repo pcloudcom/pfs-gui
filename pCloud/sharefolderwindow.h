@@ -1,6 +1,7 @@
 #ifndef SHAREFOLDERWINDOW_H
 #define SHAREFOLDERWINDOW_H
 
+#include "binapi.h"
 #include <QMainWindow>
 #include <QTreeWidgetItem>
 
@@ -23,7 +24,7 @@ private:
     void closeEvent(QCloseEvent *event);
     void showEvent(QShowEvent * event);
     void showError(const QString &err);
-    void verifyEmail();
+    void verifyEmail(apisock *conn);
 public slots:
     void shareFolder();
     void dirSelected(QTreeWidgetItem *dir);
