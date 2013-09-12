@@ -47,6 +47,8 @@ void LoginWindow::logIn(){
         setError("Connection to server failed.");
         return;
     }
+    this->setCursor(Qt::WaitCursor);
+    QApplication::processEvents();
     res=send_command(conn, "userinfo",
                      P_LSTR("username", email.constData(), email.size()),
                      P_LSTR("password", password.constData(), password.size()),
@@ -56,11 +58,13 @@ void LoginWindow::logIn(){
     if (!result){
         setError("Connection to server failed.");
         free(res);
+        this->setCursor(Qt::ArrowCursor);
         return;
     }
     if (result->num!=0){
         setError(find_res(res, "error")->str);
         free(res);
+        this->setCursor(Qt::ArrowCursor);
         return;
     }
     if (!app->userLogged(res, err))
@@ -69,6 +73,8 @@ void LoginWindow::logIn(){
         setError("");
         ui->password->clear();
         hide();
+        app->openCloudDir();
     }
     free(res);
+    this->setCursor(Qt::ArrowCursor);
 }
