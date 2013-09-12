@@ -144,7 +144,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>&lt;a href=&quot;http://pcw.pcloud.com/&quot;&gt;Accept Terms of Service and Privacy policy&lt;/a&gt;</string>
+     <string>&lt;a href=&quot;http://www.pcloud.com/pcloud-terms-and-conditions/&quot;&gt;Accept Terms of Service and Privacy policy&lt;/a&gt;</string>
     </property>
     <property name="openExternalLinks">
      <bool>true</bool>

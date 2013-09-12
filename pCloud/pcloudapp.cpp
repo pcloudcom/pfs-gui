@@ -173,7 +173,7 @@ PCloudApp::PCloudApp(int &argc, char **argv) :
     connect(tray, SIGNAL(messageClicked()), this, SLOT(trayMsgClicked()));
     connect(this, SIGNAL(logInSignal(QString, QString)), this, SLOT(logIn(QString, QString)));
     tray->show();
-    if (settings->isSet("auth")){
+    if (settings->isSet("auth") && settings->get("auth").length() > 0){
         othread=new OnlineThread(this);
         othread->start();
     }

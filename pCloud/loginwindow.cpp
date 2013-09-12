@@ -43,8 +43,10 @@ void LoginWindow::logIn(){
     apisock *conn;
     binresult *res, *result;
     QByteArray err;
+    QApplication::setOverrideCursor(Qt::WaitCursor);
     if (!(conn=app->getAPISock())){
         setError("Connection to server failed.");
+        QApplication::restoreOverrideCursor();
         return;
     }
     res=send_command(conn, "userinfo",
@@ -56,11 +58,13 @@ void LoginWindow::logIn(){
     if (!result){
         setError("Connection to server failed.");
         free(res);
+        QApplication::restoreOverrideCursor();
         return;
     }
     if (result->num!=0){
         setError(find_res(res, "error")->str);
         free(res);
+        QApplication::restoreOverrideCursor();
         return;
     }
     if (!app->userLogged(res, err))
@@ -69,6 +73,8 @@ void LoginWindow::logIn(){
         setError("");
         ui->password->clear();
         hide();
+        app->openCloudDir();
     }
     free(res);
+    QApplication::restoreOverrideCursor();
 }
