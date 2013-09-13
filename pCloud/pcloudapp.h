@@ -62,6 +62,7 @@ public:
     void showError(QString err);
 signals:
     void logInSignal(QString, QString);
+    void showLoginSignal();
 public slots:
     void showTrayMessage(QString title, QString msg);
     void trayClicked(QSystemTrayIcon::ActivationReason reason);

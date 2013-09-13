@@ -172,6 +172,7 @@ PCloudApp::PCloudApp(int &argc, char **argv) :
     connect(tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayClicked(QSystemTrayIcon::ActivationReason)));
     connect(tray, SIGNAL(messageClicked()), this, SLOT(trayMsgClicked()));
     connect(this, SIGNAL(logInSignal(QString, QString)), this, SLOT(logIn(QString, QString)));
+    connect(this, SIGNAL(showLoginSignal()), this, SLOT(showLogin()));
     tray->show();
     if (settings->isSet("auth") && settings->get("auth").length() > 0){
         othread=new OnlineThread(this);
@@ -179,7 +180,7 @@ PCloudApp::PCloudApp(int &argc, char **argv) :
     }
     else{
         othread=NULL;
-        showLogin();
+        emit showLoginSignal();
     }
 }
 
