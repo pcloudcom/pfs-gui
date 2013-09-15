@@ -60,6 +60,7 @@ public:
     void mount();
     void unMount();
     void showError(QString err);
+    void showOnClick();
 signals:
     void logInSignal(QString, QString);
     void showLoginSignal();

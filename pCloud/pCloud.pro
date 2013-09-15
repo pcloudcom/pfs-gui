@@ -70,4 +70,5 @@ win32 {
 
 macx {
     ICON = images/mac-desktop.icns
+    LIBS += -framework Cocoa
 }
