@@ -194,9 +194,9 @@
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>257</x>
-      <y>10</y>
-      <width>91</width>
+      <x>170</x>
+      <y>20</y>
+      <width>271</width>
       <height>21</height>
      </rect>
     </property>
@@ -207,6 +207,9 @@
     </property>
     <property name="text">
      <string>New Share</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="label_5">

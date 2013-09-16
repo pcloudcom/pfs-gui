@@ -80,7 +80,7 @@
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>280</y>
+      <y>320</y>
       <width>100</width>
       <height>23</height>
      </rect>
@@ -124,8 +124,8 @@
    <widget class="QCheckBox" name="accepttos">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>240</y>
+      <x>30</x>
+      <y>260</y>
       <width>20</width>
       <height>20</height>
      </rect>
@@ -137,14 +137,20 @@
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>60</x>
+      <x>50</x>
       <y>240</y>
-      <width>211</width>
-      <height>21</height>
+      <width>221</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
-     <string>&lt;a href=&quot;http://www.pcloud.com/pcloud-terms-and-conditions/&quot;&gt;Accept Terms of Service and Privacy policy&lt;/a&gt;</string>
+     <string>Accept &lt;a href=&quot;https://www.pcloud.com/pcloud-terms-and-conditions&quot;&gt;Terms of Service&lt;/a&gt;, &lt;a href=&quot;https://www.pcloud.com/pcloud-privacy-policy&quot;&gt;Privacy policy&lt;/a&gt; and &lt;a href=&quot;https://www.pcloud.com/pcloud-terms-and-conditions#intellectual-property&quot;&gt;Intelectual Property Policy&lt;/a&gt;.</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="wordWrap">
+     <bool>true</bool>
     </property>
     <property name="openExternalLinks">
      <bool>true</bool>
@@ -153,9 +159,9 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>10</x>
       <y>10</y>
-      <width>101</width>
+      <width>281</width>
       <height>21</height>
      </rect>
     </property>
@@ -166,6 +172,9 @@
     </property>
     <property name="text">
      <string>New Account</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="label_6">
