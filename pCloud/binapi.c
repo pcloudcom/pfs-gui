@@ -43,14 +43,28 @@ static SSL_CTX *globalctx=NULL;
 static binresult BOOL_TRUE={PARAM_BOOL, 0, {1}};
 static binresult BOOL_FALSE={PARAM_BOOL, 0, {0}};
 
-#define debug(...) do {FILE *d=fopen("/tmp/pfsfs.txt", "a"); if(!d)break; fprintf(d, __VA_ARGS__); fclose(d);} while (0)
+#ifndef debug
+#ifdef DEBUG
+#   define debug(...) do {FILE *d=fopen("/tmp/pfs_srv.log", "a"); if (!d) break; fprintf(d, __VA_ARGS__); fclose(d);} while (0)
+#else
+#   define debug(...)
+#endif
+#endif
+
+
+int hasdata(apisock *sock){
+  if (sock->ssl)
+    return SSL_pending(sock->ssl);
+  else
+    return 0;
+}
 
 static int writeallfd(int sock, const void *ptr, size_t len){
   ssize_t res;
   while (len){
     res=send(sock, ptr, len, 0);
     if (res==-1){
-      debug(" ---  send failed\n");
+      debug(" ---  send failed with errno %d\n", (int)errno);
       if (errno==EINTR || errno==EAGAIN){
         debug(" --- try again...\n");
         continue;
@@ -92,7 +106,7 @@ static ssize_t readallfd(int sock, void *ptr, size_t len){
       return -1;
     }
     else if (ret==-1){
-      debug("   ---  read - error... \n");
+      debug("   ---  read - error errno %d\n", (int)errno);
       if (errno==EINTR){
         debug("   ---  read - try again \n");
         continue;
@@ -481,9 +495,10 @@ static int connect_socket(const char *host, const char *port){
             if (rc != 0) {
                 return -1;
             }
-            return connect_socket(host, port);
+            rc=getaddrinfo(host, port, &hints, &res);
+        }else{
+          return -1;
         }
-        return -1;
     }
 #else
   if (rc!=0)
@@ -491,18 +506,29 @@ static int connect_socket(const char *host, const char *port){
 #endif // defined
   sock=connect_res(res);
   freeaddrinfo(res);
-#ifdef TCP_KEEPCNT
   if (sock!=-1){
     int sock_opt=1;
-    setsockopt(sock, SOL_SOCKET, SO_KEEPALIVE, &sock_opt, sizeof(sock_opt));
-    sock_opt=3;
-    setsockopt(sock, SOL_TCP, TCP_KEEPCNT, &sock_opt, sizeof(sock_opt));
-    sock_opt=60;
-    setsockopt(sock, SOL_TCP, TCP_KEEPIDLE, &sock_opt, sizeof(sock_opt));
-    sock_opt=20;
-    setsockopt(sock, SOL_TCP, TCP_KEEPINTVL, &sock_opt, sizeof(sock_opt));
-  }
+#if defined(SO_KEEPALIVE) && defined(SOL_SOCKET)
+    setsockopt(sock, SOL_SOCKET, SO_KEEPALIVE, (char*)&sock_opt, sizeof(sock_opt));
 #endif
+#if defined(TCP_KEEPALIVE) && defined(IPPROTO_TCP)
+    setsockopt(sock, IPPROTO_TCP, TCP_KEEPALIVE, (char*)&sock_opt, sizeof(sock_opt));
+#endif
+#if defined(SOL_TCP)
+#if defined(TCP_KEEPCNT)
+    sock_opt=3;
+    setsockopt(sock, SOL_TCP, TCP_KEEPCNT, (char*)&sock_opt, sizeof(sock_opt));
+#endif
+#if defined(TCP_KEEPIDLE)
+    sock_opt=60;
+    setsockopt(sock, SOL_TCP, TCP_KEEPIDLE, (char*)&sock_opt, sizeof(sock_opt));
+#endif
+#if defined(TCP_KEEPINTVL)
+    sock_opt=20;
+    setsockopt(sock, SOL_TCP, TCP_KEEPINTVL, (char*)&sock_opt, sizeof(sock_opt));
+#endif
+#endif
+  }
   return sock;
 }
 
@@ -556,7 +582,11 @@ void api_close(apisock *sock){
     SSL_shutdown(sock->ssl);
     SSL_free(sock->ssl);
   }
+#if defined(_WIN32)
+  closesocket(sock->sock);
+#else
   close(sock->sock);
+#endif // defined
   free(sock);
 }
 
