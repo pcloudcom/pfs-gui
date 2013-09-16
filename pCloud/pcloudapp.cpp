@@ -150,7 +150,7 @@ void PCloudApp::createMenus(){
     connect(outgoingSharesAction, SIGNAL(triggered()), this, SLOT(outgoingShares()));
     incomingSharesAction=new QAction("Shared with Me", this);
     connect(incomingSharesAction, SIGNAL(triggered()), this, SLOT(incomingShares()));
-    upgradeAction=new QAction("Upgrade", this);
+    upgradeAction=new QAction("Get more space", this);
     connect(upgradeAction, SIGNAL(triggered()), this, SLOT(upgradePlan()));
 
     logoutAction=new QAction("Logout", this);

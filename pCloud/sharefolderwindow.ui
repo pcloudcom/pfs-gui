@@ -52,7 +52,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>To e-mails:</string>
+     <string>To: [E-mail address]</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="email">
@@ -178,7 +178,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Folder name:</string>
+     <string> &quot;Share name: [Default]</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="sharename">
@@ -222,7 +222,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Permissions:</string>
+     <string>Set Permissions</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_6">

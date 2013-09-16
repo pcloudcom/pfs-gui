@@ -17,9 +17,9 @@
    <widget class="QLineEdit" name="password">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>79</x>
       <y>190</y>
-      <width>240</width>
+      <width>191</width>
       <height>30</height>
      </rect>
     </property>
@@ -30,9 +30,9 @@
    <widget class="QLineEdit" name="email">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>79</x>
       <y>120</y>
-      <width>240</width>
+      <width>191</width>
       <height>30</height>
      </rect>
     </property>
@@ -40,9 +40,9 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>35</x>
-      <y>160</y>
-      <width>111</width>
+      <x>10</x>
+      <y>190</y>
+      <width>71</width>
       <height>31</height>
      </rect>
     </property>
@@ -53,14 +53,14 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>35</x>
-      <y>90</y>
-      <width>111</width>
+      <x>10</x>
+      <y>120</y>
+      <width>71</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>Email:</string>
+     <string>E-mail Adress</string>
     </property>
    </widget>
    <widget class="QLabel" name="error">
@@ -71,9 +71,6 @@
       <width>260</width>
       <height>40</height>
      </rect>
-    </property>
-    <property name="text">
-     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="loginButton">
@@ -107,7 +104,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Welcome, to pCloud!</string>
+     <string>Login to pCloud</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
