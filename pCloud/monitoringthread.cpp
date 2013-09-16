@@ -1,3 +1,4 @@
+#include <QFile>
 #include "monitoringthread.h"
 #include "pcloudapp.h"
 
