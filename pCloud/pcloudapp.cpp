@@ -26,8 +26,8 @@ void PCloudApp::hideAllWindows(){
         outgoingshareswin->hide();
 }
 
-void PCloudApp::setUser(binresult *userinfo){
-    emit logInSignal(find_res(userinfo, "auth")->str, find_res(userinfo, "email")->str);
+void PCloudApp::setUser(binresult *userinfo, bool rememebr){
+    emit logInSignal(find_res(userinfo, "auth")->str, find_res(userinfo, "email")->str, rememebr);
 }
 
 void PCloudApp::showWindow(QMainWindow *win)
@@ -207,7 +207,7 @@ PCloudApp::PCloudApp(int &argc, char **argv) :
     tray->setToolTip("pCloud");
     connect(tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayClicked(QSystemTrayIcon::ActivationReason)));
     connect(tray, SIGNAL(messageClicked()), this, SLOT(trayMsgClicked()));
-    connect(this, SIGNAL(logInSignal(QString, QString)), this, SLOT(logIn(QString, QString)));
+    connect(this, SIGNAL(logInSignal(QString, QString, bool)), this, SLOT(logIn(QString, QString, bool)));
     connect(this, SIGNAL(showLoginSignal()), this, SLOT(showLogin()));
     tray->show();
     if (settings->isSet("auth") && settings->get("auth").length() > 0){
@@ -391,7 +391,7 @@ void PCloudApp::mount()
             free(res);
             return;
         }
-        userLogged(res, err);
+        userLogged(res, err, true);
         free(res);
     }
 }
@@ -426,9 +426,10 @@ void PCloudApp::showTrayMessage(QString title, QString msg)
     tray->showMessage(title, msg, QSystemTrayIcon::Information);
 }
 
-void PCloudApp::logIn(QString auth, QString uname)
+void PCloudApp::logIn(QString auth, QString uname,  bool remember)
 {
-    settings->set("auth", auth);
+    if (remember)
+        settings->set("auth", auth);
 #ifdef Q_OS_WIN
     if (!settings->isSet("path") || !settings->get("path").toUtf8()[0]){
         QString path("a:");
@@ -491,9 +492,9 @@ void PCloudApp::setOnlineStatus(bool online)
     }
 }
 
-bool PCloudApp::userLogged(binresult *userinfo, QByteArray &err){
+bool PCloudApp::userLogged(binresult *userinfo, QByteArray &err, bool remember){
     if (isMounted()){
-        setUser(userinfo);
+        setUser(userinfo, remember);
         return true;
     }
     else{
@@ -509,15 +510,19 @@ bool PCloudApp::userLogged(binresult *userinfo, QByteArray &err){
             storeKey("ssl", settings->geti("usessl")?"SSL":"");
             storeKey("auth", find_res(userinfo, "auth")->str);
             QString auth(find_res(userinfo, "auth")->str);
-            settings->set("auth", auth);
+            if (remember)
+                settings->set("auth", auth);
+            else
+                settings->set("auth", "");
+
             if (restartService(err)){
-                setUser(userinfo);
+                setUser(userinfo, remember);
                 return true;
             }
             return false;
         }
         else {
-            err = "User not logged in.";
+            err = "Invalid E-mail and Password combination.";
             return false;
         }
 #else
@@ -547,7 +552,7 @@ bool PCloudApp::userLogged(binresult *userinfo, QByteArray &err){
             return false;
         }
         if (process.exitCode()==0){
-            setUser(userinfo);
+            setUser(userinfo, remember);
             return true;
         }
         else {

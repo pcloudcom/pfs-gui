@@ -110,7 +110,7 @@ void RegisterWindow::doRegister(){
         free(res);
         return;
     }
-    if (!app->userLogged(res, err))
+    if (!app->userLogged(res, err, false))
         setError(err);
     else{
         setError("");

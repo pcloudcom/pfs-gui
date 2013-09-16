@@ -46,7 +46,7 @@ private:
     void createMenus();
     void hideAllWindows();
     void showRegLog();
-    void setUser(binresult *userinfo);
+    void setUser(binresult *userinfo, bool rememebr);
     void showWindow(QMainWindow *win);
 public:
     QString username;
@@ -54,7 +54,7 @@ public:
     uint32_t lastMessageType;
     explicit PCloudApp(int &argc, char **argv);
     ~PCloudApp();
-    bool userLogged(binresult *userinfo, QByteArray &err);
+    bool userLogged(binresult *userinfo, QByteArray &err, bool remember);
     apisock *getAPISock();
     bool isMounted();
     void mount();
@@ -62,7 +62,7 @@ public:
     void showError(QString err);
     void showOnClick();
 signals:
-    void logInSignal(QString, QString);
+    void logInSignal(QString, QString, bool);
     void showLoginSignal();
 public slots:
     void showTrayMessage(QString title, QString msg);
@@ -77,7 +77,7 @@ public slots:
     void logOut();
     void upgradePlan();
     void doExit();
-    void logIn(QString auth, QString uname);
+    void logIn(QString auth, QString uname, bool remember);
     void trayMsgClicked();
     void setOnlineStatus(bool online);
 };

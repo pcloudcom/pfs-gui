@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QCloseEvent>
+#include <QMessageBox>
 
 namespace Ui {
 class LoginWindow;
@@ -24,6 +25,7 @@ private:
     void closeEvent(QCloseEvent *event);
 public slots:
     void logIn();
+    void forgotPassword();
     void focusPass();
 };
 
