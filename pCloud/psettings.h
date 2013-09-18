@@ -4,6 +4,8 @@
 #include <QString>
 #include <QSettings>
 
+#include <stdint.h>
+
 class PCloudApp;
 
 class PSettings
@@ -20,6 +22,8 @@ public:
     void seti(const QString &key, int val);
     bool isSet(const QString &key);
     void unset(const QString &key);
+    void setu64(const QString &key, uint64_t val);
+    uint64_t getu64(const QString &key);
 };
 
 #ifdef Q_OS_WIN

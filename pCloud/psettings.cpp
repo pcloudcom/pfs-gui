@@ -63,3 +63,11 @@ int PSettings::geti(const QString &key){
 void PSettings::seti(const QString &key, int val){
     settings->setValue(key, val);
 }
+
+uint64_t PSettings::getu64(const QString &key){
+    return settings->value(key).toULongLong();
+}
+
+void PSettings::setu64(const QString &key, uint64_t val){
+    settings->setValue(key, (unsigned long long)val);
+}

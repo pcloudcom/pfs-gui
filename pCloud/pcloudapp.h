@@ -50,6 +50,7 @@ private:
     void showWindow(QMainWindow *win);
 public:
     QString username;
+    uint64_t userid;
     PSettings *settings;
     uint32_t lastMessageType;
     explicit PCloudApp(int &argc, char **argv);
@@ -62,7 +63,7 @@ public:
     void showError(QString err);
     void showOnClick();
 signals:
-    void logInSignal(QString, QString, bool);
+    void logInSignal(QString, QString, uint64_t, bool);
     void showLoginSignal();
 public slots:
     void showTrayMessage(QString title, QString msg);
@@ -77,7 +78,7 @@ public slots:
     void logOut();
     void upgradePlan();
     void doExit();
-    void logIn(QString auth, QString uname, bool remember);
+    void logIn(QString auth, QString uname, uint64_t uid, bool remember);
     void trayMsgClicked();
     void setOnlineStatus(bool online);
 };

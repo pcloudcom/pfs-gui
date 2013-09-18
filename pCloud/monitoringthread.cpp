@@ -10,6 +10,7 @@ MonitoringThread::MonitoringThread(PCloudApp *a)
 }
 
 typedef struct {
+    uint64_t diffid;
     uint32_t type;
     uint32_t length;
     char buff[4096];
@@ -17,28 +18,28 @@ typedef struct {
 
 void MonitoringThread::run()
 {
-    int unsigned cnt;
     msg m;
     sleep(2);
-    cnt=0;
     while (1){
         QFile file(app->settings->get("path")+"/.pfs_settings/events");
-        app->setOnlineStatus(file.exists());
 
         if (file.open(QFile::ReadOnly)){
-            if (file.read((char *)&m, sizeof(m))>=8){
-                if (m.type&1 || cnt>2){
-                    m.buff[m.length]=0;
-                    app->lastMessageType=m.type;
-                    emit sendMessageSignal(m.buff, "");
+            if (file.read((char *)&m, sizeof(m))>=offsetof(msg, buff)){
+                m.buff[m.length]=0;
+                if (m.type==0 || m.type==1){
+                    QString diffid=QString("sdiffidu%1").arg(app->userid);
+                    if (!app->settings->isSet(diffid) || m.diffid>app->settings->getu64(diffid)){
+                        app->settings->setu64(diffid, m.diffid);
+                        app->lastMessageType=m.type;
+                        emit sendMessageSignal(m.buff, "");
+                    }
                 }
-                file.close();
-                continue;
+                else if (m.type==2 || m.type==3)
+                    app->setOnlineStatus(m.type==3);
             }
             file.close();
         }
         sleep(1);
-        cnt++;
     }
 }
 
