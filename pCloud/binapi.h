@@ -10,9 +10,9 @@
 extern "C" {
 #endif
 
-#define API_HOST     "api.pcloud.com"
-#define API_PORT     "8398"
-#define API_PORT_SSL "8399"
+#define API_HOST     "binapi.pcloud.com"
+#define API_PORT     "80"
+#define API_PORT_SSL "443"
 
 #define PARAM_STR   0
 #define PARAM_NUM   1
