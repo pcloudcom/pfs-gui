@@ -7,11 +7,18 @@
 char getFirstFreeDevice()
 {
     DWORD devices = GetLogicalDrives();
-    for (int i = 4; i < 32; ++i)
+    for (int i = 3; i < 32; ++i)
         if ((devices & (1<<i))==0)
             return i + 'A';
     return 0;
 }
+
+bool isConnected(char drive)
+{
+    DWORD devices = GetLogicalDrives();
+    return devices & (1<<drive);
+}
+
 #endif
 
 

@@ -26,6 +26,7 @@ public:
 
 #ifdef Q_OS_WIN
 char getFirstFreeDevice();
+bool isConnected(char);
 #endif
 
 #endif // PSETTINGS_H

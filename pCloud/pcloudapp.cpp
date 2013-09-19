@@ -76,16 +76,31 @@ void PCloudApp::showSettings(){
     showWindow(settingswin);
 }
 
+
 void PCloudApp::openCloudDir(){
+    QString path = settings->get("path");
+
 #ifdef Q_OS_WIN
     int retray = 5;
-    while (retray-- && !isMounted()){
+    char drive = path.toUtf8().at(0);
+    if (drive >= 'A' && drive <= 'Z')
+        drive -= 'A';
+    else if (drive >= 'a' && drive <= 'z')
+        drive -= 'a';
+    else return;
+
+    while (retray-- && !isConnected(drive)){
         Sleep(1000);
     }
-#endif
+
+    QProcess process;
+    process.start("explorer", QStringList() << path);
+
+#else
     if (isMounted()){
-        QDesktopServices::openUrl(QUrl::fromLocalFile(settings->get("path")));
+        QDesktopServices::openUrl(QUrl::fromLocalFile(path));
     }
+#endif
 }
 
 void PCloudApp::shareFolder(){
