@@ -78,8 +78,9 @@ void PCloudApp::openCloudDir(){
         Sleep(1000);
     }
 #endif
-    if (isMounted())
+    if (isMounted()){
         QDesktopServices::openUrl(QUrl::fromLocalFile(settings->get("path")));
+    }
 }
 
 void PCloudApp::shareFolder(){
@@ -224,7 +225,7 @@ PCloudApp::PCloudApp(int &argc, char **argv) :
     outgoingshareswin=NULL;
     mthread=NULL;
     loggedin=false;
-    lastMessageType=0;
+    lastMessageType=-1;
     createMenus();
     settings=new PSettings(this);
     tray=new QSystemTrayIcon(this);
