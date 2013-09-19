@@ -23,7 +23,7 @@ static QList<QTreeWidgetItem *> binresToQList(binresult *res){
     QList<QTreeWidgetItem *> items;
     QTreeWidgetItem *item;
     binresult *e;
-    uint32_t i;
+    quint32 i;
     for (i=0; i<res->length; i++){
         e=res->array[i];
         item=new QTreeWidgetItem((QTreeWidget*)0, QStringList(QString(find_res(e, "name")->str)));
@@ -36,6 +36,7 @@ static QList<QTreeWidgetItem *> binresToQList(binresult *res){
 
 void DirectoryPickerDialog::showEvent(QShowEvent *)
 {
+    QList<QTreeWidgetItem *> items;
     apisock *conn;
     binresult *res, *result, *rn;
     binresult root;
@@ -75,8 +76,13 @@ void DirectoryPickerDialog::showEvent(QShowEvent *)
     }
     else
         result=find_res(find_res(res, "metadata"), "contents");
-    ui->dirtree->insertTopLevelItems(0, binresToQList(result));
+    items=binresToQList(result);
+    ui->dirtree->insertTopLevelItems(0, items);
     ui->dirtree->sortByColumn(0, Qt::AscendingOrder);
+    if (items.count()){
+      ui->dirtree->setCurrentItem(items[0]);
+      ui->dirtree->expandItem(items[0]);
+    }
     free(res);
 }
 
@@ -89,7 +95,7 @@ void DirectoryPickerDialog::newFolder()
 {
     if (!ui->dirtree->currentItem())
         return;
-    uint64_t folderid=ui->dirtree->currentItem()->data(1, Qt::UserRole).toULongLong();
+    quint64 folderid=ui->dirtree->currentItem()->data(1, Qt::UserRole).toULongLong();
     QString newdir=QInputDialog::getText(this, "Create Folder", "New folder name");
     if (!newdir.length())
         return;
@@ -122,5 +128,6 @@ void DirectoryPickerDialog::newFolder()
     item->setData(1, Qt::UserRole, (qulonglong)find_res(find_res(res, "metadata"), "folderid")->num);
     ui->dirtree->currentItem()->addChild(item);
     ui->dirtree->sortByColumn(0, Qt::AscendingOrder);
+    ui->dirtree->setCurrentItem(item);
     free(res);
 }

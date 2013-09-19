@@ -10,9 +10,9 @@ MonitoringThread::MonitoringThread(PCloudApp *a)
 }
 
 typedef struct {
-    uint64_t diffid;
-    uint32_t type;
-    uint32_t length;
+    quint64 diffid;
+    quint32 type;
+    quint32 length;
     char buff[4096];
 } msg;
 

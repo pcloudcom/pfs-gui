@@ -100,7 +100,7 @@ void SettingsWindow::saveSettings()
         QString spath=app->settings->get("path")+"/.pfs_settings/";
         writeToFile(spath+"use_ssl", app->settings->get("usessl"));
         if (cachechanged)
-            writeToFile(spath+"cache_size", QString("%1").arg((uint64_t)cachesize*1024*1024));
+            writeToFile(spath+"cache_size", QString("%1").arg((quint64)cachesize*1024*1024));
     }
     hide();
 }

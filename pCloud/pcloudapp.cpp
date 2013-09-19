@@ -27,7 +27,7 @@ void PCloudApp::hideAllWindows(){
 }
 
 void PCloudApp::setUser(binresult *userinfo, bool rememebr){
-    emit logInSignal(find_res(userinfo, "auth")->str, find_res(userinfo, "email")->str, find_res(userinfo, "userid")->num, rememebr);
+    emit logInSignal(find_res(userinfo, "auth")->str, find_res(userinfo, "email")->str, (quint64)find_res(userinfo, "userid")->num, rememebr);
 }
 
 void PCloudApp::showWindow(QMainWindow *win)
@@ -208,7 +208,7 @@ PCloudApp::PCloudApp(int &argc, char **argv) :
     tray->setToolTip("pCloud");
     connect(tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayClicked(QSystemTrayIcon::ActivationReason)));
     connect(tray, SIGNAL(messageClicked()), this, SLOT(trayMsgClicked()));
-    connect(this, SIGNAL(logInSignal(QString, QString, uint64_t, bool)), this, SLOT(logIn(QString, QString, uint64_t, bool)));
+    connect(this, SIGNAL(logInSignal(QString, QString, quint64, bool)), this, SLOT(logIn(QString, QString, quint64, bool)));
     connect(this, SIGNAL(showLoginSignal()), this, SLOT(showLogin()));
     tray->show();
     if (settings->isSet("auth") && settings->get("auth").length() > 0){
@@ -427,7 +427,7 @@ void PCloudApp::showTrayMessage(QString title, QString msg)
     tray->showMessage(title, msg, QSystemTrayIcon::Information);
 }
 
-void PCloudApp::logIn(QString auth, QString uname,  uint64_t uid, bool remember)
+void PCloudApp::logIn(QString auth, QString uname,  quint64 uid, bool remember)
 {
     if (remember)
         settings->set("auth", auth);
@@ -479,7 +479,7 @@ void PCloudApp::setOnlineStatus(bool online)
     if (online){
         tray->setIcon(QIcon(ONLINE_ICON));
         if (online != lastStatus) {
-            lastMessageType = 0;
+            lastMessageType = 2;
             tray->showMessage("PCloud connected", "", QSystemTrayIcon::Information);
             lastStatus = online;
         }
@@ -487,7 +487,7 @@ void PCloudApp::setOnlineStatus(bool online)
     else{
         tray->setIcon(QIcon(OFFLINE_ICON));
         if (online != lastStatus){
-            lastMessageType = 0;
+            lastMessageType = 2;
             tray->showMessage("PCloud disconnected", "", QSystemTrayIcon::Information);
             lastStatus = online;
         }

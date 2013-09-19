@@ -9,9 +9,13 @@ OnlineThread::OnlineThread(PCloudApp *a, QObject *parent) :
 
 void OnlineThread::run()
 {
-    do {
+
+    while (1) {
       app->mount();
-      sleep(10);
-    } while(!app->isMounted());
+      if (app->isMounted())
+          break;
+      else
+          sleep(5);
+    };
     app->setOnlineStatus(true);
 }

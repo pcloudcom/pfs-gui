@@ -64,7 +64,7 @@ void RegisterWindow::doRegister(){
     apisock *conn;
     binresult *res, *result;
     QByteArray err;
-    uint64_t type=0;
+    quint64 type=0;
 #if defined(Q_OS_WIN)
     type=5;
 #elif defined(Q_OS_LINUX)

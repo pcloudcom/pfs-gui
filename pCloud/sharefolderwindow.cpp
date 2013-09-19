@@ -33,7 +33,7 @@ static QList<QTreeWidgetItem *> binresToQList(binresult *res){
     QList<QTreeWidgetItem *> items;
     QTreeWidgetItem *item;
     binresult *e;
-    uint32_t i;
+    quint32 i;
     for (i=0; i<res->length; i++){
         e=res->array[i];
         item=new QTreeWidgetItem((QTreeWidget*)0, QStringList(QString(find_res(e, "name")->str)));
@@ -104,8 +104,8 @@ void ShareFolderWindow::shareFolder()
     QByteArray auth=app->settings->get("auth").toUtf8();
     QStringList mails=ui->email->text().split(",");
     QByteArray name=ui->sharename->text().toUtf8();
-    uint64_t folderid=ui->dirtree->currentItem()->data(1, Qt::UserRole).toULongLong();
-    uint32_t perms=(ui->permCreate->isChecked()?1:0)+
+    quint64 folderid=ui->dirtree->currentItem()->data(1, Qt::UserRole).toULongLong();
+    quint64 perms=(ui->permCreate->isChecked()?1:0)+
                    (ui->permModify->isChecked()?2:0)+
                    (ui->permDelete->isChecked()?4:0);
     apisock *conn=app->getAPISock();

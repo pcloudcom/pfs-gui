@@ -77,7 +77,7 @@ static quint32 getPermissionsNum(binresult *req){
 static void fillList(QTreeWidget *table, binresult *arr, const char *fieldname, const char *idname, int type){
     QStringList headers;
     QList<QTreeWidgetItem *> items;
-    uint32_t i;
+    quint32 i;
     headers << "Folder Name" << theader[type] << "Permissions";
     table->clear();
     table->setHeaderLabels(headers);
@@ -147,7 +147,7 @@ void SharesWindow::cancelRequest()
     QByteArray auth=app->settings->get("auth").toUtf8();
     if (!ui->pending->currentItem())
         return selectErr();
-    uint64_t sharerequestid=ui->pending->currentItem()->data(0, Qt::UserRole).toULongLong();
+    quint64 sharerequestid=ui->pending->currentItem()->data(0, Qt::UserRole).toULongLong();
     if (!(conn=app->getAPISock())){
         showError("Could not connect to server. Check your Internet connection.");
         return;
@@ -175,14 +175,14 @@ void SharesWindow::acceptRequest()
 {
     if (!ui->pending->currentItem())
         return selectErr();
-    uint64_t sharerequestid=ui->pending->currentItem()->data(0, Qt::UserRole).toULongLong();
+    quint64 sharerequestid=ui->pending->currentItem()->data(0, Qt::UserRole).toULongLong();
     DirectoryPickerDialog dir(app, this);
     dir.onlyMine=true;
     dir.showRoot=true;
     dir.setWindowTitle("Select a directory to accept share to...");
     if (dir.exec()==QDialog::Rejected || !dir.ui->dirtree->currentItem())
         return;
-    uint64_t folderid=dir.ui->dirtree->currentItem()->data(1, Qt::UserRole).toULongLong();
+    quint64 folderid=dir.ui->dirtree->currentItem()->data(1, Qt::UserRole).toULongLong();
     apisock *conn;
     binresult *res, *result;
     QByteArray auth=app->settings->get("auth").toUtf8();
@@ -217,7 +217,7 @@ void SharesWindow::stopShare()
     apisock *conn;
     binresult *res, *result;
     QByteArray auth=app->settings->get("auth").toUtf8();
-    uint64_t shareid=ui->current->currentItem()->data(0, Qt::UserRole).toULongLong();
+    quint64 shareid=ui->current->currentItem()->data(0, Qt::UserRole).toULongLong();
     if (!(conn=app->getAPISock())){
         showError("Could not connect to server. Check your Internet connection.");
         return;
@@ -249,8 +249,8 @@ void SharesWindow::modifyShare()
     ChangePermissionsDialog perms(item->data(1, Qt::UserRole).toUInt(), item->text(0), item->text(1), this);
     if (perms.exec()==QDialog::Rejected)
         return;
-    uint64_t shareid=item->data(0, Qt::UserRole).toULongLong();
-    uint64_t prms=(perms.ui->permCreate->isChecked()?1:0)+
+    quint64 shareid=item->data(0, Qt::UserRole).toULongLong();
+    quint64 prms=(perms.ui->permCreate->isChecked()?1:0)+
                   (perms.ui->permModify->isChecked()?2:0)+
                   (perms.ui->permDelete->isChecked()?4:0);
     apisock *conn;
