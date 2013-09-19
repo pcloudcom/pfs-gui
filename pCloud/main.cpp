@@ -1,7 +1,7 @@
 #include "reglogwindow.h"
 #include "pcloudapp.h"
 
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
 #include <windows.h>
 #include <tlhelp32.h>
 bool isRunning(){
@@ -37,7 +37,7 @@ bool isRunning(){
 
 int main(int argc, char *argv[])
 {
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
     if (isRunning()){
         MessageBoxA(NULL, "PCloud is already running.", "Already running", MB_OK);
         return 1;

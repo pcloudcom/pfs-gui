@@ -105,8 +105,8 @@ void LoginWindow::forgotPassword()
         QApplication::restoreOverrideCursor();
         return;
     }
-    send_command(conn, "lostpassword",
-                     P_LSTR("mail", email.constData(), email.size()));
+    free(send_command(conn, "lostpassword",
+                      P_LSTR("mail", email.constData(), email.size())));
     api_close(conn);
     setError("");
     QMessageBox::information(NULL, "Reset password", "An email with passowrd reset instructions is sent to your address.");

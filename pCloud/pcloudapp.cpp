@@ -28,6 +28,15 @@ void PCloudApp::hideAllWindows(){
 
 void PCloudApp::setUser(binresult *userinfo, bool rememebr){
     emit logInSignal(find_res(userinfo, "auth")->str, find_res(userinfo, "email")->str, (quint64)find_res(userinfo, "userid")->num, rememebr);
+/*  emitting signal should be enough
+ *  it seems that it is very important to have q-type parameters to this one
+ *
+    QString auth = find_res(userinfo, "auth")->str;
+    QString email = find_res(userinfo, "email")->str;
+    uint64_t uid = find_res(userinfo, "userid")->num;
+    emit logInSignal(auth, email, uid, remember);
+    logIn(auth, email, uid, remember);
+    */
 }
 
 void PCloudApp::showWindow(QMainWindow *win)
@@ -68,7 +77,15 @@ void PCloudApp::showSettings(){
 }
 
 void PCloudApp::openCloudDir(){
-    QDesktopServices::openUrl(QUrl::fromLocalFile(settings->get("path")));
+#ifdef Q_OS_WIN
+    int retray = 5;
+    while (retray-- && !isMounted()){
+        Sleep(1000);
+    }
+#endif
+    if (isMounted()){
+        QDesktopServices::openUrl(QUrl::fromLocalFile(settings->get("path")));
+    }
 }
 
 void PCloudApp::shareFolder(){
@@ -156,6 +173,20 @@ void PCloudApp::createMenus(){
 
     logoutAction=new QAction("Logout", this);
     connect(logoutAction, SIGNAL(triggered()), this, SLOT(logOut()));
+
+    loggedmenu = new QMenu();
+    loggedmenu->addAction(username);
+    loggedmenu->addAction(openAction);
+    loggedmenu->addSeparator();
+    loggedmenu->addAction(shareFolderAction);
+    loggedmenu->addAction(outgoingSharesAction);
+    loggedmenu->addAction(incomingSharesAction);
+    loggedmenu->addSeparator();
+    loggedmenu->addAction(settingsAction);
+    loggedmenu->addSeparator();
+    loggedmenu->addAction(upgradeAction);
+    loggedmenu->addAction(logoutAction);
+    loggedmenu->addAction(exitAction);
 }
 
 #ifdef Q_OS_MAC
@@ -199,7 +230,7 @@ PCloudApp::PCloudApp(int &argc, char **argv) :
     outgoingshareswin=NULL;
     mthread=NULL;
     loggedin=false;
-    lastMessageType=0;
+    lastMessageType=-1;
     createMenus();
     settings=new PSettings(this);
     tray=new QSystemTrayIcon(this);
@@ -442,21 +473,9 @@ void PCloudApp::logIn(QString auth, QString uname,  quint64 uid, bool remember)
     username=uname;
     userid=uid;
     tray->setToolTip(username);
-    if (loggedmenu)
-        delete loggedmenu;
-    loggedmenu=new QMenu();
-    loggedmenu->addAction(username);
-    loggedmenu->addAction(openAction);
-    loggedmenu->addSeparator();
-    loggedmenu->addAction(shareFolderAction);
-    loggedmenu->addAction(outgoingSharesAction);
-    loggedmenu->addAction(incomingSharesAction);
-    loggedmenu->addSeparator();
-    loggedmenu->addAction(settingsAction);
-    loggedmenu->addSeparator();
-    loggedmenu->addAction(upgradeAction);
-    loggedmenu->addAction(logoutAction);
-    loggedmenu->addAction(exitAction);
+    if (loggedmenu){
+        loggedmenu->actions()[0]->setText(username);
+    }
     tray->setIcon(QIcon(ONLINE_ICON));
     tray->setContextMenu(loggedmenu);
     if (!mthread){
@@ -475,7 +494,7 @@ void PCloudApp::trayMsgClicked()
 
 void PCloudApp::setOnlineStatus(bool online)
 {
-    static bool lastStatus = isMounted();
+    static bool lastStatus = false;
     if (online){
         tray->setIcon(QIcon(ONLINE_ICON));
         if (online != lastStatus) {
