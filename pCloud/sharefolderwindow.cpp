@@ -153,5 +153,6 @@ void ShareFolderWindow::shareFolder()
 
 void ShareFolderWindow::dirSelected(QTreeWidgetItem *dir)
 {
-    ui->sharename->setText(dir->text(0));
+    if (dir)
+        ui->sharename->setText(dir->text(0));
 }
