@@ -93,8 +93,9 @@ void PCloudApp::openCloudDir(){
         Sleep(1000);
     }
 
-    QProcess process;
-    process.start("explorer", QStringList() << path);
+    if (!QProcess::startDetached("explorer.exe", QStringList(path))){
+        QDesktopServices::openUrl(QUrl::fromLocalFile(path));
+    }
 
 #else
     if (isMounted()){
