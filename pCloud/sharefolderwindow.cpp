@@ -101,6 +101,10 @@ void ShareFolderWindow::verifyEmail(apisock *conn){
 
 void ShareFolderWindow::shareFolder()
 {
+    if (!ui->dirtree->currentItem()){
+        showError("No folder is selected.");
+        return;
+    }
     QByteArray auth=app->settings->get("auth").toUtf8();
     QStringList mails=ui->email->text().split(",");
     QByteArray name=ui->sharename->text().toUtf8();
