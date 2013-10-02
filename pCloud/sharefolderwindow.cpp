@@ -77,6 +77,8 @@ void ShareFolderWindow::showEvent(QShowEvent *)
     }
     result=find_res(find_res(res, "metadata"), "contents");
     ui->dirtree->insertTopLevelItems(0, binresToQList(result));
+    ui->dirtree->setCurrentItem(NULL);
+    ui->sharename->setText("");
     free(res);
 }
 
@@ -99,12 +101,23 @@ void ShareFolderWindow::verifyEmail(apisock *conn){
   }
 }
 
+static bool isValidEmail(QByteArray email){
+    QRegExp rx("\\b[A-Z0-9._%+-]+@[A-Z0-9.-_]+\\.[A-Z]{2,4}\\b");
+    return rx.exactMatch(QString(email));
+}
+
 void ShareFolderWindow::shareFolder()
 {
     if (!ui->dirtree->currentItem()){
         showError("No folder is selected.");
         return;
     }
+
+    if (!ui->email->text().trimmed().length()){
+        showError("No email is specified.");
+        return;
+    }
+
     QByteArray auth=app->settings->get("auth").toUtf8();
     QStringList mails=ui->email->text().split(",");
     QByteArray name=ui->sharename->text().toUtf8();
@@ -121,6 +134,11 @@ void ShareFolderWindow::shareFolder()
     while (!mails.empty()){
         QByteArray mail=mails[0].trimmed().toUtf8();
         ui->email->setText(mails.join(","));
+        if (!isValidEmail(mail)){
+            showError(QString(mail) + " is not a valid e-mail address.");
+            api_close(conn);
+            return;
+        }
         res=send_command(conn, "sharefolder",
                          P_LSTR("auth", auth.constData(), auth.size()),
                          P_LSTR("mail", mail.constData(), mail.size()),
