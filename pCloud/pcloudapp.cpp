@@ -385,7 +385,7 @@ static bool restartService(QByteArray &err)
             --retry;
         }
         if (!retry){
-            err = "Failed to stop PCloud fs.";
+            //err = "Failed to stop PCloud fs.";
         }
 
         if (StartService(schService, 0, NULL))
@@ -553,6 +553,7 @@ bool PCloudApp::userLogged(binresult *userinfo, QByteArray &err, bool remember){
                 settings->set("auth", "");
 
             if (restartService(err)){
+                Sleep(5*1000);
                 setUser(userinfo, remember);
                 return true;
             }
