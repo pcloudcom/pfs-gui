@@ -19,6 +19,7 @@ typedef struct {
 void MonitoringThread::run()
 {
     msg m;
+    int retry = 10;
     sleep(2);
     while (1){
         QFile file(app->settings->get("path")+"/.pfs_settings/events");
@@ -38,6 +39,20 @@ void MonitoringThread::run()
                     app->setOnlineStatus(m.type==3);
             }
             file.close();
+        }
+        else{
+            app->setOnlineStatus(false);
+
+            if (!file.exists()){
+                retry--;
+                sleep(2);
+                if(retry == 0 && !file.exists()){
+                    OnlineThread t(app);
+                    t.start();
+                    t.wait();
+                    retry = 10;
+                }
+            }
         }
         sleep(1);
     }
