@@ -102,8 +102,10 @@ void ShareFolderWindow::verifyEmail(apisock *conn){
 }
 
 static bool isValidEmail(QByteArray email){
-    QRegExp rx("\\b[A-Z0-9._%+-]+@[A-Z0-9.-_]+\\.[A-Z]{2,4}\\b");
-    return rx.exactMatch(QString(email));
+    QRegExp mailREX("\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b");
+    mailREX.setCaseSensitivity(Qt::CaseInsensitive);
+    mailREX.setPatternSyntax(QRegExp::RegExp);
+    return mailREX.exactMatch(email);
 }
 
 void ShareFolderWindow::shareFolder()
