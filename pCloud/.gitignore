@@ -1,0 +1,6 @@
+pCloud.app
+Makefile
+*.o
+moc_*.cpp
+qrc_Resources.cpp
+ui_*.h
