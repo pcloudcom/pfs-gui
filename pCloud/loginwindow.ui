@@ -17,9 +17,9 @@
    <widget class="QLineEdit" name="password">
     <property name="geometry">
      <rect>
-      <x>109</x>
+      <x>119</x>
       <y>150</y>
-      <width>191</width>
+      <width>181</width>
       <height>30</height>
      </rect>
     </property>
@@ -30,9 +30,9 @@
    <widget class="QLineEdit" name="email">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>120</x>
       <y>100</y>
-      <width>191</width>
+      <width>181</width>
       <height>30</height>
      </rect>
     </property>
@@ -42,25 +42,28 @@
      <rect>
       <x>10</x>
       <y>150</y>
-      <width>71</width>
+      <width>101</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
      <string>Password:</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>11</x>
+      <x>10</x>
       <y>100</y>
-      <width>91</width>
+      <width>101</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>E-mail Adress:</string>
+     <string>E-mail Address:</string>
     </property>
    </widget>
    <widget class="QLabel" name="error">
@@ -166,9 +169,9 @@
    <widget class="QPushButton" name="forgotButton">
     <property name="geometry">
      <rect>
-      <x>190</x>
+      <x>180</x>
       <y>210</y>
-      <width>111</width>
+      <width>121</width>
       <height>23</height>
      </rect>
     </property>
