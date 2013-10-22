@@ -5,6 +5,7 @@ OnlineThread::OnlineThread(PCloudApp *a, QObject *parent) :
     QThread(parent)
 {
     app=a;
+    connect(this, SIGNAL(setOnlineStatus(bool)), app, SLOT(setOnlineStatus(bool)));
 }
 
 void OnlineThread::run()
@@ -17,5 +18,6 @@ void OnlineThread::run()
       else
           sleep(5);
     };
-    app->setOnlineStatus(true);
+    emit setOnlineStatus(true);
 }
+
