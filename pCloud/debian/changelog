@@ -1,3 +1,12 @@
+pcloudfs-gui (1.0+nmu1) unstable; urgency=low
+
+  [ Vasil Kolev ]
+  * Non-maintainer upload.
+  * update to fix a crash.
+  * release
+
+ -- root <root@mx.celltruth.com>  Tue, 22 Oct 2013 08:34:18 +0000
+
 pcloudfs-gui (1.0) unstable; urgency=low
 
   * Initial Release.
