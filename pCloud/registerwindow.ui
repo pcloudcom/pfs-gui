@@ -144,7 +144,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Accept &lt;a href=&quot;https://www.pcloud.com/pcloud-terms-and-conditions&quot;&gt;Terms of Service&lt;/a&gt;, &lt;a href=&quot;https://www.pcloud.com/pcloud-privacy-policy&quot;&gt;Privacy policy&lt;/a&gt; and &lt;a href=&quot;https://www.pcloud.com/pcloud-terms-and-conditions#intellectual-property&quot;&gt;Intelectual Property Policy&lt;/a&gt;.</string>
+     <string>Accept &lt;a href=&quot;https://www.pcloud.com/pcloud-terms-and-conditions&quot;&gt;Terms of Service&lt;/a&gt;, &lt;a href=&quot;https://www.pcloud.com/pcloud-privacy-policy&quot;&gt;Privacy policy&lt;/a&gt; and &lt;a href=&quot;https://www.pcloud.com/pcloud-intellectual-property&quot;&gt;Intelectual Property Policy&lt;/a&gt;.</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
