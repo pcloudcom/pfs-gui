@@ -35,13 +35,13 @@ void MonitoringThread::run()
                         emit sendMessageSignal(m.buff, "");
                     }
                 }
-                else if (m.type==2 || m.type==3)
-                    app->setOnlineStatus(m.type==3);
+                else if (m.type==2 || m.type==3)                    
+                        emit setOnlineStatus(m.type == 3);
             }
             file.close();
         }
-        else{
-            app->setOnlineStatus(false);
+        else{          
+            emit setOnlineStatus(false);
 
             if (!file.exists()){
                 retry--;
