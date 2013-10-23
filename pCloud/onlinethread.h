@@ -14,6 +14,9 @@ public:
     explicit OnlineThread(PCloudApp *a, QObject *parent = 0);
 protected:
     void run();
+signals:
+    void setOnlineStatus(bool);
+
 };
 
 #endif // ONLINETHREAD_H
