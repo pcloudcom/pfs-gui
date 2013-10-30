@@ -15,12 +15,17 @@ LoginWindow::LoginWindow(PCloudApp *a, QWidget *parent) :
     palette.setColor(QPalette::WindowText, Qt::red);
     ui->error->setPalette(palette);
 
+    ui->forgotPassBtn->setAutoRaise(true);
+    ui->forgotPassBtn->setStyleSheet("QToolButton:hover{text-decoration: underline; background-color: transparent;}");
+
     connect(ui->loginButton, SIGNAL(clicked()), this, SLOT(logIn()));
-//    connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(hide()));
+    //    connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(hide()));
     connect(ui->password, SIGNAL(returnPressed()), this, SLOT(logIn()));
     connect(ui->email, SIGNAL(returnPressed()), this, SLOT(focusPass()));
     connect(ui->registerButton, SIGNAL(clicked()), app, SLOT(showRegister()));
-    connect(ui->forgotButton, SIGNAL(clicked()), this, SLOT(forgotPassword()));
+    connect(ui->forgotPassBtn,SIGNAL(clicked()), this,SLOT(forgotPassword()));
+
+
 }
 
 LoginWindow::~LoginWindow()
@@ -73,7 +78,7 @@ void LoginWindow::logIn()
         return;
     }
     if (result->num!=0){
-//        setError(find_res(res, "error")->str);
+        //        setError(find_res(res, "error")->str);
         setError("Invalid E-mail and Password combination.");
         free(res);
         QApplication::restoreOverrideCursor();
