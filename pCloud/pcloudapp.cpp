@@ -222,9 +222,9 @@ PCloudApp::PCloudApp(int &argc, char **argv) :
 {
 #ifdef Q_OS_MAC
 
-    objc_object* cls = objc_getClass("NSApplication");
+    objc_class * cls = objc_getClass("NSApplication");
     SEL sharedApplication = sel_registerName("sharedApplication");
-    objc_object* appInst = objc_msgSend(cls,sharedApplication);
+    objc_object* appInst = objc_msgSend((objc_object*) cls,sharedApplication);
 
     if(appInst != NULL)
     {
