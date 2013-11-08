@@ -7,6 +7,7 @@
 #include "changepermissionsdialog.h"
 #include "ui_changepermissionsdialog.h"
 
+
 const char *winnames[2]={"My Shares", "Shared with Me"};
 const char *lsparam[2]={"noincoming", "nooutgoing"};
 const char *lsfield[2]={"outgoing", "incoming"};
@@ -111,7 +112,7 @@ void SharesWindow::load()
 {
     apisock *conn;
     binresult *res, *result;
-    QByteArray auth=app->settings->get("auth").toUtf8();
+    QByteArray auth=app->authentication.toUtf8();
     showError("");
     if (!(conn=app->getAPISock())){
         showError("Could not connect to server. Check your Internet connection.");
@@ -120,6 +121,7 @@ void SharesWindow::load()
     res=send_command(conn, "listshares",
                      P_LSTR("auth", auth.constData(), auth.size()),
                      P_BOOL(lsparam[type], 1));
+
     api_close(conn);
     result=find_res(res, "result");
     if (!result){
@@ -144,7 +146,7 @@ void SharesWindow::cancelRequest()
 {
     apisock *conn;
     binresult *res, *result;
-    QByteArray auth=app->settings->get("auth").toUtf8();
+    QByteArray auth=app->authentication.toUtf8();
     if (!ui->pending->currentItem())
         return selectErr();
     quint64 sharerequestid=ui->pending->currentItem()->data(0, Qt::UserRole).toULongLong();
@@ -185,7 +187,7 @@ void SharesWindow::acceptRequest()
     quint64 folderid=dir.ui->dirtree->currentItem()->data(1, Qt::UserRole).toULongLong();
     apisock *conn;
     binresult *res, *result;
-    QByteArray auth=app->settings->get("auth").toUtf8();
+    QByteArray auth=app->authentication.toUtf8();
     if (!(conn=app->getAPISock())){
         showError("Could not connect to server. Check your Internet connection.");
         return;
@@ -216,7 +218,7 @@ void SharesWindow::stopShare()
         return selectErr();
     apisock *conn;
     binresult *res, *result;
-    QByteArray auth=app->settings->get("auth").toUtf8();
+    QByteArray auth=app->authentication.toUtf8();
     quint64 shareid=ui->current->currentItem()->data(0, Qt::UserRole).toULongLong();
     if (!(conn=app->getAPISock())){
         showError("Could not connect to server. Check your Internet connection.");
@@ -251,11 +253,11 @@ void SharesWindow::modifyShare()
         return;
     quint64 shareid=item->data(0, Qt::UserRole).toULongLong();
     quint64 prms=(perms.ui->permCreate->isChecked()?1:0)+
-                  (perms.ui->permModify->isChecked()?2:0)+
-                  (perms.ui->permDelete->isChecked()?4:0);
+            (perms.ui->permModify->isChecked()?2:0)+
+            (perms.ui->permDelete->isChecked()?4:0);
     apisock *conn;
     binresult *res, *result;
-    QByteArray auth=app->settings->get("auth").toUtf8();
+    QByteArray auth=app->authentication.toUtf8();
     if (!(conn=app->getAPISock())){
         showError("Could not connect to server. Check your Internet connection.");
         return;

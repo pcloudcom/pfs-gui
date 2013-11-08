@@ -139,7 +139,7 @@ void PCloudApp::logOut(){
 
 void PCloudApp::upgradePlan()
 {
-    QUrl url("https://my.pcloud.com/#page=plans&authtoken="+settings->get("auth"));
+    QUrl url("https://my.pcloud.com/#page=plans&authtoken="+authentication);
     QDesktopServices::openUrl(url);
 }
 
@@ -476,6 +476,7 @@ void PCloudApp::showTrayMessage(QString title, QString msg)
 
 void PCloudApp::logIn(QString auth, QString uname,  quint64 uid, bool remember)
 {
+    this->authentication = auth;
     if (remember)
         settings->set("auth", auth);
 #ifdef Q_OS_WIN

@@ -40,7 +40,7 @@ void DirectoryPickerDialog::showEvent(QShowEvent *)
     apisock *conn;
     binresult *res, *result, *rn;
     binresult root;
-    QByteArray auth=app->settings->get("auth").toUtf8();
+    QByteArray auth=app->authentication.toUtf8();
     if (!(conn=app->getAPISock())){
         showError("Could not connect to server. Check your Internet connection.");
         return;
@@ -80,8 +80,8 @@ void DirectoryPickerDialog::showEvent(QShowEvent *)
     ui->dirtree->insertTopLevelItems(0, items);
     ui->dirtree->sortByColumn(0, Qt::AscendingOrder);
     if (items.count()){
-      ui->dirtree->setCurrentItem(items[0]);
-      ui->dirtree->expandItem(items[0]);
+        ui->dirtree->setCurrentItem(items[0]);
+        ui->dirtree->expandItem(items[0]);
     }
     free(res);
 }
@@ -99,7 +99,7 @@ void DirectoryPickerDialog::newFolder()
     QString newdir=QInputDialog::getText(this, "Create Folder", "New folder name");
     if (!newdir.length())
         return;
-    QByteArray auth=app->settings->get("auth").toUtf8();
+    QByteArray auth=app->authentication.toUtf8();
     QByteArray bnewdir=newdir.toUtf8();
     apisock *conn;
     binresult *res, *result;

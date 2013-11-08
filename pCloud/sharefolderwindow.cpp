@@ -48,7 +48,7 @@ void ShareFolderWindow::showEvent(QShowEvent *)
 {
     apisock *conn;
     binresult *res, *result;
-    QByteArray auth=app->settings->get("auth").toUtf8();
+    QByteArray auth=app->authentication.toUtf8();
     if (!(conn=app->getAPISock())){
         showError("Could not connect to server. Check your Internet connection.");
         return;
@@ -92,7 +92,7 @@ void ShareFolderWindow::verifyEmail(apisock *conn){
                                     "E-mail address verification is required to share folders. Send verification email now?",
                                     QMessageBox::Yes|QMessageBox::No);
   if (reply==QMessageBox::Yes){
-      QByteArray auth=app->settings->get("auth").toUtf8();
+      QByteArray auth=app->authentication.toUtf8();
       binresult *res;
       res=send_command(conn, "sendverificationemail",
                        P_LSTR("auth", auth.constData(), auth.size()));
@@ -120,7 +120,7 @@ void ShareFolderWindow::shareFolder()
         return;
     }
 
-    QByteArray auth=app->settings->get("auth").toUtf8();
+    QByteArray auth=app->authentication.toUtf8();
     QStringList mails=ui->email->text().split(",");
     QByteArray name=ui->sharename->text().toUtf8();
     quint64 folderid=ui->dirtree->currentItem()->data(1, Qt::UserRole).toULongLong();
