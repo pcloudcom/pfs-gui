@@ -53,6 +53,7 @@ public:
     quint64 userid;
     PSettings *settings;
     uint32_t lastMessageType;
+    QString authentication;
     explicit PCloudApp(int &argc, char **argv);
     ~PCloudApp();
     bool userLogged(binresult *userinfo, QByteArray &err, bool remember);
