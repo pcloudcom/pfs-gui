@@ -143,6 +143,12 @@ void PCloudApp::upgradePlan()
     QDesktopServices::openUrl(url);
 }
 
+void PCloudApp::openWebPage()
+{
+    QUrl url("https://my.pcloud.com/#page=filemanager");
+    QDesktopServices::openUrl(url);
+}
+
 void PCloudApp::doExit(){
     unMount();
     quit();
@@ -186,13 +192,15 @@ void PCloudApp::createMenus(){
     connect(incomingSharesAction, SIGNAL(triggered()), this, SLOT(incomingShares()));
     upgradeAction=new QAction("Get more space", this);
     connect(upgradeAction, SIGNAL(triggered()), this, SLOT(upgradePlan()));
-
+    openWebPageAction=new QAction("Open Web Page", this);
+    connect(openWebPageAction, SIGNAL(triggered()), this, SLOT(openWebPage()));
     logoutAction=new QAction("Logout", this);
     connect(logoutAction, SIGNAL(triggered()), this, SLOT(logOut()));
 
     loggedmenu = new QMenu();
     loggedmenu->addAction(username);
     loggedmenu->addAction(openAction);
+    loggedmenu->addAction(openWebPageAction);
     loggedmenu->addSeparator();
     loggedmenu->addAction(shareFolderAction);
     loggedmenu->addAction(outgoingSharesAction);
@@ -293,6 +301,7 @@ PCloudApp::~PCloudApp(){
     delete openAction;
     delete settingsAction;
     delete upgradeAction;
+    delete openWebPageAction;
     delete shareFolderAction;
     if (regwin)
         delete regwin;
