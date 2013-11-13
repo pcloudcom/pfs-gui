@@ -28,7 +28,7 @@ void PCloudApp::hideAllWindows(){
 
 void PCloudApp::setUser(binresult *userinfo, bool rememebr){
     emit logInSignal(find_res(userinfo, "auth")->str, find_res(userinfo, "email")->str, (quint64)find_res(userinfo, "userid")->num, rememebr);
-/*  emitting signal should be enough
+    /*  emitting signal should be enough
  *  it seems that it is very important to have q-type parameters to this one
  *
     QString auth = find_res(userinfo, "auth")->str;
@@ -194,6 +194,7 @@ void PCloudApp::createMenus(){
     connect(upgradeAction, SIGNAL(triggered()), this, SLOT(upgradePlan()));
     openWebPageAction=new QAction("Open Web Page", this);
     connect(openWebPageAction, SIGNAL(triggered()), this, SLOT(openWebPage()));
+
     logoutAction=new QAction("Logout", this);
     connect(logoutAction, SIGNAL(triggered()), this, SLOT(logOut()));
 
@@ -239,8 +240,8 @@ PCloudApp::PCloudApp(int &argc, char **argv) :
         objc_object* delegate = objc_msgSend(appInst, sel_registerName("delegate"));
         objc_object* delClass = objc_msgSend(delegate,  sel_registerName("class"));
         class_addMethod((Class)delClass,
-                                    sel_registerName("applicationShouldHandleReopen:hasVisibleWindows:"),
-                                    (IMP)dockClickHandler,"B@:");
+                        sel_registerName("applicationShouldHandleReopen:hasVisibleWindows:"),
+                        (IMP)dockClickHandler,"B@:");
     }
 
 #endif
@@ -341,7 +342,7 @@ static void storeKey(LPCSTR key, const char * val)
     HRESULT hr;
     HKEY hKey;
     hr = RegCreateKeyExA(HKEY_LOCAL_MACHINE, REGISTRY_KEY_PCLOUD, 0, NULL, 0,
-                        KEY_ALL_ACCESS, NULL, &hKey, NULL);
+                         KEY_ALL_ACCESS, NULL, &hKey, NULL);
     if (!hr)
     {
         hr = RegSetValueExA(hKey, key, 0, REG_SZ, (LPBYTE)val, strlen(val)+1);
@@ -504,6 +505,7 @@ void PCloudApp::logIn(QString auth, QString uname,  quint64 uid, bool remember)
     }
     tray->setIcon(QIcon(ONLINE_ICON));
     tray->setContextMenu(loggedmenu);
+
     if (!mthread){
         mthread=new MonitoringThread(this);
         mthread->start();
@@ -609,4 +611,9 @@ bool PCloudApp::userLogged(binresult *userinfo, QByteArray &err, bool remember){
         }
 #endif
     }
+}
+
+bool PCloudApp::isLogedIn()
+{
+    return loggedin;
 }

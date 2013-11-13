@@ -64,6 +64,7 @@ public:
     void unMount();
     void showError(QString err);
     void showOnClick();
+    bool isLogedIn();
 signals:
     void logInSignal(QString, QString, quint64, bool);
     void showLoginSignal();

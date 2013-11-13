@@ -7,6 +7,7 @@ MonitoringThread::MonitoringThread(PCloudApp *a)
     app=a;
     connect(this, SIGNAL(sendMessageSignal(QString, QString)), app, SLOT(showTrayMessage(QString, QString)));
     connect(this, SIGNAL(setOnlineStatus(bool)), app, SLOT(setOnlineStatus(bool)));
+
 }
 
 typedef struct {
@@ -35,18 +36,18 @@ void MonitoringThread::run()
                         emit sendMessageSignal(m.buff, "");
                     }
                 }
-                else if (m.type==2 || m.type==3)                    
-                        emit setOnlineStatus(m.type == 3);
+                else if (m.type==2 || m.type==3)
+                    emit setOnlineStatus(m.type == 3);
             }
             file.close();
         }
-        else{          
+        else if (app->isLogedIn()){
             emit setOnlineStatus(false);
 
             if (!file.exists()){
                 retry--;
                 sleep(2);
-                if(retry == 0 && !file.exists()){
+                if(retry <= 0 && !file.exists()){
                     OnlineThread t(app);
                     t.start();
                     t.wait();
