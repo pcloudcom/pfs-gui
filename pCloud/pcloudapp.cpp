@@ -510,6 +510,8 @@ void PCloudApp::logIn(QString auth, QString uname,  quint64 uid, bool remember)
         settings->set("path", path);
     }
     if (this->notifythread){
+        notifythread->terminate();
+        notifythread->wait();
         delete notifythread;
         notifythread = NULL;
     }
