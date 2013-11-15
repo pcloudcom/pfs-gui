@@ -41,6 +41,7 @@ void MonitoringThread::run()
             }
             file.close();
         }
+#ifdef Q_OS_WIN
         else if (app->isLogedIn()){
             emit setOnlineStatus(false);
 
@@ -55,6 +56,7 @@ void MonitoringThread::run()
                 }
             }
         }
+#endif
         sleep(1);
     }
 }
