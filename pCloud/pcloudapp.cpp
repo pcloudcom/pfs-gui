@@ -128,6 +128,14 @@ void PCloudApp::incomingShares()
 
 void PCloudApp::logOut(){
     loggedin=false;
+#ifdef Q_OS_WIN
+    if (notifythread){
+        notifythread->terminate();
+        notifythread->wait();
+        delete notifythread;
+        notifythread = NULL;
+    }
+#endif
     username="";
     userid=0;
     tray->setContextMenu(notloggedmenu);
@@ -245,6 +253,11 @@ PCloudApp::PCloudApp(int &argc, char **argv) :
     }
 
 #endif
+
+#ifdef Q_OS_WIN
+    notifythread = NULL;
+#endif
+
     reglog=NULL;
     regwin=NULL;
     logwin=NULL;
@@ -489,14 +502,20 @@ void PCloudApp::logIn(QString auth, QString uname,  quint64 uid, bool remember)
     this->authentication = auth;
     if (remember)
         settings->set("auth", auth);
+    loggedin=true;
 #ifdef Q_OS_WIN
     if (!settings->isSet("path") || !settings->get("path").toUtf8()[0]){
         QString path("a:");
         path[0] = getFirstFreeDevice();
         settings->set("path", path);
     }
+    if (this->notifythread){
+        delete notifythread;
+        notifythread = NULL;
+    }
+    notifythread = new RevNotifyThread(this);
+    notifythread->start();
 #endif
-    loggedin=true;
     username=uname;
     userid=uid;
     tray->setToolTip(username);

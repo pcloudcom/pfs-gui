@@ -11,6 +11,7 @@
 #include "psettings.h"
 #include "monitoringthread.h"
 #include "onlinethread.h"
+#include "revnotifythread.h"
 
 #include <QApplication>
 #include <QAction>
@@ -42,6 +43,9 @@ private:
     SharesWindow *incomingshareswin;
     SharesWindow *outgoingshareswin;
     MonitoringThread *mthread;
+#ifdef Q_OS_WIN
+    RevNotifyThread *notifythread;
+#endif
     OnlineThread *othread;
     bool loggedin;
     void createMenus();
