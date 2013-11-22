@@ -11,6 +11,7 @@ class PSettings
 private:
     PCloudApp *app;
     QSettings *settings;
+    qint32 getCacheSize();
 public:
     PSettings(PCloudApp *a);
     ~PSettings();

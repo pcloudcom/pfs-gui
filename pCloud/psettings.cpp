@@ -2,6 +2,7 @@
 #include "psettings.h"
 #include "pcloudapp.h"
 #include <QDir>
+#include <sys/sysinfo.h>
 
 #ifdef Q_OS_WIN
 char getFirstFreeDevice()
@@ -40,7 +41,11 @@ PSettings::PSettings(PCloudApp *a){
     if (!settings->contains("usessl"))
         settings->setValue("usessl", DEFAULT_USE_SSL);
     if (!settings->contains("cachesize"))
-        settings->setValue("cachesize", DEFAULT_CACHE_SIZEMB);
+    {
+        qint32 cacheSize = getCacheSize();
+        settings->setValue("cachesize", cacheSize);
+    }
+
 }
 
 PSettings::~PSettings(){
@@ -77,4 +82,23 @@ quint64 PSettings::getu64(const QString &key){
 
 void PSettings::setu64(const QString &key, quint64 val){
     settings->setValue(key, val);
+}
+
+qint32 PSettings::getCacheSize(){
+
+#ifdef Q_OS_WIN
+    MEMORYSTATUSEX status;
+    status.dwLength = sizeof(status);
+    GlobalMemoryStatusEx(&status);
+    qint32 totalPhysRAM = (qint32)status.ullTotalPhys/1024/1024/10;
+    qint32 totalAvailRAM = (qint32)status.ullAvailPhys/1024/1024;
+#else
+    struct sysinfo sys_info;
+    sysinfo(&sys_info);
+    qint32  totalPhysRAM=(qint32)(sys_info.totalram/1024/1024/10);
+    qint32  totalAvailRAM=(qint32)(sys_info.freeram/1024/1024);
+#endif
+
+    qint32 totalRAM = (totalPhysRAM < totalAvailRAM)? totalPhysRAM:totalAvailRAM ;
+    return totalRAM;
 }
