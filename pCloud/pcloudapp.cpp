@@ -142,6 +142,7 @@ void PCloudApp::logOut(){
     tray->setToolTip("pCloud");
     tray->setIcon(QIcon(OFFLINE_ICON));
     settings->unset("auth");
+    this->authentication = "";
     unMount();
 }
 
@@ -281,6 +282,7 @@ PCloudApp::PCloudApp(int &argc, char **argv) :
     connect(this, SIGNAL(showLoginSignal()), this, SLOT(showLogin()));
     tray->show();
     if (settings->isSet("auth") && settings->get("auth").length() > 0){
+        this->authentication = settings->get("auth");
         othread=new OnlineThread(this);
         othread->start();
     }
@@ -442,8 +444,8 @@ static bool restartService(QByteArray &err)
 
 void PCloudApp::mount()
 {
-    if (settings->isSet("auth")){
-        QByteArray auth=settings->get("auth").toUtf8();
+    if (this->authentication != ""){
+        QByteArray auth=this->authentication.toUtf8();
         apisock *conn=getAPISock();
         binresult *res, *result;
         QByteArray err;
@@ -580,8 +582,10 @@ bool PCloudApp::userLogged(binresult *userinfo, QByteArray &err, bool remember){
             storeKey("ssl", settings->geti("usessl")?"SSL":"");
             storeKey("auth", find_res(userinfo, "auth")->str);
             QString auth(find_res(userinfo, "auth")->str);
-            if (remember)
+            if (remember){
                 settings->set("auth", auth);
+                this->authentication = auth;
+            }
             else
                 settings->set("auth", "");
 

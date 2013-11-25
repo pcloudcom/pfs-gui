@@ -2,7 +2,10 @@
 #include "psettings.h"
 #include "pcloudapp.h"
 #include <QDir>
+
+#ifdef Q_OS_LINUX
 #include <sys/sysinfo.h>
+#endif
 
 #ifdef Q_OS_WIN
 char getFirstFreeDevice()
