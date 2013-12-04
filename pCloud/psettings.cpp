@@ -93,15 +93,15 @@ qint32 PSettings::getCacheSize(){
     MEMORYSTATUSEX status;
     status.dwLength = sizeof(status);
     GlobalMemoryStatusEx(&status);
-    qint32 totalPhysRAM = (qint32)status.ullTotalPhys/1024/1024/10;
-    qint32 totalAvailRAM = (qint32)status.ullAvailPhys/1024/1024;
+    quint64 totalPhysRAM = (quint64)status.ullTotalPhys/1024/1024/10;
+    quint64 totalAvailRAM = (quint64)status.ullAvailPhys/1024/1024;
 #else
     struct sysinfo sys_info;
     sysinfo(&sys_info);
-    qint32  totalPhysRAM=(qint32)(sys_info.totalram/1024/1024/10);
-    qint32  totalAvailRAM=(qint32)(sys_info.freeram/1024/1024);
+    quint64  totalPhysRAM=(quint64)(sys_info.totalram/1024/1024/10);
+    quint64  totalAvailRAM=(quint64)(sys_info.freeram/1024/1024);
 #endif
 
-    qint32 totalRAM = (totalPhysRAM < totalAvailRAM)? totalPhysRAM:totalAvailRAM ;
+    quint64 totalRAM = (totalPhysRAM < totalAvailRAM)? totalPhysRAM:totalAvailRAM ;
     return totalRAM;
 }
