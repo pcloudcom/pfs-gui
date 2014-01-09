@@ -34,8 +34,8 @@ SOURCES += main.cpp\
     monitoringthread.cpp \
     onlinethread.cpp \
     revnotifythread.cpp \
-    pcloudinfodialog.cpp \
-    pcloudform.cpp \
+    #pcloudinfodialog.cpp \
+    #pcloudform.cpp \
     pcloudwindow.cpp \
     settingspage.cpp \
     sharespage.cpp
@@ -56,8 +56,8 @@ HEADERS  += reglogwindow.h \
     monitoringthread.h \
     onlinethread.h \
     revnotifythread.h \
-    pcloudinfodialog.h \
-    pcloudform.h \
+    #pcloudinfodialog.h \
+    #pcloudform.h \
     pcloudwindow.h \
     settingspage.h \
     sharespage.h
@@ -70,8 +70,8 @@ FORMS    += reglogwindow.ui \
     shareswindow.ui \
     directorypickerdialog.ui \
     changepermissionsdialog.ui \
-    pcloudinfodialog.ui \
-    pcloudform.ui \
+    #pcloudinfodialog.ui \
+    #pcloudform.ui \
     pcloudwindow.ui
 
 win32:RC_FILE= pCloud.rc

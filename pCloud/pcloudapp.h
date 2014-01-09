@@ -12,8 +12,8 @@
 #include "monitoringthread.h"
 #include "onlinethread.h"
 #include "revnotifythread.h"
-#include "pcloudinfodialog.h" //del
-#include "pcloudform.h" //del
+//#include "pcloudinfodialog.h" //del
+//#include "pcloudform.h" //del
 #include "pcloudwindow.h"
 #include "ui_pcloudwindow.h" //temp
 
@@ -50,8 +50,7 @@ private:
     SettingsWindow *settingswin; //to del
     ShareFolderWindow *sharefolderwin;
     SharesWindow *incomingshareswin; // del
-    SharesWindow *outgoingshareswin;    // del
-    PCloudInfoDialog *infodialog; //del
+    SharesWindow *outgoingshareswin;    // del   
     MonitoringThread *mthread;
 
 #ifdef Q_OS_WIN
