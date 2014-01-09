@@ -5,11 +5,13 @@
 #include <QUrl>
 #include <QDir>
 #include <QDesktopServices>
+#include <QDebug> //temp
 
 #ifdef Q_OS_MAC
 #include <objc/objc.h>
 #include <objc/message.h>
 #endif
+
 
 void PCloudApp::hideAllWindows(){
     if (reglog)
@@ -18,16 +20,21 @@ void PCloudApp::hideAllWindows(){
         regwin->hide();
     if (logwin)
         logwin->hide();
-    if (settingswin)
+    if (settingswin) // to del
         settingswin->hide();
     if (incomingshareswin)
         incomingshareswin->hide();
     if (outgoingshareswin)
         outgoingshareswin->hide();
+    if (pCloudWin)
+        pCloudWin->hide();
 }
 
 void PCloudApp::setUser(binresult *userinfo, bool rememebr){
-    emit logInSignal(find_res(userinfo, "auth")->str, find_res(userinfo, "email")->str, (quint64)find_res(userinfo, "userid")->num, rememebr);
+    emit logInSignal(find_res(userinfo, "auth")->str, find_res(userinfo, "email")->str, (quint64)find_res(userinfo, "userid")->num,
+                     find_res(userinfo, "emailverified"), find_res(userinfo, "premium"),
+                     (quint64)find_res(userinfo, "quota")->num,  (quint64)find_res(userinfo, "usedquota")->num,
+                     rememebr);
     /*  emitting signal should be enough
  *  it seems that it is very important to have q-type parameters to this one
  *
@@ -68,12 +75,38 @@ void PCloudApp::showLogin(){
         logwin=new LoginWindow(this);
     showWindow(logwin);
 }
+void PCloudApp::showAccount(){
+    hideAllWindows();
+    pCloudWin->showpcloudWindow(1);
+}
+
+void PCloudApp::showShares()
+{
+    hideAllWindows();
+    pCloudWin->showpcloudWindow(2);
+}
 
 void PCloudApp::showSettings(){
     hideAllWindows();
-    if (!settingswin)
-        settingswin=new SettingsWindow(this);
-    showWindow(settingswin);
+    // if (!settingswin)
+    // settingswin=new SettingsWindow(this);
+    //showWindow(settingswin);
+    pCloudWin->showpcloudWindow(4);
+
+}
+
+void PCloudApp::showpcloudHelp()
+{
+    pCloudWin->showpcloudWindow(5);
+}
+
+void PCloudApp::showpCloudAbout(){
+    hideAllWindows();
+    pCloudWin->showpcloudWindow(6);
+}
+
+void PCloudApp::openpCloudWindow(){
+    hideAllWindows();   
 }
 
 
@@ -105,20 +138,20 @@ void PCloudApp::openCloudDir(){
 }
 
 void PCloudApp::shareFolder(){
-    hideAllWindows();
+    //  hideAllWindows();
     if (!sharefolderwin)
         sharefolderwin=new ShareFolderWindow(this);
     showWindow(sharefolderwin);
 }
 
-void PCloudApp::outgoingShares(){
+void PCloudApp::outgoingShares(){ // to del
     hideAllWindows();
     if (!outgoingshareswin)
         outgoingshareswin=new SharesWindow(this, 0);
     showWindow(outgoingshareswin);
 }
 
-void PCloudApp::incomingShares()
+void PCloudApp::incomingShares() // to del
 {
     hideAllWindows();
     if (!incomingshareswin)
@@ -141,22 +174,12 @@ void PCloudApp::logOut(){
     tray->setContextMenu(notloggedmenu);
     tray->setToolTip("pCloud");
     tray->setIcon(QIcon(OFFLINE_ICON));
+    pCloudWin->setOnlineItems(false);
     settings->unset("auth");
     this->authentication = "";
     unMount();
 }
 
-void PCloudApp::upgradePlan()
-{
-    QUrl url("https://my.pcloud.com/#page=plans&authtoken="+authentication);
-    QDesktopServices::openUrl(url);
-}
-
-void PCloudApp::openWebPage()
-{
-    QUrl url("https://my.pcloud.com/#page=filemanager");
-    QDesktopServices::openUrl(url);
-}
 
 void PCloudApp::doExit(){
     unMount();
@@ -177,50 +200,66 @@ void PCloudApp::trayClicked(QSystemTrayIcon::ActivationReason reason){
 
 void PCloudApp::createMenus(){
     notloggedmenu=new QMenu();
-    registerAction=new QAction("Register", this);
-    connect(registerAction, SIGNAL(triggered()), this, SLOT(showRegister()));
-    notloggedmenu->addAction(registerAction);
-    loginAction=new QAction("Login", this);
-    connect(loginAction, SIGNAL(triggered()), this, SLOT(showLogin()));
-    notloggedmenu->addAction(loginAction);
-    settingsAction=new QAction("Settings", this);
-    connect(settingsAction, SIGNAL(triggered()), this, SLOT(showSettings()));
-    notloggedmenu->addAction(settingsAction);
-    notloggedmenu->addSeparator();
-    exitAction=new QAction("Exit", this);
-    connect(exitAction, SIGNAL(triggered()), this, SLOT(doExit()));
-    notloggedmenu->addAction(exitAction);
 
+    registerAction=new QAction(tr ("Register"), this);
+    connect(registerAction, SIGNAL(triggered()), this, SLOT(showRegister()));
+    loginAction=new QAction(tr("Login"), this);
+    connect(loginAction, SIGNAL(triggered()), this, SLOT(showLogin()));
+    settingsAction=new QAction(tr("Settings"), this);
+    connect(settingsAction, SIGNAL(triggered()), this, SLOT(showSettings()));
+    helpAction = new QAction(tr("Help"),this);
+    connect(helpAction, SIGNAL(triggered()), this, SLOT(showpcloudHelp()));
+    aboutPCloudAction = new QAction(tr("About"), this);
+    connect(aboutPCloudAction, SIGNAL(triggered()), this, SLOT(showpCloudAbout()));
+    exitAction=new QAction(tr("Exit"), this); // to be hidden in account tab
+    connect(exitAction, SIGNAL(triggered()), this, SLOT(doExit()));
+
+    notloggedmenu->addAction(registerAction);
+    notloggedmenu->addAction(loginAction);
+    notloggedmenu->addAction(settingsAction);
+    notloggedmenu->addAction(helpAction);
+    notloggedmenu->addAction(aboutPCloudAction);
+    notloggedmenu->addSeparator();
+    notloggedmenu->addAction(exitAction); // to be hidden in account tab or settings
+
+
+    accountAction = new QAction(tr("Account"), this); // Account tab // to remove username from menu
+    connect(accountAction, SIGNAL(triggered()),this, SLOT(showAccount()));
     openAction=new QAction("Open pCloud folder", this);
     connect(openAction, SIGNAL(triggered()), this, SLOT(openCloudDir()));
-    shareFolderAction=new QAction("Share folder", this);
-    connect(shareFolderAction, SIGNAL(triggered()), this, SLOT(shareFolder()));
-    outgoingSharesAction=new QAction("My Shares", this);
+    //shareFolderAction=new QAction("Share folder", this); //to del
+    //connect(shareFolderAction, SIGNAL(triggered()), this, SLOT(shareFolder()));
+    outgoingSharesAction=new QAction("My Shares", this); //to del
     connect(outgoingSharesAction, SIGNAL(triggered()), this, SLOT(outgoingShares()));
-    incomingSharesAction=new QAction("Shared with Me", this);
+    incomingSharesAction=new QAction("Shared with Me", this); //to del
     connect(incomingSharesAction, SIGNAL(triggered()), this, SLOT(incomingShares()));
-    upgradeAction=new QAction("Get more space", this);
-    connect(upgradeAction, SIGNAL(triggered()), this, SLOT(upgradePlan()));
-    openWebPageAction=new QAction("Open Web Page", this);
-    connect(openWebPageAction, SIGNAL(triggered()), this, SLOT(openWebPage()));
+
+    sharesAction = new QAction(tr("Shares"),this);
+    connect(sharesAction, SIGNAL(triggered()), this, SLOT(showShares()));
+
 
     logoutAction=new QAction("Logout", this);
     connect(logoutAction, SIGNAL(triggered()), this, SLOT(logOut()));
 
-    loggedmenu = new QMenu();
-    loggedmenu->addAction(username);
+    openPCloudWinAction = new QAction("Open PCloud Window", this); // to del
+    connect(openPCloudWinAction, SIGNAL(triggered()), this, SLOT(openpCloudWindow())); 
+
+    loggedmenu = new QMenu();    
     loggedmenu->addAction(openAction);
-    loggedmenu->addAction(openWebPageAction);
-    loggedmenu->addSeparator();
-    loggedmenu->addAction(shareFolderAction);
-    loggedmenu->addAction(outgoingSharesAction);
-    loggedmenu->addAction(incomingSharesAction);
-    loggedmenu->addSeparator();
+    loggedmenu->addAction(accountAction);    
+   // loggedmenu->addSeparator();
+    //loggedmenu->addAction(shareFolderAction); // to del
+   // loggedmenu->addAction(outgoingSharesAction);
+    //loggedmenu->addAction(incomingSharesAction);
+    loggedmenu->addAction(sharesAction);
     loggedmenu->addAction(settingsAction);
+    loggedmenu->addAction(helpAction);
+    loggedmenu->addAction(aboutPCloudAction);    
     loggedmenu->addSeparator();
-    loggedmenu->addAction(upgradeAction);
-    loggedmenu->addAction(logoutAction);
-    loggedmenu->addAction(exitAction);
+    loggedmenu->addAction(logoutAction); // to hide in acc tab
+    loggedmenu->addAction(exitAction);    
+    // loggedmenu->addAction(openpCloudFormAction); // first form
+
 }
 
 #ifdef Q_OS_MAC
@@ -278,8 +317,12 @@ PCloudApp::PCloudApp(int &argc, char **argv) :
     tray->setToolTip("pCloud");
     connect(tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayClicked(QSystemTrayIcon::ActivationReason)));
     connect(tray, SIGNAL(messageClicked()), this, SLOT(trayMsgClicked()));
-    connect(this, SIGNAL(logInSignal(QString, QString, quint64, bool)), this, SLOT(logIn(QString, QString, quint64, bool)));
+    connect(this, SIGNAL(logInSignal(QString, QString, quint64, bool, bool, quint64, quint64, bool)),
+            this, SLOT(logIn(QString, QString, quint64,bool, bool, quint64, quint64, bool)));
     connect(this, SIGNAL(showLoginSignal()), this, SLOT(showLogin()));
+    pCloudWin = new PCloudWindow(this);
+    pCloudWin->layout()->setSizeConstraint(QLayout::SetFixedSize); //for auto resize
+    pCloudWin->setOnlineItems(false);
     tray->show();
     if (settings->isSet("auth") && settings->get("auth").length() > 0){
         this->authentication = settings->get("auth");
@@ -316,9 +359,11 @@ PCloudApp::~PCloudApp(){
     delete logoutAction;
     delete openAction;
     delete settingsAction;
-    delete upgradeAction;
-    delete openWebPageAction;
-    delete shareFolderAction;
+    delete sharesAction;
+    delete helpAction;
+    //delete shareFolderAction;    
+    delete aboutPCloudAction;
+    delete openPCloudWinAction;
     if (regwin)
         delete regwin;
     if (reglog)
@@ -333,6 +378,8 @@ PCloudApp::~PCloudApp(){
         delete incomingshareswin;
     if (outgoingshareswin)
         delete outgoingshareswin;
+    if (pCloudWin)
+        delete pCloudWin;
 }
 
 apisock *PCloudApp::getAPISock(){
@@ -499,7 +546,7 @@ void PCloudApp::showTrayMessage(QString title, QString msg)
     tray->showMessage(title, msg, QSystemTrayIcon::Information);
 }
 
-void PCloudApp::logIn(QString auth, QString uname,  quint64 uid, bool remember)
+void PCloudApp::logIn(QString auth, QString uname,  quint64 uid,  bool verified, bool premium, quint64 quota, quint64 usedquota, bool remember)
 {
     this->authentication = auth;
     if (remember)
@@ -522,12 +569,22 @@ void PCloudApp::logIn(QString auth, QString uname,  quint64 uid, bool remember)
 #endif
     username=uname;
     userid=uid;
+    isVerified = verified;
+    isPremium = premium;
+    freeSpace =QString::number((quota - usedquota)/1024/1024/1024);
+    freeSpace.append(" GB");
+    freeSpacePercentage = (100*(quota-usedquota))/quota;
+    plan = QString::number(quota/1024/1024/1024);
+    plan.append(" GB");
+    qDebug()<< freeSpace << freeSpacePercentage << plan << quota << usedquota << verified; //temp
     tray->setToolTip(username);
-    if (loggedmenu){
-        loggedmenu->actions()[0]->setText(username);
-    }
+    //if (loggedmenu){
+    //loggedmenu->actions()[0]->setText(username);
+    //}
     tray->setIcon(QIcon(ONLINE_ICON));
     tray->setContextMenu(loggedmenu);
+    pCloudWin->setOnlineItems(true);
+    pCloudWin->setOnlinePages();
 
     if (!mthread){
         mthread=new MonitoringThread(this);
