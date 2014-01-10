@@ -117,6 +117,7 @@ void RegisterWindow::doRegister(){
         ui->password->clear();
         ui->confirmpassword->clear();
         hide();
+        app->openCloudDir();
     }
     free(res);
 }

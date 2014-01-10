@@ -51,6 +51,7 @@ public slots:
     void contactUs();
     void changePass();
     void upgradePlan();
+    void verifyEmail();
 };
 
 #endif // PCLOUDWINDOW_H

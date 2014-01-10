@@ -43,7 +43,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="pageAccntNotLogged">
        <property name="maximumSize">
@@ -162,24 +162,15 @@
       <widget class="QWidget" name="pageAccntLogged">
        <property name="maximumSize">
         <size>
-         <width>500</width>
+         <width>16777215</width>
          <height>16777215</height>
         </size>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <layout class="QHBoxLayout" name="horizontalLayout_18">
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_6">
+         <layout class="QVBoxLayout" name="verticalLayout_6" stretch="4,0,0">
           <item>
-           <layout class="QFormLayout" name="formLayout_3">
-            <property name="fieldGrowthPolicy">
-             <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-            </property>
-            <property name="horizontalSpacing">
-             <number>12</number>
-            </property>
-            <property name="verticalSpacing">
-             <number>12</number>
-            </property>
+           <layout class="QFormLayout" name="formLayout">
             <item row="0" column="0">
              <widget class="QLabel" name="label_user">
               <property name="text">
@@ -227,22 +218,52 @@
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QCheckBox" name="checkBoxVerified">
-              <property name="layoutDirection">
-               <enum>Qt::LeftToRight</enum>
-              </property>
-              <property name="text">
-               <string>Verified</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <item>
+               <widget class="QCheckBox" name="checkBoxVerified">
+                <property name="layoutDirection">
+                 <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="text">
+                 <string>Verified</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btnVerify">
+                <property name="text">
+                 <string>Verify Now</string>
+                </property>
+                <property name="default">
+                 <bool>false</bool>
+                </property>
+                <property name="flat">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_15">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
             </item>
-            <item row="4" column="0">
-             <widget class="QLabel" name="label_freeSpace">
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_plan">
               <property name="text">
-               <string>Free Space :</string>
+               <string>Plan:</string>
               </property>
              </widget>
             </item>
@@ -287,14 +308,14 @@
               </item>
              </layout>
             </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_plan">
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_freeSpace">
               <property name="text">
-               <string>Plan:</string>
+               <string>Free Space :</string>
               </property>
              </widget>
             </item>
-            <item row="4" column="1">
+            <item row="3" column="1">
              <layout class="QHBoxLayout" name="horizontalLayout_8">
               <property name="spacing">
                <number>16</number>
@@ -329,19 +350,6 @@
              </layout>
             </item>
            </layout>
-          </item>
-          <item>
-           <spacer name="verticalSpacer_6">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>173</height>
-             </size>
-            </property>
-           </spacer>
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_9">
@@ -390,19 +398,6 @@
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_5">
-            <item>
-             <spacer name="verticalSpacer_3">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>88</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
             <item>
              <widget class="Line" name="line_2">
               <property name="orientation">

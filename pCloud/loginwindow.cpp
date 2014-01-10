@@ -13,10 +13,8 @@ LoginWindow::LoginWindow(PCloudApp *a, QWidget *parent) :
     ui->setupUi(this);
     QPalette palette;
     palette.setColor(QPalette::WindowText, Qt::red);
-    ui->error->setPalette(palette);
-
-    ui->forgotPassBtn->setAutoRaise(true);
-    ui->forgotPassBtn->setStyleSheet("QToolButton:hover{text-decoration: underline; background-color: transparent;}");
+    ui->error->setPalette(palette);    
+    ui->forgotPassBtn->setStyleSheet("QToolButton{background-color:transparent;} QToolButton:hover{text-decoration: underline; background-color: transparent;}");
 
     connect(ui->loginButton, SIGNAL(clicked()), this, SLOT(logIn()));
     //    connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(hide()));

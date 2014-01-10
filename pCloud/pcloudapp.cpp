@@ -175,6 +175,7 @@ void PCloudApp::logOut(){
     tray->setToolTip("pCloud");
     tray->setIcon(QIcon(OFFLINE_ICON));
     pCloudWin->setOnlineItems(false);
+    pCloudWin->hide();
     settings->unset("auth");
     this->authentication = "";
     unMount();
@@ -571,12 +572,9 @@ void PCloudApp::logIn(QString auth, QString uname,  quint64 uid,  bool verified,
     userid=uid;
     isVerified = verified;
     isPremium = premium;
-    freeSpace =QString::number((quota - usedquota)/1024/1024/1024);
-    freeSpace.append(" GB");
+    freeSpace =QString::number((quota - usedquota)/1024/1024/1024) + " GB";
     freeSpacePercentage = (100*(quota-usedquota))/quota;
-    plan = QString::number(quota/1024/1024/1024);
-    plan.append(" GB");
-    qDebug()<< freeSpace << freeSpacePercentage << plan << quota << usedquota << verified; //temp
+    plan = QString::number(quota/1024/1024/1024) + " GB";
     tray->setToolTip(username);
     //if (loggedmenu){
     //loggedmenu->actions()[0]->setText(username);

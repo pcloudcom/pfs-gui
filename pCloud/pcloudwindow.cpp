@@ -159,10 +159,7 @@ void PCloudWindow::fillAboutPage()
 }
 
 void PCloudWindow::fillHelpPage()
-{
-   // ui->tBtnOnlineHelp->setStyleSheet("QToolButton{background-color:transparent;} QToolButton:hover{text-decoration: underline; background-color: transparent;}");
-    //ui->tBtnOnlineTutorial->setStyleSheet("QToolButton{background-color:transparent;} QToolButton:hover{text-decoration: underline; background-color: transparent;}");
-    //ui->tBtnFeedback->setStyleSheet("QToolButton{background-color:transparent;} QToolButton:hover{text-decoration: underline; background-color: transparent;}");
+{   
     connect(ui->tBtnOnlineHelp, SIGNAL(clicked()), this, SLOT(openOnlineHelp()));
     connect(ui->tBtnOnlineTutorial, SIGNAL(clicked()), this, SLOT(openOnlineTutorial()));
     connect(ui->tBtnFeedback, SIGNAL(clicked()), this, SLOT(sendFeedback()));
@@ -173,9 +170,16 @@ void PCloudWindow::fillAccountLoggedPage()
     ui->pageAccntLogged->setMaximumWidth(700);
     ui->label_email->setText(app->username);
     if (app->isVerified)
+    {
+        ui->btnVerify->setVisible(false);
         ui->checkBoxVerified->setCheckState(Qt::Checked);
+    }
     else
+    {
         ui->checkBoxVerified->setCheckState(Qt::Unchecked);
+        ui->btnVerify->setVisible(true);
+        connect(ui->btnVerify, SIGNAL(clicked()), this, SLOT(verifyEmail()));
+    }
     ui->checkBoxVerified->setEnabled(false);
 
     ui->progressBar_space->setMinimum(0);
@@ -185,7 +189,7 @@ void PCloudWindow::fillAccountLoggedPage()
 
     ui->label_planVal->setText(app->plan);
 
-    ui->toolBtnChangePass->setStyleSheet("QToolButton{background-color:transparent;} QToolButton:hover{text-decoration: underline; background-color: transparent;}");  
+    ui->toolBtnChangePass->setStyleSheet("QToolButton{background-color:transparent;} QToolButton:hover{text-decoration: underline; background-color: transparent;}");
     connect(ui->toolBtnOpenWeb, SIGNAL(clicked()), this, SLOT(openWebPage()));
     connect(ui->toolBtnChangePass, SIGNAL(clicked()), this, SLOT(changePass()));
     connect(ui->tbtnGetSpace, SIGNAL(clicked()), this, SLOT(upgradePlan()));
@@ -238,6 +242,16 @@ void PCloudWindow::openOnlineHelp()
 void PCloudWindow::contactUs(){
     QUrl url ("https://my.pcloud.com/#page=contact");
     QDesktopServices::openUrl(url);
+}
+void PCloudWindow::verifyEmail(){
+    apisock *conn=app->getAPISock();
+    QByteArray auth=app->authentication.toUtf8();
+    binresult *res;
+    res=send_command(conn, "sendverificationemail",
+                     P_LSTR("auth", auth.constData(), auth.size()));
+    free(res);
+    QMessageBox::information(this, "Please check your e-mail", "E-mail verification sent to: "+app->username);
+    api_close(conn);
 }
 
 
