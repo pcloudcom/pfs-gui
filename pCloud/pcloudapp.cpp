@@ -30,9 +30,9 @@ void PCloudApp::hideAllWindows(){
         pCloudWin->hide();
 }
 
-void PCloudApp::setUser(binresult *userinfo, bool rememebr){
+void PCloudApp::setUser(binresult *userinfo, bool rememebr){    
     emit logInSignal(find_res(userinfo, "auth")->str, find_res(userinfo, "email")->str, (quint64)find_res(userinfo, "userid")->num,
-                     find_res(userinfo, "emailverified"), find_res(userinfo, "premium"),
+                     find_res(userinfo, "emailverified")->num, find_res(userinfo, "premium")->num,
                      (quint64)find_res(userinfo, "quota")->num,  (quint64)find_res(userinfo, "usedquota")->num,
                      rememebr);
     /*  emitting signal should be enough

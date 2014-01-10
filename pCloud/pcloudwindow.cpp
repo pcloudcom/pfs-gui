@@ -5,11 +5,6 @@
 
 #include <QDesktopServices>
 #include <QUrl>
-#include <QPlastiqueStyle>
-
-#include<QHBoxLayout>
-#include<QVBoxLayout>
-#include<QSizePolicy>
 #include<QDebug>
 
 
@@ -106,7 +101,8 @@ void PCloudWindow::changePage(QListWidgetItem *current, QListWidgetItem *previou
     //setFixedSize(minimumSizeHint());
 
     ui->pagesWidget->setCurrentIndex(ui->listButtonsWidget->row(current)); // set page
-
+    if (currentIndex == 4) //settings page
+        settngsPage->initSettingsPage();
     //  if ( currentIndex == 2 )
     //    emit sharesPage->load(0);
 
@@ -164,9 +160,9 @@ void PCloudWindow::fillAboutPage()
 
 void PCloudWindow::fillHelpPage()
 {
-    ui->tBtnOnlineHelp->setStyleSheet("QToolButton{background-color:transparent;} QToolButton:hover{text-decoration: underline; background-color: transparent;}");
-    ui->tBtnOnlineTutorial->setStyleSheet("QToolButton{background-color:transparent;} QToolButton:hover{text-decoration: underline; background-color: transparent;}");
-    ui->tBtnFeedback->setStyleSheet("QToolButton{background-color:transparent;} QToolButton:hover{text-decoration: underline; background-color: transparent;}");
+   // ui->tBtnOnlineHelp->setStyleSheet("QToolButton{background-color:transparent;} QToolButton:hover{text-decoration: underline; background-color: transparent;}");
+    //ui->tBtnOnlineTutorial->setStyleSheet("QToolButton{background-color:transparent;} QToolButton:hover{text-decoration: underline; background-color: transparent;}");
+    //ui->tBtnFeedback->setStyleSheet("QToolButton{background-color:transparent;} QToolButton:hover{text-decoration: underline; background-color: transparent;}");
     connect(ui->tBtnOnlineHelp, SIGNAL(clicked()), this, SLOT(openOnlineHelp()));
     connect(ui->tBtnOnlineTutorial, SIGNAL(clicked()), this, SLOT(openOnlineTutorial()));
     connect(ui->tBtnFeedback, SIGNAL(clicked()), this, SLOT(sendFeedback()));
@@ -189,10 +185,7 @@ void PCloudWindow::fillAccountLoggedPage()
 
     ui->label_planVal->setText(app->plan);
 
-    ui->toolBtnChangePass->setStyleSheet("QToolButton{background-color:transparent;} QToolButton:hover{text-decoration: underline; background-color: transparent;}");
-    ui->tBtnExit->setStyleSheet("QToolButton{background-color:transparent;} QToolButton:hover{text-decoration: underline; background-color: transparent;}");
-    ui->tBtnLogout->setStyleSheet("QToolButton{background-color:transparent;} QToolButton:hover{text-decoration: underline; background-color: transparent;}");
-    //ui->tbtnGetSpace->setStyleSheet("QToolButton{background-color:transparent;} QToolButton:hover{text-decoration: underline; background-color: transparent;}");
+    ui->toolBtnChangePass->setStyleSheet("QToolButton{background-color:transparent;} QToolButton:hover{text-decoration: underline; background-color: transparent;}");  
     connect(ui->toolBtnOpenWeb, SIGNAL(clicked()), this, SLOT(openWebPage()));
     connect(ui->toolBtnChangePass, SIGNAL(clicked()), this, SLOT(changePass()));
     connect(ui->tbtnGetSpace, SIGNAL(clicked()), this, SLOT(upgradePlan()));

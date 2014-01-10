@@ -12,16 +12,22 @@ class SettingsPage: public QObject
 {
     Q_OBJECT
 public:
+  friend class PCloudWindow;
   explicit SettingsPage(PCloudWindow *w, PCloudApp *a, QObject *parent = 0);
-
 private:
     PCloudWindow *win;
     PCloudApp *app;
     QString dir;
-    void writeToFile(const QString &path, const QString &data);
-public slots:
+    QString initFlrd;
+    QString initCache;
+    bool initSSL;
+    void initSettingsPage();
+    void writeToFile(const QString &path, const QString &data);    
+public slots:    
     void dirChange();
-    void saveSettings(); 
+    void saveSettings();     
+    void setSaveBtnEnable();
+    void cancelSettings();
 };
 
 #endif // SETTINGSPAGE_H
