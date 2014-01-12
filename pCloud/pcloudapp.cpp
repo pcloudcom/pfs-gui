@@ -350,93 +350,92 @@ bool PCloudApp::isMounted(){
 #ifdef Q_OS_WIN
 
 #define REGISTRY_KEY_PCLOUD    "SOFTWARE\\PCloud\\pCloud"
-#define SZSERVICENAME          L"pfs"
 
-static void storeKey(LPCSTR key, const char * val)
+#define OPT_MASK_COMMAND    0x00FF0000
+#define OPT_MASK_OPTS       0x0000FF00
+#define OPT_MASK_LETTER     0x000000FF
+
+#define OPT_USE_SSL         0x00000100
+#define OPT_COMMAND_MOUNT   0x00010000
+#define OPT_COMMAND_UMOUNT  0x00000000
+
+#define  PIPE_NAME L"\\\\.\\pipe\\pfsservicepipe"
+
+typedef struct
 {
-    HRESULT hr;
-    HKEY hKey;
-    hr = RegCreateKeyExA(HKEY_LOCAL_MACHINE, REGISTRY_KEY_PCLOUD, 0, NULL, 0,
-                         KEY_ALL_ACCESS, NULL, &hKey, NULL);
-    if (!hr)
+    uint32_t options; // mount / umount, ssl, mount letter
+    uint32_t cache;
+    char auth[120];
+}mount_params;
+
+
+static bool send_command_pipe(const mount_params* params, QByteArray &err)
+{
+    DWORD  mode, written, total = 0;
+    const wchar_t* pipename = PIPE_NAME;
+    HANDLE hPipe = CreateFile(pipename, GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
+
+    while (hPipe == INVALID_HANDLE_VALUE)
     {
-        hr = RegSetValueExA(hKey, key, 0, REG_SZ, (LPBYTE)val, strlen(val)+1);
-        RegCloseKey(hKey);
+        if (GetLastError() != ERROR_PIPE_BUSY)
+        {
+            err = "Unable to connect with mount service.";
+            return false;
+        }
+        if (!WaitNamedPipe(PIPE_NAME, 2000))
+        {
+            err = "Unable to comunicate with mount service.";
+            return false;
+        }
+        hPipe = CreateFile(pipename, GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
     }
-}
 
-static void stopService()
-{
-    SC_HANDLE       schService;
-    SERVICE_STATUS  ssStatus;
-    SC_HANDLE       schSCManager = OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
-
-    if (!schSCManager) return;
-    schService = OpenService(schSCManager, SZSERVICENAME, SERVICE_ALL_ACCESS);
-    if (schService)
+    mode = PIPE_READMODE_BYTE;
+    if (SetNamedPipeHandleState(hPipe, &mode,  NULL, NULL))
     {
-        ControlService(schService, SERVICE_CONTROL_STOP, &ssStatus);
-        int retry = 5;
-        while(QueryServiceStatus(schService, &ssStatus) && retry)
+        while (total < sizeof(mount_params))
         {
-            if (ssStatus.dwCurrentState == SERVICE_STOPPED)
-                break;
-            Sleep(1000);
-            --retry;
-        }
-        CloseServiceHandle(schService);
-    }
-    CloseServiceHandle(schSCManager);
-
-}
-
-static bool restartService(QByteArray &err)
-{
-    SC_HANDLE       schService;
-    SERVICE_STATUS  ssStatus;
-    SC_HANDLE       schSCManager = OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
-
-    if (!schSCManager) return false;
-    schService = OpenService(schSCManager, SZSERVICENAME, SERVICE_ALL_ACCESS);
-    if (schService)
-    {
-        ControlService(schService, SERVICE_CONTROL_STOP, &ssStatus);
-        int retry = 5;
-        while(QueryServiceStatus(schService, &ssStatus) && retry)
-        {
-            if (ssStatus.dwCurrentState == SERVICE_STOPPED)
-                break;
-            Sleep(1000);
-            --retry;
-        }
-        if (!retry){
-            //err = "Failed to stop PCloud fs.";
-        }
-
-        if (StartService(schService, 0, NULL))
-        {
-            Sleep(1000);
-            int retry = 5;
-            while(QueryServiceStatus(schService, &ssStatus) && retry)
+            if (!WriteFile(hPipe, (void*)((char*)params+total), sizeof(mount_params)-total, &written, NULL))
             {
-                --retry;
-                if (ssStatus.dwCurrentState == SERVICE_START_PENDING)
-                    Sleep(1000);
-                else break;
+                err = "Communication with mount service is broken.";
+                break;
             }
-            if (!retry){
-                err = "Failed to start PCloud fs.";
-                return false;
-            }
-            else{
-                err = "";
-                return true;
-            }
+            total += written;
         }
-        CloseServiceHandle(schService);
+        FlushFileBuffers(hPipe);
     }
-    CloseServiceHandle(schSCManager);
-    return false;
+
+    CloseHandle(hPipe);
+
+    if (total != sizeof(mount_params))
+    {
+        err = "Communication with mount service is incomplete.";
+        return false;
+    }
+
+    err = "";
+    return true;
+}
+
+static void unmountCmd(QByteArray &err)
+{
+    mount_params params = {0, 0, ""};
+    send_command_pipe(&params, err);
+}
+
+
+static bool mountCmd(size_t cache, const char* auth, int useSSL, char mountPoint, QByteArray &err)
+{
+    if (mountPoint >= 'a' && mountPoint <= 'z') mountPoint -= 'a';
+    else if (mountPoint >= 'A' && mountPoint <= 'Z') mountPoint -= 'A';
+    else mountPoint = 2; // C:
+
+    mount_params params;
+    params.options = OPT_COMMAND_MOUNT | (useSSL?OPT_USE_SSL:0) | mountPoint;
+    params.cache = cache;
+    strncpy(params.auth, auth, sizeof(params.auth));
+
+    return send_command_pipe(&params, err);
 }
 #endif
 
@@ -471,7 +470,10 @@ void PCloudApp::mount()
 
 void PCloudApp::unMount(){
 #ifdef Q_OS_WIN
-    stopService();
+    QByteArray err;
+    unmountCmd(err);
+    if (err.size() > 0)
+        showError(err);
 #else
     QProcess process;
     QString path=settings->get("path");
@@ -577,10 +579,7 @@ bool PCloudApp::userLogged(binresult *userinfo, QByteArray &err, bool remember){
                 path[0] = getFirstFreeDevice();
                 settings->set("path", path);
             }
-            storeKey("path", settings->get("path").toUtf8());
-            storeKey("cachesize", settings->get("cachesize").toUtf8());
-            storeKey("ssl", settings->geti("usessl")?"SSL":"");
-            storeKey("auth", find_res(userinfo, "auth")->str);
+
             QString auth(find_res(userinfo, "auth")->str);
             if (remember){
                 settings->set("auth", auth);
@@ -589,7 +588,10 @@ bool PCloudApp::userLogged(binresult *userinfo, QByteArray &err, bool remember){
             else
                 settings->set("auth", "");
 
-            if (restartService(err)){
+            if (mountCmd(atol(settings->get("cachesize").toUtf8()),
+                         auth.toUtf8(),
+                         settings->geti("usessl"),
+                         settings->get("path").toUtf8()[0], err)){
                 Sleep(5*1000);
                 setUser(userinfo, remember);
                 return true;

@@ -66,10 +66,6 @@ win32 {
     LIBS +=  -lWs2_32
     QMAKE_LFLAGS += -static-libgcc
     CONFIG += static
-    WINSDK_DIR = C:/Program Files (x86)/Microsoft SDKs/Windows/v7.0A
-    WIN_PWD = $$replace(PWD, /, \\)
-    OUT_PWD_WIN = $$replace(OUT_PWD, /, \\)
-    QMAKE_POST_LINK = "$$WINSDK_DIR/bin/x64/mt.exe -manifest $$quote($$WIN_PWD\\$$basename(TARGET).manifest) -outputresource:$$quote($$OUT_PWD_WIN\\${DESTDIR_TARGET};1)"
 }
 
 macx {
