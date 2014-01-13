@@ -6,74 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>315</width>
-    <height>420</height>
+    <width>345</width>
+    <height>508</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Login</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLineEdit" name="password">
-    <property name="geometry">
-     <rect>
-      <x>119</x>
-      <y>150</y>
-      <width>181</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="echoMode">
-     <enum>QLineEdit::Password</enum>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="email">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>100</y>
-      <width>181</width>
-      <height>30</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>150</y>
-      <width>101</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Password:</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>100</y>
-      <width>101</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>E-mail Address:</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-    </property>
-   </widget>
    <widget class="QLabel" name="error">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>290</y>
+      <x>29</x>
+      <y>374</y>
       <width>260</width>
       <height>40</height>
      </rect>
@@ -82,10 +27,10 @@
    <widget class="QPushButton" name="loginButton">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>220</y>
-      <width>100</width>
-      <height>23</height>
+      <x>109</x>
+      <y>304</y>
+      <width>111</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -119,8 +64,8 @@
    <widget class="QLabel" name="registerLabel">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>340</y>
+      <x>30</x>
+      <y>430</y>
       <width>261</width>
       <height>31</height>
      </rect>
@@ -140,8 +85,8 @@
    <widget class="QPushButton" name="registerButton">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>370</y>
+      <x>110</x>
+      <y>460</y>
       <width>100</width>
       <height>23</height>
      </rect>
@@ -153,27 +98,11 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>190</y>
-      <width>141</width>
-      <height>18</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Remember me</string>
-    </property>
-    <property name="checked">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="QToolButton" name="forgotPassBtn">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>250</y>
+      <x>79</x>
+      <y>334</y>
       <width>161</width>
       <height>31</height>
      </rect>
@@ -185,6 +114,93 @@
      <string>Forgot Password</string>
     </property>
    </widget>
+   <widget class="Line" name="line">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>420</y>
+      <width>351</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_logo">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>60</y>
+      <width>141</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="Resources.qrc">:/images/images/logo.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>170</y>
+      <width>254</width>
+      <height>106</height>
+     </rect>
+    </property>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>E-mail Address:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="email"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Password:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="password">
+       <property name="echoMode">
+        <enum>QLineEdit::Password</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QCheckBox" name="checkBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Remember me</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
  </widget>
  <tabstops>
@@ -192,6 +208,8 @@
   <tabstop>password</tabstop>
   <tabstop>loginButton</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="Resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

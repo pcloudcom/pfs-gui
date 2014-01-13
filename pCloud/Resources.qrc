@@ -4,6 +4,17 @@
         <file>images/online.png</file>
         <file>images/mac-desktop.png</file>
         <file>images/mac-systray.png</file>
+        <file>images/sharedwithme.png</file>
+        <file>images/myshares.png</file>
+        <file>images/help.png</file>
+        <file>images/info.png</file>
+        <file>images/shares.png</file>
+        <file>images/user.png</file>
+        <file>images/logo.png</file>
+        <file>images/settings.png</file>
+        <file>images/folder.png</file>
+        <file>images/web.png</file>
+        <file>images/settings2.png</file>
     </qresource>
     <qresource prefix="/menus"/>
 </RCC>

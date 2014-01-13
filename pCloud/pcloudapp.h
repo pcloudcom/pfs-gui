@@ -12,37 +12,47 @@
 #include "monitoringthread.h"
 #include "onlinethread.h"
 #include "revnotifythread.h"
+//#include "pcloudinfodialog.h" //del
+//#include "pcloudform.h" //del
+#include "pcloudwindow.h"
+#include "ui_pcloudwindow.h" //temp
 
 #include <QApplication>
 #include <QAction>
 #include <QSystemTrayIcon>
 
+class PCloudWindow;
+
 class PCloudApp : public QApplication
 {
     Q_OBJECT
-private:
+private:   
     QAction *registerAction;
     QAction *loginAction;
     QAction *exitAction;
     QAction *logoutAction;
     QAction *openAction;
-    QAction *settingsAction;
-    QAction *upgradeAction;
-    QAction *openWebPageAction;
-    QAction *shareFolderAction;
-    QAction *outgoingSharesAction;
-    QAction *incomingSharesAction;
+    QAction *accountAction;
+    QAction *settingsAction;  //Settings page
+    QAction *sharesAction; // Shares page(3)
+  //  QAction *shareFolderAction; // to del
+    QAction *outgoingSharesAction; // to del
+    QAction *incomingSharesAction; // to del
+    QAction *openPCloudWinAction;
+    QAction *helpAction; // Help Tab (5)
+    QAction *aboutPCloudAction; // About tab(6)
     QMenu *notloggedmenu;
-    QMenu *loggedmenu;
+    QMenu *loggedmenu;    
     QSystemTrayIcon *tray;
     RegLogWindow *reglog;
     RegisterWindow *regwin;
     LoginWindow *logwin;
-    SettingsWindow *settingswin;
+    SettingsWindow *settingswin; //to del
     ShareFolderWindow *sharefolderwin;
-    SharesWindow *incomingshareswin;
-    SharesWindow *outgoingshareswin;
+    SharesWindow *incomingshareswin; // del
+    SharesWindow *outgoingshareswin;    // del   
     MonitoringThread *mthread;
+
 #ifdef Q_OS_WIN
     RevNotifyThread *notifythread;
 #endif
@@ -54,11 +64,18 @@ private:
     void setUser(binresult *userinfo, bool rememebr);
     void showWindow(QMainWindow *win);
 public:
+    PCloudWindow *pCloudWin;
     QString username;
     quint64 userid;
+    QString authentication;
+    bool isPremium;
+    bool isVerified;
+    QString freeSpace;
+    quint64 freeSpacePercentage;
+    QString plan;
+    QString planStr;
     PSettings *settings;
     uint32_t lastMessageType;
-    QString authentication;
     explicit PCloudApp(int &argc, char **argv);
     ~PCloudApp();
     bool userLogged(binresult *userinfo, QByteArray &err, bool remember);
@@ -70,25 +87,29 @@ public:
     void showOnClick();
     bool isLogedIn();
 signals:
-    void logInSignal(QString, QString, quint64, bool);
+    void logInSignal(QString, QString, quint64, bool, bool, quint64, quint64, bool);
     void showLoginSignal();
 public slots:
     void showTrayMessage(QString title, QString msg);
     void trayClicked(QSystemTrayIcon::ActivationReason reason);
     void showRegister();
     void showLogin();
+    void showAccount();
+    void showShares();
     void showSettings();
+    void showpCloudAbout();
+    void showpcloudHelp();
     void openCloudDir();
     void shareFolder();
     void outgoingShares();
     void incomingShares();
     void logOut();
-    void upgradePlan();
-    void openWebPage();
     void doExit();
-    void logIn(QString auth, QString uname, quint64 uid, bool remember);
+    void logIn(QString auth, QString uname, quint64 uid, bool verified, bool premium, quint64 quota, quint64 usedquota, bool remember);
     void trayMsgClicked();
     void setOnlineStatus(bool online);
+    void openpCloudWindow(); // new main window   
+
 };
 
 #endif // PCLOUDAPP_H

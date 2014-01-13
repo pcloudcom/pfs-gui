@@ -4,6 +4,7 @@
 #include "binapi.h"
 #include "pcloudapp.h"
 #include "common.h"
+#include "sharespage.h"
 
 ShareFolderWindow::ShareFolderWindow(PCloudApp *a, QWidget *parent) :
     QMainWindow(parent),
@@ -23,7 +24,8 @@ ShareFolderWindow::~ShareFolderWindow()
 }
 
 void ShareFolderWindow::closeEvent(QCloseEvent *event)
-{
+{    
+    emit app->pCloudWin->sharesPage->load(0);
     hide();
     event->ignore();
 }
@@ -172,6 +174,7 @@ void ShareFolderWindow::shareFolder()
     api_close(conn);
     ui->error->setText("");
     ui->email->setText("");
+    app->pCloudWin->sharesPage->loadAll();
     hide();
 }
 
