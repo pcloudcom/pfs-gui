@@ -101,11 +101,12 @@ void PCloudWindow::changePage(QListWidgetItem *current, QListWidgetItem *previou
     //setFixedSize(minimumSizeHint());
 
     ui->pagesWidget->setCurrentIndex(ui->listButtonsWidget->row(current)); // set page
-    if (currentIndex == 4) //settings page
-        settngsPage->initSettingsPage();
-    //  if ( currentIndex == 2 )
-    //    emit sharesPage->load(0);
-
+    {
+        if (currentIndex == 4) //settings page
+            settngsPage->initSettingsPage();
+        if ( currentIndex == 2 )
+            emit sharesPage->load(0);
+    }
 }
 
 void PCloudWindow::showpcloudWindow(int index)

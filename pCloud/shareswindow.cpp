@@ -90,16 +90,16 @@ static void fillList(QTreeWidget *table, binresult *arr, const char *fieldname, 
         item->setData(0, Qt::UserRole, (qulonglong)find_res(arr->array[i], idname)->num);
         item->setData(1, Qt::UserRole, (quint32)getPermissionsNum(arr->array[i]));
         items.append(item);
+        table->insertTopLevelItem(i, item);
     }
-    table->insertTopLevelItems(0, items);
+   // table->insertTopLevelItems(0, items);
     table->resizeColumnToContents(0);
     table->resizeColumnToContents(1);
     table->resizeColumnToContents(2);
     table->sortByColumn(0, Qt::AscendingOrder);
 }
 
-void SharesWindow::showEvent(QShowEvent *)
-{
+void SharesWindow::showEvent(QShowEvent *){
     load();
 }
 
@@ -281,3 +281,6 @@ void SharesWindow::modifyShare()
     free(res);
     load();
 }
+
+
+
