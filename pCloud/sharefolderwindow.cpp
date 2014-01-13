@@ -175,7 +175,8 @@ void ShareFolderWindow::shareFolder()
     ui->error->setText("");
     ui->email->setText("");
     app->pCloudWin->sharesPage->loadAll();
-    hide();
+    if (!ui->checkBox_shareMore->checkState())
+        hide();
 }
 
 void ShareFolderWindow::dirSelected(QTreeWidgetItem *dir)

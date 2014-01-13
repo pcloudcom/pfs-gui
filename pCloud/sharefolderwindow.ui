@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>500</height>
+    <width>622</width>
+    <height>519</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -129,8 +129,8 @@
    <widget class="QPushButton" name="sharebutton">
     <property name="geometry">
      <rect>
-      <x>185</x>
-      <y>450</y>
+      <x>200</x>
+      <y>460</y>
       <width>100</width>
       <height>23</height>
      </rect>
@@ -142,8 +142,8 @@
    <widget class="QPushButton" name="cancelbutton">
     <property name="geometry">
      <rect>
-      <x>315</x>
-      <y>450</y>
+      <x>320</x>
+      <y>460</y>
       <width>100</width>
       <height>23</height>
      </rect>
@@ -241,6 +241,19 @@
     </property>
     <property name="text">
      <string>* separate with commas</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_shareMore">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>460</y>
+      <width>121</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Share more</string>
     </property>
    </widget>
   </widget>
