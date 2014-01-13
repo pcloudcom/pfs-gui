@@ -361,7 +361,6 @@ void SharesPage::setButtons(int type, bool isRequest, QTreeWidget *table, QTreeW
 
 }
 
-
 void SharesPage::btnsMofidyStop(QListWidgetItem *current) // my shares
 {
     QListWidget *lv = current->listWidget();
@@ -485,10 +484,11 @@ void SharesPage::cancelRequest(QTreeWidget *table)
         return;
     }
     free(res);
-
-    int currindex = table->indexOfTopLevelItem(table->currentItem());
-    table->takeTopLevelItem(currindex);
-
+    //int currindex = table->indexOfTopLevelItem(table->currentItem());
+    //table->takeTopLevelItem(currindex);
+    delete table->currentItem();
+    if (!table->columnCount())
+        setRequestsVisibility(false, type);
 }
 
 void SharesPage::stopShare(QTreeWidget *table)
@@ -524,8 +524,9 @@ void SharesPage::stopShare(QTreeWidget *table)
         return;
     }
     free(res);
-    int currindex = table->indexOfTopLevelItem(table->currentItem());
-    table->takeTopLevelItem(currindex);
+   // int currindex = table->indexOfTopLevelItem(table->currentItem());
+    //table->takeTopLevelItem(currindex);
+     delete table->currentItem();
 
 }
 
