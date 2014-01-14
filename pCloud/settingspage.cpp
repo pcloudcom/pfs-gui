@@ -30,7 +30,7 @@ SettingsPage::SettingsPage(PCloudWindow *w, PCloudApp *a, QObject* parent):
 #else
     connect(win->ui->btnChangeDestFldr, SIGNAL(clicked()), this, SLOT(dirChange()));
 #endif           
-    connect(win->ui->edit_cache, SIGNAL(editingFinished()),this, SLOT(setSaveBtnEnable()));
+    connect(win->ui->edit_cache, SIGNAL(textEdited(QString)),this, SLOT(setSaveBtnEnable()));
     connect(win->ui->checkBox_ssl, SIGNAL(stateChanged(int)), this, SLOT(setSaveBtnEnable()));
     connect(win->ui->btnSaveSttngs, SIGNAL(clicked()), this, SLOT(saveSettings()));
     connect(win->ui->btnCancelSttngs, SIGNAL(clicked()), this, SLOT(cancelSettings()));
@@ -126,7 +126,6 @@ void SettingsPage::setSaveBtnEnable()
             win->ui->edit_cache->text() != initCache ||
             checked != initSSL )
     {
-        win->ui->btnSaveSttngs->setFocus();
         win->ui->btnSaveSttngs->setEnabled(true);
         win->ui->btnCancelSttngs->setEnabled(true);
     }
