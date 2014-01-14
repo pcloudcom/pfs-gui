@@ -63,8 +63,12 @@ SharesPage::SharesPage(PCloudWindow *w, PCloudApp *a,  QWidget *parent) :
     //test:
     connect(win->ui->treeMyShares, SIGNAL(itemSelectionChanged()), this, SLOT(testSelectedItem()));
 
+    QPalette paletteRedText;
+    paletteRedText.setColor(QPalette::WindowText, Qt::red);
     win->ui->label_errorMyShares->setVisible(false);
+    win->ui->label_errorMyShares->setPalette(paletteRedText);
     win->ui->label_errorShrdWithMe->setVisible(false);
+    win->ui->label_errorShrdWithMe->setPalette(paletteRedText);
 
     loadAll();
 }
@@ -191,7 +195,7 @@ void SharesPage::setRequestsVisibility(bool visible, int type)
 }
 
 void SharesPage::load(int type)
-{    
+{
     apisock *conn;
     binresult *res, *result;
     QByteArray auth=app->authentication.toUtf8();
@@ -245,9 +249,15 @@ void SharesPage::showEvent(QShowEvent*)
 void SharesPage::showError(int index, const QString &err )
 {
     if (!index)
+    {
+        win->ui->label_errorMyShares->setVisible(true);
         win->ui->label_errorMyShares->setText(err);
+    }
     else
+    {
+        win->ui->label_errorShrdWithMe->setVisible(true);
         win->ui->label_errorShrdWithMe->setText(err);
+    }
     //tuka s dialog
 }
 
@@ -412,7 +422,7 @@ void SharesPage::btnSaveEnable(QListWidgetItem *current) // to do check buttons
 
 
 void SharesPage::acceptRequest()
-{  
+{
     this->type = 1;
     if (!win->ui->treeRequestsWithMe->currentItem())
         return selectErr();
@@ -484,15 +494,11 @@ void SharesPage::cancelRequest(QTreeWidget *table)
         return;
     }
     free(res);
-    //int currindex = table->indexOfTopLevelItem(table->currentItem());
-    //table->takeTopLevelItem(currindex);
-    delete table->currentItem();
-    if (!table->columnCount())
-        setRequestsVisibility(false, type);
+    load(type);
 }
 
 void SharesPage::stopShare(QTreeWidget *table)
-{    
+{
     if (!table->currentItem())
       return selectErr();
     apisock *conn;
@@ -524,14 +530,11 @@ void SharesPage::stopShare(QTreeWidget *table)
         return;
     }
     free(res);
-   // int currindex = table->indexOfTopLevelItem(table->currentItem());
-    //table->takeTopLevelItem(currindex);
-     delete table->currentItem();
-
+    load(type);
 }
 
 void SharesPage::modifyShare()
-{    
+{
     this->type = 0;
     QTreeWidgetItem *item= win->ui->treeMyShares->currentItem();
     if (!item)
@@ -579,7 +582,7 @@ void SharesPage::modifyShare()
 }
 
 void SharesPage::selectErr(){
-    showError(type,"Please select a share.");
+    QMessageBox::information(this,"", "Please select a share." );
 }
 
 //Q_EXPORT_PLU(customTree, MyTree)
