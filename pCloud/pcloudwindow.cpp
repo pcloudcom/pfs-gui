@@ -15,6 +15,9 @@ PCloudWindow::PCloudWindow(PCloudApp *a,QWidget *parent) :
     app=a;
     ui->setupUi(this);
 
+    // the window consists of QListWidget(for icon-buttons) and
+    //QStackedWidget which loads different page according to selected item in the listWidget (and hides other pages)
+
     ui->listButtonsWidget->setViewMode(QListView::IconMode);
     ui->listButtonsWidget->setFlow(QListWidget::LeftToRight); //orientation
     ui->listButtonsWidget->setSpacing(12);
@@ -24,49 +27,41 @@ PCloudWindow::PCloudWindow(PCloudApp *a,QWidget *parent) :
     //ui->listButtonsWidget->setSelectionRectVisible(false); //
     ui->listButtonsWidget->setMovement(QListView::Static); //not to move items with the mouse
     //temp
-    ui->listButtonsWidget->setMinimumWidth(400);
+    ui->listButtonsWidget->setMinimumWidth(360);
     ui->listButtonsWidget->setMaximumHeight(85);
     ui->listButtonsWidget->setMinimumHeight(84); // precakva mi layouta
     // TEMP comment ui->listButtonsWidget->setFrameStyle(QFrame::Sunken); //hides frame
 
-
     //create Items for QListWidget
-    new QListWidgetItem(QIcon(":/images/images/user.png"),tr("Account"),ui->listButtonsWidget);
-    new QListWidgetItem(QIcon(":/images/images/user.png"),tr("Account"),ui->listButtonsWidget);
-    new QListWidgetItem(QIcon(":/images/images/shares.png"),tr("Shares"),ui->listButtonsWidget);
+    new QListWidgetItem(QIcon(":/images/images/user.png"),tr("Account"),ui->listButtonsWidget); //index 0
+    new QListWidgetItem(QIcon(":/images/images/user.png"),tr("Account"),ui->listButtonsWidget); //index 1
+    new QListWidgetItem(QIcon(":/images/images/shares.png"),tr("Shares"),ui->listButtonsWidget); //index 2
     //QListWidgetItem *linksItem = new QListWidgetItem(QIcon(":/images/images/online.png"),tr("Links"),ui->listButtonsWidget);
-    new QListWidgetItem(ui->listButtonsWidget); // temp hide page
-    new QListWidgetItem(QIcon(":/images/images/settings.png"),tr("Settings"),ui->listButtonsWidget);
-    new QListWidgetItem(QIcon(":/images/images/help.png"),tr("Help"),ui->listButtonsWidget);
-    new QListWidgetItem(QIcon(":/images/images/info.png"),tr("About"),ui->listButtonsWidget);
+    new QListWidgetItem(ui->listButtonsWidget); // temp hide page, not managed yet index 3
+    new QListWidgetItem(QIcon(":/images/images/settings.png"),tr("Settings"),ui->listButtonsWidget); //index 4
+    new QListWidgetItem(QIcon(":/images/images/help.png"),tr("Help"),ui->listButtonsWidget); //index 5
+    new QListWidgetItem(QIcon(":/images/images/info.png"),tr("About"),ui->listButtonsWidget); //index 6
 
-    //ui->tabWidgetShares->setStyleSheet("background-color:none");
-
-
-    //tova trqbva da e sys signal slot za case kogato ne sm lognata    manageAccountLoggedItem();
     fillAcountNotLoggedPage();
     fillAboutPage();
     fillHelpPage();
     settngsPage = new SettingsPage(this, app);
 
-    // central widget - vertical layout - layoutStrtch: 1,5
-
-    // indexes of Items in listWidget and StackWidget are the same
+    // indexes of Items in listWidget and their coresponding pages in StackWidget are the same
     connect(ui->listButtonsWidget,
             SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)),
             this, SLOT(changePage(QListWidgetItem*,QListWidgetItem*)));
 
     connect(ui->btnShareFolder,SIGNAL(clicked()), app, SLOT(shareFolder()));
 
+    //for resize
     for(int i = 0; i < ui->pagesWidget->count(); i++)
         ui->pagesWidget->widget(i)->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-
 
     ui->verticalLayout_10->setAlignment(Qt::AlignCenter); //tab help
 
     setWindowIcon(QIcon(WINDOW_ICON));
     setWindowTitle("pCloud");
-
 }
 
 PCloudWindow::~PCloudWindow()
@@ -84,27 +79,26 @@ void PCloudWindow::changePage(QListWidgetItem *current, QListWidgetItem *previou
 {
     if (!current)
         current = previous;
-
     int currentIndex = ui->listButtonsWidget->row(current);
 
     // auto resize
-    for(int i = 0; i < ui->pagesWidget->count() && i != currentIndex; i++)
-        ui->pagesWidget->widget(i)->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-
+    for(int i = 0; i < ui->pagesWidget->count(); i++)
+    {
+        if ( i != currentIndex)
+            ui->pagesWidget->widget(i)->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    }
     ui->pagesWidget->widget(currentIndex)->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     updateGeometry();
 
-    qDebug() << currentIndex;
-
     //layout()->activate();
     //setFixedSize(minimumSizeHint());
 
-    ui->pagesWidget->setCurrentIndex(ui->listButtonsWidget->row(current)); // set page
+    ui->pagesWidget->setCurrentIndex(currentIndex); // sets page
     {
-        if (currentIndex == 4) //settings page
+        if (currentIndex == 4) //settings page, if user has changed smthng but hasn't save it
             settngsPage->initSettingsPage();
-        if ( currentIndex == 2 )
+        if (currentIndex == 2) //shares page
             emit sharesPage->load(0);
     }
 }
@@ -167,8 +161,7 @@ void PCloudWindow::fillHelpPage()
 }
 
 void PCloudWindow::fillAccountLoggedPage()
-{       
-    ui->pageAccntLogged->setMaximumWidth(700);
+{           
     ui->label_email->setText(app->username);
     if (app->isVerified)
     {
@@ -186,7 +179,8 @@ void PCloudWindow::fillAccountLoggedPage()
     ui->progressBar_space->setMinimum(0);
     ui->progressBar_space->setMaximum(100);
     ui->progressBar_space->setValue(app->freeSpacePercentage);
-    ui->label_space->setText(app->freeSpace);
+    ui->progressBar_space->setFormat("%v% free");
+    ui->label_space->setText(QString::number(app->usedSpace) + " GB used of " + app->plan);
 
     ui->label_planVal->setText(app->plan);
 

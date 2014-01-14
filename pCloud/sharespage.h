@@ -18,10 +18,10 @@ class SharesPage : public QMainWindow
 {
     Q_OBJECT
 public:
-    friend class ShareFolderWindow;      
+    friend class ShareFolderWindow;
     explicit SharesPage(PCloudWindow *w, PCloudApp *a, QWidget *parent = 0);
     void selectErr();
-    void loadAll();
+    void loadAll();    
 private:
     PCloudWindow *win;
     PCloudApp *app;

@@ -106,7 +106,7 @@ void PCloudApp::showpCloudAbout(){
 }
 
 void PCloudApp::openpCloudWindow(){
-    hideAllWindows();   
+    hideAllWindows();
 }
 
 
@@ -243,22 +243,22 @@ void PCloudApp::createMenus(){
     connect(logoutAction, SIGNAL(triggered()), this, SLOT(logOut()));
 
     openPCloudWinAction = new QAction("Open PCloud Window", this); // to del
-    connect(openPCloudWinAction, SIGNAL(triggered()), this, SLOT(openpCloudWindow())); 
+    connect(openPCloudWinAction, SIGNAL(triggered()), this, SLOT(openpCloudWindow()));
 
-    loggedmenu = new QMenu();    
+    loggedmenu = new QMenu();
     loggedmenu->addAction(openAction);
-    loggedmenu->addAction(accountAction);    
-   // loggedmenu->addSeparator();
+    loggedmenu->addAction(accountAction);
+    // loggedmenu->addSeparator();
     //loggedmenu->addAction(shareFolderAction); // to del
-   // loggedmenu->addAction(outgoingSharesAction);
+    // loggedmenu->addAction(outgoingSharesAction);
     //loggedmenu->addAction(incomingSharesAction);
     loggedmenu->addAction(sharesAction);
     loggedmenu->addAction(settingsAction);
     loggedmenu->addAction(helpAction);
-    loggedmenu->addAction(aboutPCloudAction);    
+    loggedmenu->addAction(aboutPCloudAction);
     loggedmenu->addSeparator();
     loggedmenu->addAction(logoutAction); // to hide in acc tab
-    loggedmenu->addAction(exitAction);    
+    loggedmenu->addAction(exitAction);
     // loggedmenu->addAction(openpCloudFormAction); // first form
 
 }
@@ -362,7 +362,7 @@ PCloudApp::~PCloudApp(){
     delete settingsAction;
     delete sharesAction;
     delete helpAction;
-    //delete shareFolderAction;    
+    //delete shareFolderAction;
     delete aboutPCloudAction;
     delete openPCloudWinAction;
     if (regwin)
@@ -574,18 +574,18 @@ void PCloudApp::logIn(QString auth, QString uname,  quint64 uid,  bool verified,
     userid=uid;
     isVerified = verified;
     isPremium = premium;
-    freeSpace =QString::number((quota - usedquota)/1024/1024/1024) + " GB";
-    freeSpacePercentage = (100*(quota-usedquota))/quota;
+    usedSpace = usedquota/1024/1024/1024;
+   // freeSpaceStr = QString::number((quota - usedquota)/1024/1024/1024) + " GB";
+    freeSpacePercentage = (100*(quota - usedquota))/quota;
     plan = QString::number(quota/1024/1024/1024) + " GB";
     tray->setToolTip(username);
     //if (loggedmenu){
     //loggedmenu->actions()[0]->setText(username);
     //}
-    tray->setIcon(QIcon(ONLINE_ICON));
-    tray->setContextMenu(loggedmenu);
     pCloudWin->setOnlineItems(true);
     pCloudWin->setOnlinePages();
-
+    tray->setIcon(QIcon(ONLINE_ICON));
+    tray->setContextMenu(loggedmenu);
     if (!mthread){
         mthread=new MonitoringThread(this);
         mthread->start();
@@ -593,11 +593,13 @@ void PCloudApp::logIn(QString auth, QString uname,  quint64 uid,  bool verified,
 }
 
 void PCloudApp::trayMsgClicked()
-{
-    if (lastMessageType==0)
-        outgoingShares();
-    else if (lastMessageType==1)
-        incomingShares();
+{    
+    if (lastMessageType == 0 || lastMessageType == 1 )
+    {
+        emit showShares();
+        pCloudWin->ui->tabWidgetShares->setCurrentIndex(lastMessageType);
+        pCloudWin->sharesPage->load(lastMessageType);
+    }
 }
 
 void PCloudApp::setOnlineStatus(bool online)

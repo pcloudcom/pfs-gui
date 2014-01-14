@@ -63,17 +63,16 @@ private:
     void showRegLog();
     void setUser(binresult *userinfo, bool rememebr);
     void showWindow(QMainWindow *win);
-public:
+public:    
     PCloudWindow *pCloudWin;
     QString username;
     quint64 userid;
     QString authentication;
     bool isPremium;
     bool isVerified;
-    QString freeSpace;
     quint64 freeSpacePercentage;
+    quint64 usedSpace;
     QString plan;
-    QString planStr;
     PSettings *settings;
     uint32_t lastMessageType;
     explicit PCloudApp(int &argc, char **argv);

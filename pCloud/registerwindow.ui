@@ -40,7 +40,7 @@
    <widget class="QLabel" name="error">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>10</x>
       <y>340</y>
       <width>301</width>
       <height>41</height>
