@@ -168,7 +168,7 @@ void SharesPage::fillList(QTreeWidget *table, binresult *arr, const char *fieldn
     table->resizeColumnToContents(1);
     table->resizeColumnToContents(2);
     table->sortByColumn(0, Qt::AscendingOrder);
-    //table->setMinimumWidth(700);
+    table->setMinimumWidth(450);
 
     table->setSelectionBehavior(QAbstractItemView::SelectRows);
     table->setSelectionMode(QAbstractItemView::SingleSelection);

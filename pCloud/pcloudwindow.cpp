@@ -180,7 +180,7 @@ void PCloudWindow::fillAccountLoggedPage()
     ui->progressBar_space->setMaximum(100);
     ui->progressBar_space->setValue(app->freeSpacePercentage);
     ui->progressBar_space->setFormat("%v% free");
-    ui->label_space->setText(QString::number(app->usedSpace) + " GB used of " + app->plan);
+    ui->label_space->setText(QString::number(app->usedSpace, 'f', 1) + " GB used of " + app->plan);
 
     ui->label_planVal->setText(app->plan);
 

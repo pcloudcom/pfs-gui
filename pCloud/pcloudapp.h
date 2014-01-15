@@ -71,7 +71,7 @@ public:
     bool isPremium;
     bool isVerified;
     quint64 freeSpacePercentage;
-    quint64 usedSpace;
+    qreal usedSpace;
     QString plan;
     PSettings *settings;
     uint32_t lastMessageType;

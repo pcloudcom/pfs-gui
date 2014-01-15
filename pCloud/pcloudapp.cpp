@@ -574,8 +574,7 @@ void PCloudApp::logIn(QString auth, QString uname,  quint64 uid,  bool verified,
     userid=uid;
     isVerified = verified;
     isPremium = premium;
-    usedSpace = usedquota/1024/1024/1024;
-   // freeSpaceStr = QString::number((quota - usedquota)/1024/1024/1024) + " GB";
+    usedSpace = (usedquota/1024.0/1024.0/1024.0);
     freeSpacePercentage = (100*(quota - usedquota))/quota;
     plan = QString::number(quota/1024/1024/1024) + " GB";
     tray->setToolTip(username);
