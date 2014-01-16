@@ -95,24 +95,44 @@ void PCloudWindow::changePage(QListWidgetItem *current, QListWidgetItem *previou
     //setFixedSize(minimumSizeHint());
 
     ui->pagesWidget->setCurrentIndex(currentIndex); // sets page
+    refreshPages();
+
+}
+void PCloudWindow::showEvent(QShowEvent *)
+{
+    refreshPages();
+}
+
+void PCloudWindow::refreshPages()
+{
+    int currentIndex = ui->listButtonsWidget->currentRow();
+    if (currentIndex == 1 && verifyClicked) // Account page, case when user has clicked Verify Email
     {
-        if (currentIndex == 4) //settings page, if user has changed smthng but hasn't save it
-            settngsPage->initSettingsPage();
-        if (currentIndex == 2) //shares page
-            emit sharesPage->load(0);
+        checkVerify();
+        return;
+    }
+    if (currentIndex == 2) //shares page
+    {
+        sharesPage->load(0);
+        return;
+    }
+    if (currentIndex == 4) //settings page, if user has changed smthng but hasn't save it
+    {
+        settngsPage->initSettingsPage();
+        return;
     }
 }
 
 void PCloudWindow::showpcloudWindow(int index)
 {
+    ui->listButtonsWidget->setCurrentRow(index);
+    ui->pagesWidget->setCurrentIndex(index);
+
     this->raise();
     this->activateWindow();
     this->showNormal();
     this->setWindowState(Qt::WindowActive);
     app->setActiveWindow(this);
-
-    ui->listButtonsWidget->setCurrentRow(index);
-    ui->pagesWidget->setCurrentIndex(index);
 }
 
 void PCloudWindow::setOnlineItems(bool online) // change pcloud window menu when is loggedin and loggedout
@@ -240,14 +260,47 @@ void PCloudWindow::contactUs(){
 }
 void PCloudWindow::verifyEmail(){
     apisock *conn=app->getAPISock();
-    QByteArray auth=app->authentication.toUtf8();
+    auth=app->authentication.toUtf8();
     binresult *res;
     res=send_command(conn, "sendverificationemail",
                      P_LSTR("auth", auth.constData(), auth.size()));
-    free(res);
+    checkConnErr(res);
     QMessageBox::information(this, "Please check your e-mail", "E-mail verification sent to: "+app->username);
     api_close(conn);
+    verifyClicked = true;
 }
 
+void PCloudWindow::checkVerify()
+{
+    apisock *conn=app->getAPISock();
+    binresult *res;
+    if (!conn)
+        return;
+    res=send_command(conn, "userinfo",
+                     P_LSTR("auth", auth.constData(), auth.size()));
+    api_close(conn);
+    bool verified =  find_res(res, "emailverified")->num;
+    checkConnErr(res);
+    if (verified)
+    {
+        ui->checkBoxVerified->setChecked(true);
+        ui->btnVerify->setVisible(false);
+        verifyClicked = false;
+    }
+}
 
-
+void PCloudWindow::checkConnErr(binresult *res)
+{
+    binresult *result=find_res(res, "result");
+    if (!result){
+        QMessageBox::information(this,"", "Could not connect to server. Check your Internet connection.");
+        free(res);
+        return;
+    }
+    if (result->num!=0){
+        QMessageBox::information(this,"",find_res(res, "error")->str);
+        free(res);
+        return;
+    }
+    free(res);
+}

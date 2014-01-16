@@ -33,12 +33,19 @@ private:
     PCloudApp *app;
     SettingsPage *settngsPage;
     SharesPage *sharesPage;
+    QByteArray auth;
+    bool verifyClicked;
+    void checkVerify();
     void closeEvent(QCloseEvent *event);
     void setStretch(int i, int j);
     void fillAcountNotLoggedPage();
     void fillAccountLoggedPage();
     void fillHelpPage();
     void fillAboutPage();
+    void refreshPages();
+    void checkConnErr(binresult *res);
+protected:
+    void showEvent(QShowEvent *);
 public slots:
     void changePage(QListWidgetItem *current, QListWidgetItem *previous);
     void showpcloudWindow(int index);
