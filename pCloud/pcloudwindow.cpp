@@ -14,6 +14,7 @@ PCloudWindow::PCloudWindow(PCloudApp *a,QWidget *parent) :
 {
     app=a;
     ui->setupUi(this);
+    this->verifyClicked = false;
 
     // the window consists of QListWidget(for icon-buttons) and
     //QStackedWidget which loads different page according to selected item in the listWidget (and hides other pages)
@@ -265,22 +266,26 @@ void PCloudWindow::verifyEmail(){
     res=send_command(conn, "sendverificationemail",
                      P_LSTR("auth", auth.constData(), auth.size()));
     checkConnErr(res);
-    QMessageBox::information(this, "Please check your e-mail", "E-mail verification sent to: "+app->username);
+    free(res);
     api_close(conn);
+    QMessageBox::information(this, "Please check your e-mail", "E-mail verification sent to: "+app->username);
+
     verifyClicked = true;
 }
 
 void PCloudWindow::checkVerify()
 {
     apisock *conn=app->getAPISock();
+    auth=app->authentication.toUtf8();
     binresult *res;
     if (!conn)
         return;
     res=send_command(conn, "userinfo",
                      P_LSTR("auth", auth.constData(), auth.size()));
-    api_close(conn);
-    bool verified =  find_res(res, "emailverified")->num;
     checkConnErr(res);
+    bool verified =  find_res(res, "emailverified")->num;
+    free(res);
+    api_close(conn);
     if (verified)
     {
         ui->checkBoxVerified->setChecked(true);
@@ -302,5 +307,4 @@ void PCloudWindow::checkConnErr(binresult *res)
         free(res);
         return;
     }
-    free(res);
 }
